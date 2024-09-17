@@ -1,5 +1,5 @@
 {
-    "name": "api-boilerplate-laravel",
+    "name": "rachit/api-boilerplate-laravel",
     "type": "project",
     "description": "This Laravel 11 API boilerplate provides a structured foundation for building robust backend applications with Laravel, integrating essential features and tools.",
     "keywords": ["laravel", "boilerplate", "framework"],
