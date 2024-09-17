@@ -18,6 +18,10 @@ namespace App\Http\Controllers\V1;
  *     bearerFormat="JWT"
  * ),
  * @OA\Server(
+ *      description="Live Base URL",
+ *      url="https://api.rachitpatel.com/v1"
+ *  ),
+ * @OA\Server(
  *     description="Base URL",
  *     url="https://api-laravel.test/v1"
  * ),
