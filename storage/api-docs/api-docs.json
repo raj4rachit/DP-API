@@ -6,6 +6,10 @@
     },
     "servers": [
         {
+            "url": "https://api.rachitpatel.com/v1",
+            "description": "Live Base URL"
+        },
+        {
             "url": "https://api-laravel.test/v1",
             "description": "Base URL"
         },
