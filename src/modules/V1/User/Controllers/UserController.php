@@ -57,7 +57,7 @@ final class UserController extends Controller
      * @OA\Put(
      *     path="/user",
      *     summary="Update user profile",
-     *     description="Updates the user's name and job title in the profile",
+     *     description="Updates the user's Profile information",
      *     operationId="updateUserProfile",
      *     tags={"User"},
      *
@@ -90,11 +90,32 @@ final class UserController extends Controller
      */
     public function update(Request $request): \Illuminate\Http\JsonResponse
     {
+
+        // Validate request
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'mobile_no' => ['nullable', 'string', 'max:20'],
+            'gender' => ['required', 'string', 'max:50'],
+            'dob' => ['required', 'date'], // Validating as a proper date
+            'profile_image' => ['nullable', 'image', 'max:2048'], // Must be an image (max 2MB)
+            'address' => ['required', 'string', 'max:255'],
+        ]);
+
         $user = auth()->user();
 
-        $user->update([
-            'name' => $request->name,
-        ]);
+        // Handle profile image upload
+        if ($request->hasFile('profile_image')) {
+            // Get the uploaded file
+            $file = $request->file('profile_image');
+
+            // Define a storage path (e.g., 'public/profile_images')
+            $filePath = $file->store('profile_images', 'public/user_profile');
+
+            // Add the file path to the validated data
+            $validatedData['profile_image'] = $filePath;
+        }
+
+        $user->update($validatedData);
 
         return ResponseHelper::success(data: new UserResource($user), message: 'Profile updated successfully');
     }
@@ -160,4 +181,53 @@ final class UserController extends Controller
 
         return ResponseHelper::success('Password changed successfully');
     }
+
+    /**
+     * @OA\Delete(
+     *     path="/user/delete/{id}",
+     *     summary="Delete User",
+     *     description="Delete a user by ID.",
+     *     operationId="deleteUser",
+     *     tags={"User"},
+     *     security={{"bearerAuth":{}}},
+     *
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the user to delete",
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="User deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="User deleted successfully"),
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="statusCode", type="integer", example=200)
+     *         )
+     *     ),
+     *
+     *     @OA\Response(response=401, ref="#/components/responses/401"),
+     *     @OA\Response(response=404, ref="#/components/responses/404"),
+     *     @OA\Response(response=500, ref="#/components/responses/500")
+     * )
+     */
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+
+        if (! $user) {
+            return ResponseHelper::error('User not found', 404);
+        }
+
+        $user->delete();
+
+        return ResponseHelper::success('User deleted successfully');
+    }
+
 }

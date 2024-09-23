@@ -37,6 +37,12 @@ final class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'mobile_no' => ['nullable','string','max:20'],
+            'gender' => ['required','string','max:50'],
+            'dob' => ['required','date'],
+            'profile_image' => ['nullable','string','max:2048'],
+            'address' => ['required','string','max:255'],
         ];
+
     }
 }
