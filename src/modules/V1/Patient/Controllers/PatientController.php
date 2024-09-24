@@ -32,8 +32,7 @@ final class PatientController extends Controller
      */
     public function index()
     {
-        $patients = Patient::all();
-        return response()->json($patients);
+        return ResponseHelper::success(data: PatientResource::collection(Patient::all()), message: 'Patients data getting successfully. ');
     }
 
     /**
@@ -53,7 +52,7 @@ final class PatientController extends Controller
      *     ),
      * )
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -70,7 +69,7 @@ final class PatientController extends Controller
         }
 
         $patient = Patient::create($request->all());
-        return response()->json($patient, 201);
+        return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient created successfully');
     }
 
     /**
@@ -97,9 +96,9 @@ final class PatientController extends Controller
     {
         $patient = Patient::find($id);
         if (!$patient) {
-            return response()->json(['message' => 'Patient not found'], 404);
+            return ResponseHelper::error('Patient not found');
         }
-        return response()->json($patient);
+        return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient data fetched successfully');
     }
 
     /**
@@ -142,11 +141,11 @@ final class PatientController extends Controller
 
         $patient = Patient::find($id);
         if (!$patient) {
-            return response()->json(['message' => 'Patient not found'], 404);
+            return ResponseHelper::error('Patient not found');
         }
 
         $patient->update($request->all());
-        return response()->json($patient);
+        return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient updated successfully');
     }
 
     /**
@@ -172,10 +171,11 @@ final class PatientController extends Controller
     {
         $patient = Patient::find($id);
         if (!$patient) {
-            return response()->json(['message' => 'Patient not found'], 404);
+            return ResponseHelper::error('Patient not found');
         }
 
         $patient->delete();
+        return ResponseHelper::success(message: 'Patient deleted successfully');
         return response()->json(null, 204);
     }
 }
