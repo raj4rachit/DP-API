@@ -9,7 +9,7 @@ use Modules\V1\User\Models\User;
 
 /**
  * @OA\Schema(
- *     schema="PaitentUpdateRequest",
+ *     schema="PatientUpdateRequest",
  *     title="Patient Update Request",
  *     description="Request data for updating Patient profile.",
  *     type="object",
@@ -19,7 +19,7 @@ use Modules\V1\User\Models\User;
  *     @OA\Property(property="job_title", type="string", example="Doe", description="Patient's job title"),
  * )
  */
-final class PaitentUpdateRequest extends FormRequest
+final class PatientCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
