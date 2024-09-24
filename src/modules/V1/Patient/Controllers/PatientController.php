@@ -19,7 +19,7 @@ final class PatientController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/patients",
+     *     path="/patients/",
      *     summary="List all patients",
      *     operationId="listPatients",
      *     tags={"Patients"},
@@ -38,7 +38,7 @@ final class PatientController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/patients",
+     *     path="/patients/",
      *     summary="Create a new patient",
      *     operationId="createPatient",
      *     tags={"Patients"},
@@ -75,7 +75,7 @@ final class PatientController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/patients/{id}",
+     *     path="/patients/{id}",
      *     summary="Show a specific patient",
      *     operationId="showPatient",
      *     tags={"Patients"},
@@ -104,7 +104,7 @@ final class PatientController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/patients/{id}",
+     *     path="/patients/{id}",
      *     summary="Update a specific patient",
      *     operationId="updatePatient",
      *     tags={"Patients"},
@@ -151,7 +151,7 @@ final class PatientController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/patients/{id}",
+     *     path="/patients/{id}",
      *     summary="Delete a specific patient",
      *     operationId="deletePatient",
      *     tags={"Patients"},
