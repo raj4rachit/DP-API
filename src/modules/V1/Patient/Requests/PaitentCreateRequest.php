@@ -19,7 +19,7 @@ use Modules\V1\User\Models\User;
  *     @OA\Property(property="job_title", type="string", example="Doe", description="Patient's job title"),
  * )
  */
-final class PaitentUpdateRequest extends FormRequest
+final class PaitentCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
