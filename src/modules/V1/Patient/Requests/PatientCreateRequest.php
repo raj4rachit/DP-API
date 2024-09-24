@@ -9,9 +9,9 @@ use Modules\V1\User\Models\User;
 
 /**
  * @OA\Schema(
- *     schema="PatientUpdateRequest",
- *     title="Patient Update Request",
- *     description="Request data for updating Patient profile.",
+ *     schema="PatientCreateRequest",
+ *     title="Patient Create Request",
+ *     description="Request data for creating Patient profile.",
  *     type="object",
  *     required={"name", "job_title"},
  *
