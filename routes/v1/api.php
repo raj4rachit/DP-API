@@ -29,3 +29,10 @@ Route::as('auth:')->group(
 Route::middleware(['auth:sanctum'])->prefix('role')->as('role:')->group(
     base_path('routes/v1/role.php'),
 );
+
+/**
+ * patient Routes
+ */
+Route::middleware(['auth:sanctum'])->prefix('patient')->as('patient:')->group(
+    base_path('routes/v1/patient.php'),
+);

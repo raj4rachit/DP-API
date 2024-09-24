@@ -14,11 +14,7 @@ return new class extends Migration
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id'); // Foreign key for users table
-            $table->string('name');
-            $table->string('gender');
-            $table->date('dob'); // Date of birth
-            $table->string('contact_phone')->nullable();
-            $table->string('address')->nullable();
+            $table->string('arn_number');
             $table->timestamps();
 
             // Foreign key constraint
