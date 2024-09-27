@@ -50,6 +50,7 @@ final class UserController extends Controller
     public function show(): \Illuminate\Http\JsonResponse
     {
         $userData = Auth::user()->with('role');
+        //dd($userData->get());
         return ResponseHelper::success(new UserResource($userData));
     }
 

@@ -26,6 +26,10 @@ namespace App\Http\Controllers\V1;
  *     url="https://api-laravel.test/v1"
  * ),
  * @OA\Server(
+ *      description="Base URL 1",
+ *      url="https://dp-api.local/v1"
+ *  ),
+ * @OA\Server(
  *     description="Local Base URL",
  *     url="http://127.0.0.1:8000/v1"
  * ),

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Modules\V1\Auth\Controllers;
@@ -20,7 +19,7 @@ use Shared\Helpers\ResponseHelper;
 final class VerifyEmailController extends Controller
 {
     /**
-     * @OA\Post(
+     * @OA\Get(
      *     path="/auth/email/verify",
      *     summary="Verify user email",
      *     tags={"Authentication"},
@@ -127,16 +126,19 @@ final class VerifyEmailController extends Controller
      */
     public function __invoke(Request $request): \Illuminate\Http\JsonResponse
     {
-        try {
-            $request->validate([
-                'token' => ['required', 'string'],
-            ]);
+        $data = $request->all();
+        $tokens = trim($data['t']);
 
-            $token = GlobalHelper::decrypt($request->token);
+        if (empty($tokens)) {
+            Log::error('Invalid decryption token');
+            return ResponseHelper::error('Invalid verification token', 422); // or throw a custom exception
+        }
+        try {
+            $token = GlobalHelper::decrypt($tokens);
             // Find the user by the verification token
             $user = User::where('verification_token', $token)->first();
 
-            if ( ! $user) {
+            if (!$user) {
                 return ResponseHelper::error('Invalid verification token', 404);
             }
 
@@ -149,7 +151,7 @@ final class VerifyEmailController extends Controller
                 return ResponseHelper::error('Email already verified', 400);
             }
 
-            if ( ! $user->markEmailAsVerified()) {
+            if (!$user->markEmailAsVerified()) {
                 return ResponseHelper::error('Failed to verify email');
             }
 

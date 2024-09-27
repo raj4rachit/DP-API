@@ -14,6 +14,10 @@
             "description": "Base URL"
         },
         {
+            "url": "https://dp-api.local/v1",
+            "description": "Base URL 1"
+        },
+        {
             "url": "http://127.0.0.1:8000/v1",
             "description": "Local Base URL"
         }
