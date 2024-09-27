@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); // Foreign key for users table
+            $table->uuid('user_id')->nullable(); // Foreign key for users table
             $table->string('arn_number');
             $table->timestamps();
 

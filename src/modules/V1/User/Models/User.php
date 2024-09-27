@@ -39,6 +39,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',
@@ -110,7 +111,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification(): void
     {
         $verificationToken = $this->createVerificationToken();
-        $frontEndLink = env('FRONTEND_URL') . env('VERIFY_EMAIL_URL');
+        $frontEndLink = config('constants.verify_email_url');
         $link = $frontEndLink . "?t={$verificationToken}";
 
         $this->notify(new VerifyEmailAddress($this, $link));
@@ -119,7 +120,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendPasswordResetNotification($token = ''): void
     {
         $token = $this->createVerificationToken();
-        $frontEndLink = env('FRONTEND_URL') . env('RESET_PASS_URL');
+        $frontEndLink = config('constants.reset_password_url');
         $link = $frontEndLink . "?t={$token}";
 
         $this->notify(new ResetPassword($this, $link));

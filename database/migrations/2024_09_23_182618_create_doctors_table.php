@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); // Foreign key for users table
-            $table->string('name');
+            $table->uuid('user_id'); // Foreign key for users table
             $table->string('specialization'); // Doctor's field of specialization
             $table->string('contact_phone')->nullable();
             $table->string('email')->nullable();
