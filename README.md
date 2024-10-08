@@ -81,6 +81,14 @@ Install dependencies:
 
 ```
 composer install
+composer require spatie/laravel-permission
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+```
+
+If using uuid then changes in migration.
+Kindly check the below link for that.
+```
+https://spatie.be/docs/laravel-permission/v6/advanced-usage/uuid
 ```
 
 ## Setup

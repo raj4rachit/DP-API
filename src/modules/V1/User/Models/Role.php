@@ -5,13 +5,18 @@ declare(strict_types=1);
 namespace Modules\V1\User\Models;
 
 use Database\Factories\RoleFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Permission\Models\Role as SpatieRole;
 
-final class Role extends Model
+final class Role extends SpatieRole
 {
-    use HasFactory;
+    use HasFactory,HasUuids;
+
+    protected $primaryKey = 'uuid';
 
     /**
      * The storage format of the model's date columns.
@@ -31,13 +36,9 @@ final class Role extends Model
         return RoleFactory::new();
     }
 
-    /**
-     * Create relationships with users
-     * @return BelongsTo
-     */
-    public function users(): BelongsTo
+    public function users(): BelongsToMany
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class); // Adjust User class as needed
     }
 
 

@@ -34,13 +34,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public string $prefix = 'HOA';
 
+    protected $primaryKey = 'uuid';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'id',
         'name',
         'email',
         'password',

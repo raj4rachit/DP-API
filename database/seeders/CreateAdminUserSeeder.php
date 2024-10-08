@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Modules\V1\User\Models\Role;
 use Modules\V1\User\Models\User;
 use Spatie\Permission\Models\Permission;
@@ -19,9 +20,9 @@ class CreateAdminUserSeeder extends Seeder
         $user = User::create([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('123456789'),
+            'password' => bcrypt('123456789'), // Make sure to hash passwords
             'user_type' => 'admin',
-            'email_verified_at' => Carbon::now(),
+            'email_verified_at' => now(),
         ]);
 
         // Find the role by its name
@@ -29,12 +30,12 @@ class CreateAdminUserSeeder extends Seeder
 
         // Assign the 'admin' role to the user
         if ($adminRole) {
-            $user->assignRole([$adminRole->id]);
+            $user->assignRole([$adminRole->uuid]);
         } else {
-            $role = Role::create(['name' => 'Admin']);
+            $role = Role::create(['uuid' => Str::uuid(),'name' => 'Admin']);
             $permissions = Permission::pluck('id','id')->all();
             $role->syncPermissions($permissions);
-            $user->assignRole([$role->id]);
+            $user->assignRole([$role->uuid]);
         }
     }
 }
