@@ -45,12 +45,12 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "user@example.com"
+                                        "example": "tbs.rachit@gmail.com"
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
-                                        "example": "password123"
+                                        "example": "123456789"
                                     }
                                 },
                                 "type": "object"
@@ -648,12 +648,12 @@
             }
         },
         "/auth/email/verify": {
-            "post": {
+            "get": {
                 "tags": [
                     "Authentication"
                 ],
                 "summary": "Verify user email",
-                "operationId": "c6dcfe1647a381d8cee802ca0d744027",
+                "operationId": "83528ae96e0cd0df06dd64b71e937051",
                 "requestBody": {
                     "description": "Request body containing the verification token",
                     "required": true,

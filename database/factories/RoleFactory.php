@@ -21,6 +21,8 @@ final class RoleFactory extends Factory
      */
     protected static ?string $password;
 
+    public $timestamps = true;
+
     /**
      * Define the model's default state.
      *
@@ -30,6 +32,7 @@ final class RoleFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
+            'gaurd_name' => 'web'
         ];
     }
 

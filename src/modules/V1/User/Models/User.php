@@ -65,6 +65,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    public $timestamps = true;
+
     /**
      * Get the attributes that should be cast.
      *

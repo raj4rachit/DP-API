@@ -8,8 +8,10 @@ use App\Http\Controllers\V1\Controller;
 use Illuminate\Support\Facades\Hash;
 use Modules\V1\Auth\Requests\RegisterRequest;
 use Modules\V1\User\Enums\RoleEnum;
+use Modules\V1\User\Models\Role;
 use Modules\V1\User\Models\User;
 use Shared\Helpers\ResponseHelper;
+use Spatie\Permission\Models\Permission;
 
 final class RegisteredUserController extends Controller
 {
@@ -58,9 +60,22 @@ final class RegisteredUserController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->role_id = RoleEnum::USER->value;
+        $user->user_type = $request->user_type;
         $user->password = Hash::make($request->password);
         $user->save();
+
+        if($request->role){
+            $adminRole = Role::where('name', $request->role)->first();
+            // Assign the 'admin' role to the user
+            if ($adminRole) {
+                $user->assignRole([$adminRole->id]);
+            } else {
+                $role = Role::create(['name' => $request->role]);
+                $permissions = Permission::pluck('id','id')->all();
+                $role->syncPermissions($permissions);
+                $user->assignRole([$role->id]);
+            }
+        }
 
         // send email verification mail
         $user->sendEmailVerificationNotification();
