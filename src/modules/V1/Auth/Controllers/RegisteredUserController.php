@@ -69,11 +69,6 @@ final class RegisteredUserController extends Controller
             // Assign the 'admin' role to the user
             if ($adminRole) {
                 $user->assignRole([$adminRole->id]);
-            } else {
-                $role = Role::create(['name' => $request->role]);
-                $permissions = Permission::pluck('id','id')->all();
-                $role->syncPermissions($permissions);
-                $user->assignRole([$role->id]);
             }
         }
 

@@ -21,10 +21,10 @@ final class Role extends Model
     protected $dateFormat = 'U';
 
     protected $fillable = [
-        'name','gaurd_name','created_at','updated_at'
+        'name','gaurd_name'
     ];
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected static function newFactory(): RoleFactory
     {

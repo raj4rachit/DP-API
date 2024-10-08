@@ -19,10 +19,11 @@ use Laravel\Sanctum\HasApiTokens;
 use Modules\V1\Auth\Notifications\ResetPassword;
 use Modules\V1\Auth\Notifications\VerifyEmailAddress;
 use Shared\Helpers\GlobalHelper;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, HasUuids, Notifiable;
+    use HasApiTokens, HasFactory, HasUuids, Notifiable, HasRoles;
 
     /**
      * The storage format of the model's date columns.
@@ -65,7 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     /**
      * Get the attributes that should be cast.
