@@ -1,0 +1,560 @@
+{
+	"info": {
+		"_postman_id": "fcd77f14-92ae-41d4-a8de-eb7f388ea5c2",
+		"name": "My DP API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "339558",
+		"_collection_link": "https://cloudy-station-16505.postman.co/workspace/My-Workspace~58df29a1-1bd5-4681-892e-287f6ca0046d/collection/339558-fcd77f14-92ae-41d4-a8de-eb7f388ea5c2?action=share&source=collection_link&creator=339558"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"if (jsonData.status == \"success\") {\r",
+							"    pm.environment.set(\"APP_TOKEN\", jsonData.accessToken);\r",
+							"    pm.environment.set(\"USER_ID\", jsonData.data.uuid);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"user@gmail.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/auth/login",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verification Link",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"user12@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/auth/email/verification-link",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"auth",
+						"email",
+						"verification-link"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forgot Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"user@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/auth/forgot-password",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"auth",
+						"forgot-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"User\",\r\n    \"email\":\"user@gmail.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/auth/register",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify Email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"if (jsonData.status == \"success\") {\r",
+							"    pm.environment.set(\"APP_TOKEN\", jsonData.accessToken);\r",
+							"    pm.environment.set(\"USER_ID\", jsonData.data.uuid);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\":\"eyJpdiI6InNJRHNUdmJ0QjFtWktoeWZkdXRRN2c9PSIsInZhbHVlIjoiRXA2OUJXTHdBbEpyN1YrYTFDdURtMU5XV0ZrZldIaTJ1Y0RmZjU5bkI0TVlZSGtHV0oxUlNZSmdiQnFMS3NuNFNhQXFmbGoxdDVGRlkzZlZoZ2hBRzB4d2x3cENOWk90VzJOQ1diRmlUWDg9IiwibWFjIjoiMzI5NDU2OTg0Zjc4ZjI0YjFhODU1OWVjZTE3OTM0OGQ3ODY5MjRjMDI2Y2M4Y2Y0YmE1YTJjNWNjODljOGNkZSIsInRhZyI6IiJ9\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/auth/email/verify",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"auth",
+						"email",
+						"verify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\":\"eyJpdiI6IjRKZ01iVHhpeS9nakhtZzZhUEtjVVE9PSIsInZhbHVlIjoicXVpaDdrZWd6NVVTM3h2K3VBdVRvb0RENEJ3MnZrS0JsTHdrUUlYdHRFeDc4TFUxMm00MitTbm9RWlRlSkUxY1oreGxzaVVtZ2kyaC96MEp0K2hEMFBKRE5sSlpqVkNrd2VPdXN0R09lT2M9IiwibWFjIjoiYWQ1ZWI2YmRkOTI5NGViMGY1OWY2NzAyMjUxODJmYjU1MjFhODFhYjVhZjczYjYwNzQxYWM5MTAxNTZmOTg5MiIsInRhZyI6IiJ9\",\r\n    \"password\":\"123456789\",\r\n    \"password_confirmation\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/auth/reset-password",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"auth",
+						"reset-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{APP_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/user/show",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"user",
+						"show"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{APP_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/user/list",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"user",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{APP_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Admin Patel\",\r\n  \"mobile_no\": 1245676985,\r\n  \"gender\": \"male\",\r\n  \"dob\": \"1995-04-22\",\r\n  \"address\": \"Bopal, Ahmedabad\",\r\n  \"profile_image\": \"\",\r\n  \"user_type\":\"admin\",\r\n  \"roles\":\"Admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/user/update/9d33f946-ee40-401c-84b5-d8b8544eafb0",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"user",
+						"update",
+						"9d33f946-ee40-401c-84b5-d8b8544eafb0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{APP_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/user/delete/9d343271-d7c1-41da-b81f-0fdeaae03866",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"user",
+						"delete",
+						"9d343271-d7c1-41da-b81f-0fdeaae03866"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{APP_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/auth/logout",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Toekn",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{APP_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/auth/refresh-token",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"auth",
+						"refresh-token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\V1\Auth\Controllers;
 
 use App\Http\Controllers\V1\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -31,7 +32,7 @@ final class AuthenticatedSessionController extends Controller
      *         @OA\JsonContent(
      *             required={"email", "password"},
      *
-     *             @OA\Property(property="email", type="string", format="email", example="tbs.rachit@gmail.com"),
+     *             @OA\Property(property="email", type="string", format="email", example="admin@gmail.com"),
      *             @OA\Property(property="password", type="string", format="password", example="123456789"),
      *         ),
      *     ),
@@ -66,6 +67,7 @@ final class AuthenticatedSessionController extends Controller
         }
 
         $device = Str::limit($request->userAgent(), 255);
+        $user->tokens()->delete();
         $token = $user->createToken($device)->plainTextToken;
 
         return ResponseHelper::success(
@@ -101,7 +103,7 @@ final class AuthenticatedSessionController extends Controller
      *     @OA\Response(response=401, ref="#/components/responses/401"),
      * )
      */
-    public function destroy(Request $request): \Illuminate\Http\JsonResponse
+    public function destroy(Request $request): JsonResponse
     {
         if ( ! Auth::check()) {
             return ResponseHelper::error('Unauthenticated', 401);
@@ -109,7 +111,7 @@ final class AuthenticatedSessionController extends Controller
 
         $request->user()->tokens()->delete();
 
-        return ResponseHelper::success(message: 'logged out successfully', status: 204);
+        return ResponseHelper::success(null, message: 'logged out successfully', status: 204);
     }
 
     /**
@@ -118,10 +120,14 @@ final class AuthenticatedSessionController extends Controller
      *     summary="Refresh the authentication token",
      *     description="Revokes the existing token and generates a new token for the authenticated user.",
      *     tags={"Authentication"},
+
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Token refreshed successfully",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="status", type="boolean", example="success"),
      *             @OA\Property(property="message", type="string", example="Token refreshed"),
      *             @OA\Property(property="meta", type="object",
@@ -130,18 +136,24 @@ final class AuthenticatedSessionController extends Controller
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(response=401, ref="#/components/responses/401"),
+     *     security={
+     *          {"bearerAuth": {}}
+     *      },
      * )
      */
-    public function refreshToken(Request $request): \Illuminate\Http\JsonResponse
+    public function refreshToken(Request $request): JsonResponse
     {
-        $user = auth()->user();
+        $user = Auth::user();
+        dd($user);
         $user->tokens()->delete(); // Revoke all existing tokens
 
         $device = Str::limit($request->userAgent(), 255);
         $token = $user->createToken($device)->plainTextToken;
 
         return ResponseHelper::success(
+            null,
             message: 'Token refreshed',
             meta: [
                 'accessToken' => $token,

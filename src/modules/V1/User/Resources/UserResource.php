@@ -16,16 +16,14 @@ use Shared\Helpers\StringHelper;
  *     title="User Resource",
  *     description="User resource representation",
  *
- *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="uuid", type="integer", example=1),
  *     @OA\Property(property="name", type="string", example="John Doe"),
  *     @OA\Property(property="email", type="string", example="john@example.com"),
- *     @OA\Property(
- *         property="roles",
- *         type="array",
- *
- *         @OA\Items(type="string", example="user")
- *     ),
- *     @OA\Property(property="gender",type="string", example="Male"),
+ *     @OA\Property(property="gender", type="string", example="male"),
+ *     @OA\Property(property="dob", type="string", example="2022-02-25"),
+ *     @OA\Property(property="mobile_no", type="string", example="1234567895"),
+ *     @OA\Property(property="address", type="string", example="Test Address"),
+ *     @OA\Property(property="profile_image", type="string", example=""),
  * )
  */
 #[AllowDynamicProperties] final class UserResource extends JsonResource
@@ -37,8 +35,9 @@ use Shared\Helpers\StringHelper;
      */
     public function toArray(Request $request): array
     {
+        //dd($request);
         return [
-            'id' => $this->id,
+            'uuid' => $this->uuid,
             'name' => StringHelper::toTitleCase($this->name),
             'email' => $this->email,
             'gender' => $this->gender,
@@ -46,7 +45,16 @@ use Shared\Helpers\StringHelper;
             'address' => $this->address,
             'profile_image' => $this->profile_image,
             'mobile_no' => $this->mobile_no,
-            'role' => $this->role_id,
+            'user_type' => $this->user_type,
+            'roles' => $this->roles->pluck('name'), // Adjust based on your relationship and desired fields
+            'permissions' => $this->getAllPermissions(), // Adjust accordingly
         ];
+    }
+
+    private function getAllPermissions()
+    {
+        return $this->roles->flatMap(function ($role) {
+            return $role->permissions->pluck('name');
+        })->unique(); // Use unique to avoid duplicates
     }
 }

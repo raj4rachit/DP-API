@@ -35,6 +35,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         ]);
         $middleware->append(PreventDuplicateRequests::class);
+        //$middleware->append(\Spatie\Permission\Middleware\RoleMiddleware::class);
+        //$middleware->append(\Spatie\Permission\Middleware\PermissionMiddleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // customize response for 404 error for route and resource

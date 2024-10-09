@@ -47,6 +47,7 @@ http://localhost:8000/v1
 - Link to documentation
 ```
 http://localhost:8000/v1/documentation
+http://localhost:8000/docs
 ```
 
 <br/>

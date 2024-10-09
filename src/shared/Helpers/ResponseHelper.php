@@ -46,12 +46,12 @@ final class ResponseHelper
      *
      * @return JsonResponse
      */
-    public static function error(string $message = 'Oops something went wrong', int $status = 500): JsonResponse
+    public static function error(string $message = 'Oops something went wrong', int $statusCode = 500): JsonResponse
     {
         return response()->json([
             'status' => 'error',
-            'statusCode' => $status,
+            'statusCode' => $statusCode,
             'message' => $message,
-        ], $status);
+        ], $statusCode);
     }
 }

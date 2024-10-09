@@ -45,7 +45,7 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "tbs.rachit@gmail.com"
+                                        "example": "admin@gmail.com"
                                     },
                                     "password": {
                                         "type": "string",
@@ -1492,10 +1492,30 @@
                         "type": "string",
                         "example": "John"
                     },
-                    "job_title": {
-                        "description": "User's job title",
+                    "mobile_no": {
+                        "description": "User's Phone Number",
+                        "type": "number",
+                        "example": "1234567895"
+                    },
+                    "gender": {
+                        "description": "User's gender",
                         "type": "string",
-                        "example": "Doe"
+                        "example": "male"
+                    },
+                    "dob": {
+                        "description": "User's date of birth",
+                        "type": "string",
+                        "example": "2002-04-22"
+                    },
+                    "address": {
+                        "description": "User's address",
+                        "type": "string",
+                        "example": "Test address, Ahmedabad"
+                    },
+                    "profile_image": {
+                        "description": "User's image",
+                        "type": "string",
+                        "example": ""
                     }
                 },
                 "type": "object"
@@ -1519,7 +1539,7 @@
                 "title": "User Resource",
                 "description": "User resource representation",
                 "properties": {
-                    "id": {
+                    "uuid": {
                         "type": "integer",
                         "example": 1
                     },
@@ -1531,16 +1551,25 @@
                         "type": "string",
                         "example": "john@example.com"
                     },
-                    "roles": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "example": "user"
-                        }
-                    },
                     "gender": {
                         "type": "string",
-                        "example": "Male"
+                        "example": "male"
+                    },
+                    "dob": {
+                        "type": "string",
+                        "example": "2022-02-25"
+                    },
+                    "mobile_no": {
+                        "type": "string",
+                        "example": "1234567895"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "Test Address"
+                    },
+                    "profile_image": {
+                        "type": "string",
+                        "example": ""
                     }
                 },
                 "type": "object"

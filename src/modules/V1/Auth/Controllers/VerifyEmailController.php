@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Modules\V1\Auth\Controllers;
@@ -8,6 +9,7 @@ use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Modules\V1\Auth\Notifications\Welcome;
@@ -127,10 +129,11 @@ final class VerifyEmailController extends Controller
     public function __invoke(Request $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->all();
-        $tokens = trim($data['t']);
-
+        $tokens = trim($data['token']);
+        DB::beginTransaction();
         if (empty($tokens)) {
             Log::error('Invalid decryption token');
+
             return ResponseHelper::error('Invalid verification token', 422); // or throw a custom exception
         }
         try {
@@ -138,7 +141,7 @@ final class VerifyEmailController extends Controller
             // Find the user by the verification token
             $user = User::where('verification_token', $token)->first();
 
-            if (!$user) {
+            if ( ! $user) {
                 return ResponseHelper::error('Invalid verification token', 404);
             }
 
@@ -151,7 +154,7 @@ final class VerifyEmailController extends Controller
                 return ResponseHelper::error('Email already verified', 400);
             }
 
-            if (!$user->markEmailAsVerified()) {
+            if ( ! $user->markEmailAsVerified()) {
                 return ResponseHelper::error('Failed to verify email');
             }
 
@@ -160,7 +163,7 @@ final class VerifyEmailController extends Controller
 
             $device = Str::limit($request->userAgent(), 255);
             $token = $user->createToken($device)->plainTextToken;
-
+            DB::commit();
             return response()->json([
                 'message' => 'User verified successfully',
                 'status' => 'success',
@@ -170,11 +173,11 @@ final class VerifyEmailController extends Controller
             ]);
         } catch (DecryptException $e) {
             Log::error('Invalid decryption token: ' . $e);
-
+            DB::rollBack();
             return ResponseHelper::error('Invalid verification token', 422); // or throw a custom exception
         } catch (Exception $exception) {
             Log::error($exception);
-
+            DB::rollBack();
             return ResponseHelper::error();
         }
 

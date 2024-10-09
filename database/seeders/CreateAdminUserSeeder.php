@@ -30,10 +30,12 @@ class CreateAdminUserSeeder extends Seeder
 
         // Assign the 'admin' role to the user
         if ($adminRole) {
+            $permissions = Permission::pluck('uuid','uuid')->all();
+            $adminRole->syncPermissions($permissions);
             $user->assignRole([$adminRole->uuid]);
         } else {
             $role = Role::create(['uuid' => Str::uuid(),'name' => 'Admin']);
-            $permissions = Permission::pluck('id','id')->all();
+            $permissions = Permission::pluck('uuid','uuid')->all();
             $role->syncPermissions($permissions);
             $user->assignRole([$role->uuid]);
         }

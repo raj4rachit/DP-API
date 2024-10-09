@@ -6,9 +6,6 @@ namespace Modules\V1\User\Controllers;
 
 use App\Http\Controllers\V1\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Modules\V1\User\Models\Role;
 use Modules\V1\User\Requests\RoleUpdateRequest;
 use Modules\V1\User\Resources\RoleResource;
@@ -17,14 +14,14 @@ use Shared\Helpers\ResponseHelper;
 
 final class RoleController extends Controller
 {
-
-    function __construct()
+    public function __construct()
     {
-        $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-        $this->middleware('permission:role-create', ['only' => ['create','store']]);
-        $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:role-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:role-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
+
     /**
      * @OA\Get(
      *      path="/role/",
@@ -57,8 +54,8 @@ final class RoleController extends Controller
      *       }
      * )
      */
-
-    public function index(): JsonResponse {
+    public function index(): JsonResponse
+    {
         return ResponseHelper::success(data: RoleResource::collection(Role::all()), message: 'Roles data getting successfully. ');
     }
 
@@ -76,12 +73,15 @@ final class RoleController extends Controller
      *          in="path",
      *          required=true,
      *          description="ID of the role to update",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *     @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(ref="#/components/schemas/RoleUpdateRequest")
      *      ),
      *
@@ -105,7 +105,7 @@ final class RoleController extends Controller
      */
     public function update(RoleUpdateRequest $request): JsonResponse
     {
-        $role = Role::where('id',$request->id)->first();
+        $role = Role::where('id', $request->id)->first();
         $role->update([
             'name' => $request->name,
         ]);
@@ -128,6 +128,7 @@ final class RoleController extends Controller
      *              mediaType="application/json",
      *
      *              @OA\Schema(
+     *
      *                  @OA\Property(property="name", type="string", description="Role's name"),
      *              )
      *          )
@@ -150,7 +151,6 @@ final class RoleController extends Controller
      *      @OA\Response(response=500, ref="#/components/responses/500"),
      * )
      */
-
     public function store(RoleUpdateRequest $request): JsonResponse
     {
         $role = new Role();

@@ -12,7 +12,7 @@ Route::get('/', function () {
  * User Routes
  */
 Route::middleware(['auth:sanctum'])->prefix('user')->as('user:')->group(
-    base_path('routes/v1/users/api.php'),
+    base_path('routes/v1/user.php'),
 );
 
 /**

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('mobile_no')->nullable()->default(null)->index()->after('user_type');
-            $table->string('gender')->default('M')->index()->after('mobile_no');
+            $table->string('gender')->nullable()->index()->after('mobile_no');
             $table->string('dob')->nullable()->default(null)->index()->after('gender');
             $table->string('address')->nullable()->default(null)->index()->after('dob');
             $table->string('profile_image')->nullable()->default(null)->index()->after('address');

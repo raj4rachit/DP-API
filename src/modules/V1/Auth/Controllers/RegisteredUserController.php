@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Modules\V1\Auth\Controllers;
 
 use App\Http\Controllers\V1\Controller;
+use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Modules\V1\Auth\Requests\RegisterRequest;
-use Modules\V1\User\Enums\RoleEnum;
 use Modules\V1\User\Models\Role;
 use Modules\V1\User\Models\User;
 use Shared\Helpers\ResponseHelper;
-use Spatie\Permission\Models\Permission;
 
 final class RegisteredUserController extends Controller
 {
@@ -29,6 +29,7 @@ final class RegisteredUserController extends Controller
      *              mediaType="application/json",
      *
      *              @OA\Schema(
+     *
      *                  @OA\Property(property="name", type="string", description="User's name"),
      *                  @OA\Property(property="email", type="string", format="email", description="User's email"),
      *                  @OA\Property(property="password", type="string", format="password", description="User's password"),
@@ -56,25 +57,32 @@ final class RegisteredUserController extends Controller
      */
     public function store(RegisterRequest $request): \Illuminate\Http\JsonResponse
     {
-        $user = new User();
+        DB::beginTransaction();
+        try {
+            $user = new User();
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->user_type = $request->user_type;
-        $user->password = Hash::make($request->password);
-        $user->save();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->user_type = $request->user_type ?? 'patient';
+            $user->password = Hash::make($request->password);
+            $user->save();
 
-        if($request->role){
-            $adminRole = Role::where('name', $request->role)->first();
-            // Assign the 'admin' role to the user
-            if ($adminRole) {
-                $user->assignRole([$adminRole->id]);
+            $roleNames = 'Patient';
+            if ($request->has('roles')) {
+                $roleNames = $request->input('roles');
             }
+            // Retrieve role IDs based on role names
+            $roles = Role::where('name', $roleNames)->pluck('uuid'); // Adjust 'id' if your primary key is different
+            $user->roles()->sync($roles); // Sync the roles
+
+            // send email verification mail
+            $user->sendEmailVerificationNotification();
+            DB::commit();
+            return ResponseHelper::success(message: 'Registration successful. Check your email for Verification.', status: 201);
+        } catch (Exception $e) {
+            DB::rollBack(); // Roll back the transaction
+
+            return ResponseHelper::error($e->getMessage(), 500);
         }
-
-        // send email verification mail
-        $user->sendEmailVerificationNotification();
-
-        return ResponseHelper::success(message: 'Registration successful', status: 201);
     }
 }

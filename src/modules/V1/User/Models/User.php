@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -21,9 +20,9 @@ use Modules\V1\Auth\Notifications\VerifyEmailAddress;
 use Shared\Helpers\GlobalHelper;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements MustVerifyEmail
+final class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, HasUuids, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, HasRoles, HasUuids, Notifiable;
 
     /**
      * The storage format of the model's date columns.
@@ -42,6 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
+        'uuid',
         'name',
         'email',
         'password',
@@ -54,7 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'gender',
         'profile_image',
         'mobile_no',
-        'dob'
+        'dob',
     ];
 
     /**
@@ -116,7 +116,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $verificationToken = $this->createVerificationToken();
         $frontEndLink = config('constants.verify_email_url');
-        $link = $frontEndLink . "?t={$verificationToken}";
+        $link = $frontEndLink . "?token={$verificationToken}";
 
         $this->notify(new VerifyEmailAddress($this, $link));
     }
@@ -125,7 +125,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $token = $this->createVerificationToken();
         $frontEndLink = config('constants.reset_password_url');
-        $link = $frontEndLink . "?t={$token}";
+        $link = $frontEndLink . "?token={$token}";
 
         $this->notify(new ResetPassword($this, $link));
 
@@ -147,6 +147,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function role(): BelongsTo
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'model_has_roles', 'model_uuid', 'role_id')->with('permissions');
     }
 }
