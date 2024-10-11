@@ -923,7 +923,201 @@
                 }
             }
         },
-        "/role/": {
+        "/permission/list": {
+            "get": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Get All permissions",
+                "description": "Display all the permissions",
+                "operationId": "showpermissions",
+                "requestBody": {},
+                "responses": {
+                    "204": {
+                        "description": "Permissions data show successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Permissions data get successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 204
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PermissionResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/permission/{id}": {
+            "put": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Update permission",
+                "description": "Updates the permission's name",
+                "operationId": "updatePermissionProfile",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the permission to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PermissionUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Permission updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Permission updated successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 204
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PermissionResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/permission/": {
+            "post": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Create a new permission",
+                "description": "Create a new permission with the provided information.",
+                "operationId": "9c02feca66134eb67ba5bf49ab558d7f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Permission's name",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Permission Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Permission created successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "string",
+                                            "example": "201"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PermissionResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/role/list": {
             "get": {
                 "tags": [
                     "Role"
@@ -962,70 +1156,6 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/401"
-                    },
-                    "422": {
-                        "$ref": "#/components/responses/422"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/500"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Role"
-                ],
-                "summary": "Create a new role",
-                "description": "Create a new role with the provided information.",
-                "operationId": "2d421f2bcc698508500668000572ad3e",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "name": {
-                                        "description": "Role's name",
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Role Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Role created successfully"
-                                        },
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "statusCode": {
-                                            "type": "string",
-                                            "example": "201"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/RoleResource"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
                     },
                     "422": {
                         "$ref": "#/components/responses/422"
@@ -1115,6 +1245,79 @@
                 ]
             }
         },
+        "/role/": {
+            "post": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Create a new role",
+                "description": "Create a new role with the provided information.",
+                "operationId": "2d421f2bcc698508500668000572ad3e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Role's name",
+                                        "type": "string"
+                                    },
+                                    "permissions": {
+                                        "description": "Permission's name",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Role Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Role created successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "string",
+                                            "example": "201"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/RoleResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/user/list": {
             "get": {
                 "tags": [
@@ -1168,7 +1371,7 @@
                 ]
             }
         },
-        "/user/show": {
+        "/user/show/{id}": {
             "get": {
                 "tags": [
                     "User"
@@ -1176,7 +1379,18 @@
                 "summary": "Show user profile",
                 "description": "Display the user's name and job title in the profile",
                 "operationId": "showUserProfile",
-                "requestBody": {},
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user to show",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "204": {
                         "description": "Profile data show successfully",
@@ -1378,7 +1592,7 @@
                         "description": "ID of the user to delete",
                         "required": true,
                         "schema": {
-                            "type": "integer",
+                            "type": "string",
                             "example": 1
                         }
                     }
@@ -1526,18 +1740,64 @@
                 },
                 "type": "object"
             },
-            "RoleUpdateRequest": {
-                "title": "Role Update Request",
-                "description": "Request data for updating role.",
+            "PermissionUpdateRequest": {
+                "title": "Permission Update Request",
+                "description": "Request data for updating Permission.",
                 "required": [
                     "name",
                     "admin"
                 ],
                 "properties": {
                     "name": {
+                        "description": "Permission's name",
+                        "type": "string",
+                        "example": "Admin"
+                    }
+                },
+                "type": "object"
+            },
+            "RoleCreateRequest": {
+                "title": "Role Create Request",
+                "description": "Request data for creating role.",
+                "required": [
+                    "permissions",
+                    "test,test1,test2"
+                ],
+                "properties": {
+                    "name": {
                         "description": "Role's name",
                         "type": "string",
                         "example": "Admin"
+                    },
+                    "permissions": {
+                        "description": "Permission's name",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "RoleUpdateRequest": {
+                "title": "Role Update Request",
+                "description": "Request data for updating role.",
+                "required": [
+                    "permissions",
+                    "test,test1,test2"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Role's name",
+                        "type": "string",
+                        "example": "Admin"
+                    },
+                    "permissions": {
+                        "description": "Permission's name",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
                     }
                 },
                 "type": "object"
@@ -1581,6 +1841,21 @@
                         "description": "User's image",
                         "type": "string",
                         "example": ""
+                    }
+                },
+                "type": "object"
+            },
+            "PermissionResource": {
+                "title": "Permission Resource",
+                "description": "Permission resource representation",
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Admin"
                     }
                 },
                 "type": "object"
@@ -1788,6 +2063,10 @@
         {
             "name": "Patients",
             "description": "Patients"
+        },
+        {
+            "name": "Permission",
+            "description": "Permission"
         },
         {
             "name": "Role",

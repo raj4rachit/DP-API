@@ -145,7 +145,9 @@ final class RoleController extends Controller
      *              @OA\Schema(
      *
      *                  @OA\Property(property="name", type="string", description="Role's name"),
-     *                  @OA\Property(property="permissions", type="array", description="Permission's name"),
+     *                  @OA\Property(property="permissions", type="array", description="Permission's name",
+                 *           @OA\Items(type="string")
+                 *       )
      *              )
      *          )
      *      ),

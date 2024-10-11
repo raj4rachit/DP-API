@@ -57,7 +57,7 @@ final class PermissionController extends Controller
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
 
-            return ResponseHelper::error($exception->getMessage(),500);
+            return ResponseHelper::error($exception->getMessage(), 500);
         }
     }
 
@@ -120,7 +120,7 @@ final class PermissionController extends Controller
             Log::error($exception->getMessage());
             DB::rollBack();
 
-            return ResponseHelper::error($exception->getMessage(),500);
+            return ResponseHelper::error($exception->getMessage(), 500);
         }
     }
 
@@ -176,7 +176,7 @@ final class PermissionController extends Controller
             Log::error($exception->getMessage());
             DB::rollBack();
 
-            return ResponseHelper::error($exception->getMessage(),500);
+            return ResponseHelper::error($exception->getMessage(), 500);
         }
     }
 }

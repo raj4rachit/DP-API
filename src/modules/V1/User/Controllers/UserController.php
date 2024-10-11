@@ -73,7 +73,7 @@ final class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/user/show"/{id},
+     *     path="/user/show/{id}",
      *     summary="Show user profile",
      *     description="Display the user's name and job title in the profile",
      *     operationId="showUserProfile",

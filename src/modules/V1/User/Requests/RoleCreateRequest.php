@@ -17,7 +17,9 @@ use Modules\V1\User\Models\Role;
  *     required={"permissions", "test,test1,test2"},
  *
  *     @OA\Property(property="name", type="string", example="Admin", description="Role's name"),
- *     @OA\Property(property="permissions", type="array", example="[Admin,test]", description="Permission's name"),
+ *     @OA\Property(property="permissions", type="array", description="Permission's name",
+ *           @OA\Items(type="string")
+ *       )
  * )
  */
 final class RoleCreateRequest extends FormRequest
