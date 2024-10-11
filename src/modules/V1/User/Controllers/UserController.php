@@ -4,30 +4,29 @@ declare(strict_types=1);
 
 namespace Modules\V1\User\Controllers;
 
-use App\Http\Controllers\V1\Controller;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Modules\V1\User\Models\Role;
 use Modules\V1\User\Models\User;
 use Modules\V1\User\Requests\UserUpdateRequest;
 use Modules\V1\User\Resources\UserResource;
 use OpenApi\Annotations as OA;
 use Shared\Helpers\ResponseHelper;
-use Spatie\Permission\Middleware\PermissionMiddleware;
 
 final class UserController extends Controller
 {
     public function __construct()
     {
-        PermissionMiddleware::using('permission:user-list|user-create|user-edit|user-delete');
-        //        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store','show']]);
-        //        $this->middleware('permission:user-create', ['only' => ['create','store']]);
-        //        $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-        //        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+        $this->middleware('check.permissions:user-list|user-create|user-edit|user-delete', ['only' => ['index', 'store', 'show']]);
+        $this->middleware('check.permissions:user-create', ['only' => ['create', 'store']]);
+        $this->middleware('check.permissions:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('check.permissions:user-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -63,7 +62,7 @@ final class UserController extends Controller
      */
     public function list(): \Illuminate\Http\JsonResponse
     {
-        try{
+        try {
             $users = User::with('roles.permissions')->get();
 
             return ResponseHelper::success(UserResource::collection($users));
@@ -74,13 +73,22 @@ final class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/user/show",
+     *     path="/user/show"/{id},
      *     summary="Show user profile",
      *     description="Display the user's name and job title in the profile",
      *     operationId="showUserProfile",
      *     tags={"User"},
      *
-     *     @OA\RequestBody(
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=false,
+     *          description="ID of the user to show",
+     *
+     *          @OA\Schema(
+     *              type="string",
+     *              example=1
+     *          )
      *      ),
      *
      *     @OA\Response(
@@ -104,17 +112,17 @@ final class UserController extends Controller
      *      }
      * )
      */
-    public function show(): \Illuminate\Http\JsonResponse
+    public function show($id): JsonResponse
     {
-        try{
-            //$userData = Auth::user()->with('role');
-            $userData = Auth::user()->load('roles.permissions');
-            $userRole = $userPermission = [];
-            foreach ($userData->roles as $role) {
-                $userRole[] = $role->name;
-                foreach ($role->permissions as $permission) {
-                    $userPermission[] = $permission->name;
+        try {
+            if ('' !== $id) {
+                $userData = User::findOrFail($id);
+                if ( ! $userData) {
+                    return ResponseHelper::error('User not found', 404);
                 }
+                $userData = $userData->load('roles.permissions');
+            } else {
+                $userData = Auth::user()->load('roles.permissions');
             }
             $userData = $userData->get();
 
@@ -189,9 +197,11 @@ final class UserController extends Controller
                 $user->roles()->sync($roles); // Sync the roles
             }
             DB::commit(); // Commit the transaction
+
             return ResponseHelper::success(data: new UserResource($user), message: 'Profile updated successfully');
         } catch (Exception $e) {
             DB::rollBack(); // Roll back the transaction
+
             return ResponseHelper::error($e->getMessage(), 500);
         }
     }
@@ -246,7 +256,8 @@ final class UserController extends Controller
 
             $request->validate([
                 'current_password' => 'required|string',
-                'new_password' => 'required|string|min:8|confirmed',
+                //'new_password' => 'required|string|min:8|confirmed',
+                'new_password' => ['required', 'confirmed', Password::defaults()],
             ]);
 
             if ( ! Hash::check($request->input('current_password'), $user->password)) {
@@ -258,9 +269,11 @@ final class UserController extends Controller
             ]);
 
             DB::commit(); // Commit the transaction
+
             return ResponseHelper::success('Password changed successfully');
         } catch (Exception $e) {
             DB::rollBack(); // Roll back the transaction
+
             return ResponseHelper::error($e->getMessage(), 500);
         }
     }
@@ -281,7 +294,7 @@ final class UserController extends Controller
      *         description="ID of the user to delete",
      *
      *         @OA\Schema(
-     *             type="integer",
+     *             type="string",
      *             example=1
      *         )
      *     ),
@@ -313,9 +326,11 @@ final class UserController extends Controller
             }
             $user->delete();
             DB::commit(); // Commit the transaction
+
             return ResponseHelper::success(null, 'User deleted successfully');
         } catch (Exception $e) {
             DB::rollBack(); // Roll back the transaction
+
             return ResponseHelper::error($e->getMessage(), 500);
         }
     }

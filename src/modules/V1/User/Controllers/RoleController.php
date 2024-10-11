@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\V1\User\Controllers;
 
-use App\Http\Controllers\V1\Controller;
+//use App\Http\Controllers\V1\Controller;
+use Illuminate\Routing\Controller;
+use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use Modules\V1\User\Models\Role;
 use Modules\V1\User\Requests\RoleUpdateRequest;
 use Modules\V1\User\Resources\RoleResource;
@@ -14,17 +17,9 @@ use Shared\Helpers\ResponseHelper;
 
 final class RoleController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index', 'store']]);
-        $this->middleware('permission:role-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:role-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
-    }
-
     /**
      * @OA\Get(
-     *      path="/role/",
+     *      path="/role/list",
      *      summary="Get All roles",
      *      description="Display all the roles",
      *      operationId="showRoles",
@@ -56,7 +51,13 @@ final class RoleController extends Controller
      */
     public function index(): JsonResponse
     {
-        return ResponseHelper::success(data: RoleResource::collection(Role::all()), message: 'Roles data getting successfully. ');
+        try {
+            return ResponseHelper::success(data: RoleResource::collection(Role::all()), message: 'Roles data getting successfully. ');
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+
+            return ResponseHelper::error($exception->getMessage());
+        }
     }
 
     /**

@@ -185,7 +185,12 @@
                     "401": {
                         "$ref": "#/components/responses/401"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/auth/email/verification-link": {
@@ -254,6 +259,11 @@
                                             "description": "Message indicating that the email is already verified",
                                             "type": "string",
                                             "example": "Email already verified"
+                                        },
+                                        "statusCode": {
+                                            "description": "HTTP status code",
+                                            "type": "integer",
+                                            "example": 400
                                         }
                                     },
                                     "type": "object"
@@ -1105,6 +1115,59 @@
                 ]
             }
         },
+        "/user/list": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "List all users",
+                "description": "Retrieve a list of all users with their roles and permissions",
+                "operationId": "listUsers",
+                "responses": {
+                    "200": {
+                        "description": "Users retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Users retrieved successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/UserResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/user/show": {
             "get": {
                 "tags": [
@@ -1159,7 +1222,7 @@
                 ]
             }
         },
-        "/user": {
+        "/user/update/{id}": {
             "put": {
                 "tags": [
                     "User"
@@ -1484,7 +1547,9 @@
                 "description": "Request data for updating user profile.",
                 "required": [
                     "name",
-                    "job_title"
+                    "gender",
+                    "dob",
+                    "address"
                 ],
                 "properties": {
                     "name": {

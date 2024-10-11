@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Shared\Helpers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 final class ResponseHelper
 {
@@ -15,8 +16,6 @@ final class ResponseHelper
      * @param  string|null  $message  An optional message to include in the response.
      * @param  int  $status  The HTTP status code for the response (default is 200).
      * @param  array  $meta  Additional meta information to include in the response.
-     *
-     * @return JsonResponse
      */
     public static function success(mixed $data = null, ?string $message = null, int $status = 200, array $meta = []): JsonResponse
     {
@@ -43,8 +42,6 @@ final class ResponseHelper
      *
      * @param  string  $message  The error message (default is 'Oops something went wrong').
      * @param  int  $status  The HTTP status code for the response (default is 500).
-     *
-     * @return JsonResponse
      */
     public static function error(string $message = 'Oops something went wrong', int $statusCode = 500): JsonResponse
     {
@@ -53,5 +50,19 @@ final class ResponseHelper
             'statusCode' => $statusCode,
             'message' => $message,
         ], $statusCode);
+    }
+
+    /**
+     * If User don't have any of the permission that is specified in Array then Redirect will happen
+     *
+     * @return RedirectResponse|true
+     */
+    public static function noAnyPermissionThenRedirect(array $permissions)
+    {
+        return self::error("You Don't have enough permissions", 403);
+        if ( ! Auth::user()->canany($permissions)) {
+            return self::error("You Don't have enough permissions", 403);
+        }
+        return true;
     }
 }

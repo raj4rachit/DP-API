@@ -11,15 +11,15 @@ use Shared\Helpers\StringHelper;
 
 /**
  * @OA\Schema(
- *     schema="RoleResource",
- *     title="Role Resource",
- *     description="Role resource representation",
+ *     schema="PermissionResource",
+ *     title="Permission Resource",
+ *     description="Permission resource representation",
  *
- *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="uuid", type="string", example=1),
  *     @OA\Property(property="name", type="string", example="Admin")
  * )
  */
-#[AllowDynamicProperties] final class RoleResource extends JsonResource
+#[AllowDynamicProperties] final class PermissionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -30,10 +30,8 @@ use Shared\Helpers\StringHelper;
     {
         return [
             'uuid' => $this->uuid,
-            'name' => StringHelper::toTitleCase($this->name),
+            'name' => $this->name,
             'guard_name' => $this->guard_name,
-            'user_count' => $this->usersCount(),
-            'permission' => PermissionResource::collection($this->permissions),
         ];
     }
 }

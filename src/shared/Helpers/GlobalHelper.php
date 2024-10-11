@@ -38,7 +38,7 @@ final class GlobalHelper
         $numberOfDigits = max(3, intval(log10($modelCount)) + 1);
 
         // Format the order count with leading zeros
-        $formattedCount = str_pad((string) $modelCount, $numberOfDigits, '0', STR_PAD_LEFT);
+        $formattedCount = mb_str_pad((string) $modelCount, $numberOfDigits, '0', STR_PAD_LEFT);
 
         // Use provided prefix or model prefix
         $prefix = $prefix ?: $model->prefix;
@@ -128,5 +128,16 @@ final class GlobalHelper
         $url = explode('/', $url)[0] ?? null;
 
         return $url;
+    }
+
+    public static function checkPermissions(string $permissions): ?bool
+    {
+        $userId = Auth::user()->uuid;
+        $control = User::where('uuid', $userId)
+            ->whereHas('roles.permissions', function ($q) use ($permissions): void {
+                $q->whereIn('name', $permissions);
+            })->first();
+
+        return $control ? true : false;
     }
 }

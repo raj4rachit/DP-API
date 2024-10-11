@@ -11,10 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Permission\Models\Role as SpatieRole;
+use Spatie\Permission\Traits\HasPermissions;
 
 final class Role extends SpatieRole
 {
-    use HasFactory,HasUuids;
+    use HasFactory, HasUuids, HasPermissions;
 
     protected $primaryKey = 'uuid';
 
@@ -38,7 +39,22 @@ final class Role extends SpatieRole
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class); // Adjust User class as needed
+        return $this->morphedByMany(User::class,'model', 'model_has_roles', 'role_id', 'model_uuid'); // Adjust User class as needed
+    }
+
+    public function usersCount()
+    {
+        return $this->users()->count();
+    }
+
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            config('permission.models.permission'),
+            config('permission.table_names.role_has_permissions'),
+            'role_id',
+            'permission_id'
+        );
     }
 
 
