@@ -31,6 +31,13 @@ Route::middleware(['auth:sanctum'])->prefix('role')->as('role:')->group(
 );
 
 /**
+ * Permission Routes
+ */
+Route::middleware(['auth:sanctum'])->prefix('permission')->as('permission:')->group(
+    base_path('routes/v1/permission.php'),
+);
+
+/**
  * patient Routes
  */
 Route::middleware(['auth:sanctum'])->prefix('patient')->as('patient:')->group(

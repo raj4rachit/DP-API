@@ -10,36 +10,35 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Modules\V1\User\Models\Role;
-use Modules\V1\User\Requests\RoleCreateRequest;
-use Modules\V1\User\Requests\RoleUpdateRequest;
-use Modules\V1\User\Resources\RoleResource;
+use Modules\V1\User\Models\Permission;
+use Modules\V1\User\Requests\PermissionUpdateRequest;
+use Modules\V1\User\Resources\PermissionResource;
 use OpenApi\Annotations as OA;
 use Shared\Helpers\ResponseHelper;
 
-final class RoleController extends Controller
+final class PermissionController extends Controller
 {
     /**
      * @OA\Get(
-     *      path="/role/list",
-     *      summary="Get All roles",
-     *      description="Display all the roles",
-     *      operationId="showRoles",
-     *      tags={"Role"},
+     *      path="/permission/list",
+     *      summary="Get All permissions",
+     *      description="Display all the permissions",
+     *      operationId="showpermissions",
+     *      tags={"Permission"},
      *
      *      @OA\RequestBody(
      *       ),
      *
      *      @OA\Response(
      *          response=204,
-     *          description="Roles data show successfully",
+     *          description="Permissions data show successfully",
      *
      *          @OA\JsonContent(
      *
-     *              @OA\Property(property="message", type="string", example="Roles data get successfully"),
+     *              @OA\Property(property="message", type="string", example="Permissions data get successfully"),
      *              @OA\Property(property="status", type="string", example="success"),
      *              @OA\Property(property="statusCode", type="integer", example=204),
-     *              @OA\Property(property="data", type="object", ref="#/components/schemas/RoleResource"),
+     *              @OA\Property(property="data", type="object", ref="#/components/schemas/PermissionResource"),
      *          ),
      *      ),
      *
@@ -54,28 +53,28 @@ final class RoleController extends Controller
     public function index(): JsonResponse
     {
         try {
-            return ResponseHelper::success(data: RoleResource::collection(Role::all()), message: 'Roles data getting successfully. ');
+            return ResponseHelper::success(data: PermissionResource::collection(Permission::all()), message: 'Permissions data getting successfully. ');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
 
-            return ResponseHelper::error($exception->getMessage(), 500);
+            return ResponseHelper::error($exception->getMessage(),500);
         }
     }
 
     /**
      * @OA\Put(
-     *     path="/role/{id}",
-     *     summary="Update role",
-     *     description="Updates the role's name",
-     *     operationId="updateRoleProfile",
-     *     tags={"Role"},
+     *     path="/permission/{id}",
+     *     summary="Update permission",
+     *     description="Updates the permission's name",
+     *     operationId="updatePermissionProfile",
+     *     tags={"Permission"},
      *     security={{"bearerAuth":{}}},
      *
      *     @OA\Parameter(
      *          name="id",
      *          in="path",
      *          required=true,
-     *          description="ID of the role to update",
+     *          description="ID of the permission to update",
      *
      *          @OA\Schema(
      *              type="integer"
@@ -85,19 +84,19 @@ final class RoleController extends Controller
      *     @OA\RequestBody(
      *          required=true,
      *
-     *          @OA\JsonContent(ref="#/components/schemas/RoleUpdateRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/PermissionUpdateRequest")
      *      ),
      *
      *     @OA\Response(
      *         response=204,
-     *         description="Role updated successfully",
+     *         description="Permission updated successfully",
      *
      *         @OA\JsonContent(
      *
-     *             @OA\Property(property="message", type="string", example="Role updated successfully"),
+     *             @OA\Property(property="message", type="string", example="Permission updated successfully"),
      *             @OA\Property(property="status", type="string", example="success"),
      *             @OA\Property(property="statusCode", type="integer", example=204),
-     *             @OA\Property(property="data", type="object", ref="#/components/schemas/RoleResource"),
+     *             @OA\Property(property="data", type="object", ref="#/components/schemas/PermissionResource"),
      *         ),
      *     ),
      *
@@ -106,35 +105,32 @@ final class RoleController extends Controller
      *     @OA\Response(response=500, ref="#/components/responses/500"),
      * )
      */
-    public function update(RoleUpdateRequest $request): JsonResponse
+    public function update(PermissionUpdateRequest $request): JsonResponse
     {
         DB::beginTransaction();
         try {
-            $role = Role::where('uuid', $request->id)->first();
-            $role->update([
+            $permission = Permission::where('id', $request->id)->first();
+            $permission->update([
                 'name' => $request->name,
             ]);
-
-            // Assign multiple permissions to the role
-            $role->givePermissionTo($request->permissions);
             DB::commit();
 
-            return ResponseHelper::success(data: new RoleResource($role), message: 'Role updated successfully');
+            return ResponseHelper::success(data: new PermissionResource($permission), message: 'Permission updated successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
 
-            return ResponseHelper::error($exception->getMessage(), 500);
+            return ResponseHelper::error($exception->getMessage(),500);
         }
     }
 
     /**
      * @OA\Post(
-     *      path="/role/",
-     *      summary="Create a new role",
-     *      tags={"Role"},
+     *      path="/permission/",
+     *      summary="Create a new permission",
+     *      tags={"Permission"},
      *      security={{"bearerAuth":{}}},
-     *      description="Create a new role with the provided information.",
+     *      description="Create a new permission with the provided information.",
      *
      *      @OA\RequestBody(
      *          required=true,
@@ -144,22 +140,21 @@ final class RoleController extends Controller
      *
      *              @OA\Schema(
      *
-     *                  @OA\Property(property="name", type="string", description="Role's name"),
-     *                  @OA\Property(property="permissions", type="array", description="Permission's name"),
+     *                  @OA\Property(property="name", type="string", description="Permission's name"),
      *              )
      *          )
      *      ),
      *
      *      @OA\Response(
      *          response=201,
-     *          description="Role Created successfully",
+     *          description="Permission Created successfully",
      *
      *          @OA\JsonContent(
      *
-     *              @OA\Property(property="message", type="string", example="Role created successfully"),
+     *              @OA\Property(property="message", type="string", example="Permission created successfully"),
      *              @OA\Property(property="status", type="string", example="success"),
      *              @OA\Property(property="statusCode", type="string", example="201"),
-     *              @OA\Property(property="data", ref="#/components/schemas/RoleResource"),
+     *              @OA\Property(property="data", ref="#/components/schemas/PermissionResource"),
      *          )
      *      ),
      *
@@ -167,25 +162,21 @@ final class RoleController extends Controller
      *      @OA\Response(response=500, ref="#/components/responses/500"),
      * )
      */
-    public function store(RoleCreateRequest $request): JsonResponse
+    public function create(PermissionUpdateRequest $request): JsonResponse
     {
         DB::beginTransaction();
         try {
-            $role = new Role();
-            $role->name = $request->name;
-            $role->guard_name = 'sanctum';
-            $role->save();
-
-            // Assign multiple permissions to the role
-            $role->givePermissionTo($request->permissions);
-
+            $permission = new Permission();
+            $permission->name = $request->name;
+            $permission->save();
             DB::commit();
-            return ResponseHelper::success(data: new RoleResource($role), message: 'Role created successfully');
+
+            return ResponseHelper::success(data: new PermissionResource($permission), message: 'Permission created successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
 
-            return ResponseHelper::error($exception->getMessage(), 500);
+            return ResponseHelper::error($exception->getMessage(),500);
         }
     }
 }
