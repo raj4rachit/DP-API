@@ -74,10 +74,6 @@ In order to run this boilerplate, you need:
 
 ## Install
 
-```
-composer create-project mrprotocoll/laravel-api-boilerplate my-api
-```
-
 Install dependencies:
 
 ```

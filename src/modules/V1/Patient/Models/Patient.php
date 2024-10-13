@@ -40,18 +40,8 @@ class Patient extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name',
-        'email',
-        'password',
-        'role_id',
-        'provider_id',
-        'provider_type',
-        'oauth',
-        'balance',
         'address',
-        'gender',
-        'profile_image',
-        'mobile_no',
-        'dob'
+        'arn_number'
     ];
 
     /**
