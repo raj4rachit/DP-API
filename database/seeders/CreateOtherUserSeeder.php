@@ -10,7 +10,7 @@ use Modules\V1\User\Models\Role;
 use Modules\V1\User\Models\User;
 use Spatie\Permission\Models\Permission;
 
-class CreateAdminUserSeeder extends Seeder
+class CreateOtherUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,15 +18,15 @@ class CreateAdminUserSeeder extends Seeder
     public function run(): void
     {
         $user = User::create([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
+            'name' => 'Doctor',
+            'email' => 'doctor@gmail.com',
             'password' => bcrypt('123456789'), // Make sure to hash passwords
-            'user_type' => 'admin',
+            'user_type' => 'doctor',
             'email_verified_at' => now(),
         ]);
 
         // Find the role by its name
-        $adminRole = Role::where('name', 'admin')->first();
+        $adminRole = Role::where('name', 'doctor')->first();
 
         // Assign the 'admin' role to the user
         if ($adminRole) {
