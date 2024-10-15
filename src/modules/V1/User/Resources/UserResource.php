@@ -53,7 +53,15 @@ use Shared\Helpers\StringHelper;
     private function getAllPermissions()
     {
         return $this->roles->flatMap(function ($role) {
-            return $role->permissions->pluck('name');
+            $permissions = $role->permissions;
+            $groupedPermissions = [];
+            foreach ($permissions as $permission) {
+                [$prefix, $suffix] = explode('-', $permission->name, 2);
+                $formattedPermission = ucfirst($prefix) . ' ' . ucfirst($suffix);
+                $groupedPermissions[$prefix][$permission->name] = $formattedPermission;
+            }
+            return $groupedPermissions;
+            //return $role->permissions->pluck('name');
         })->unique(); // Use unique to avoid duplicates
     }
 }

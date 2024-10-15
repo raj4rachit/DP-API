@@ -1,33 +1,65 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
 
-class PermissionTableSeeder extends Seeder
+final class PermissionTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $permissions = [
-            'user-list',
-            'user-create',
-            'user-edit',
-            'user-delete',
-            'role-list',
-            'role-create',
-            'role-edit',
-            'role-delete',
-            'full-access',
-        ];
+        /**** Create All the Permission ****/
+        $this->createPermissions();
 
-        foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['uuid' => Str::uuid(), 'name' => $permission]);
+        //clear cache
+        Artisan::call('view:clear');
+        Artisan::call('route:clear');
+        Artisan::call('config:clear');
+        Artisan::call('cache:clear');
+
+    }
+
+    public function createPermissions() {
+
+        $permissions = [
+            ['name' => 'full-access'],
+            ...self::permission('user'),
+            ...self::permission('role'),
+            ...self::permission('doctor'),
+            ...self::permission('patient'),
+            ...self::permission('lab'),
+            ...self::permission('device'),
+            ['name' => 'report-list'],
+
+        ];
+        $permissions = array_map(static function ($data) {
+            $data['guard_name'] = 'web';
+            return $data;
+        }, $permissions);
+        Permission::upsert($permissions, ['name'], ['name']);
+    }
+
+    public static function permission($prefix, array $customPermissions = [])
+    {
+
+        $list = [['name' => $prefix . '-list']];
+        $create = [['name' => $prefix . '-create']];
+        $edit = [['name' => $prefix . '-edit']];
+        $delete = [['name' => $prefix . '-delete']];
+
+        $finalArray = array_merge($list, $create, $edit, $delete);
+        foreach ($customPermissions as $customPermission) {
+            $finalArray[] = ['name' => $prefix . '-' . $customPermission];
         }
+
+        return $finalArray;
     }
 }

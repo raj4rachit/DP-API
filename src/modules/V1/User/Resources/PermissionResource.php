@@ -7,6 +7,7 @@ namespace Modules\V1\User\Resources;
 use AllowDynamicProperties;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 use Shared\Helpers\StringHelper;
 
 /**
@@ -31,6 +32,7 @@ use Shared\Helpers\StringHelper;
         return [
             'uuid' => $this->uuid,
             'name' => $this->name,
+            'title' => Str::title(str_replace('-', ' ', $this->name)),
             'guard_name' => $this->guard_name,
         ];
     }
