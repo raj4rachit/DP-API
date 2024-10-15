@@ -8,14 +8,13 @@ use Database\Factories\RoleFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Permission\Models\Role as SpatieRole;
 use Spatie\Permission\Traits\HasPermissions;
 
 final class Role extends SpatieRole
 {
-    use HasFactory, HasUuids, HasPermissions;
+    use HasFactory, HasPermissions, HasUuids;
 
     protected $primaryKey = 'uuid';
 
@@ -27,7 +26,7 @@ final class Role extends SpatieRole
     protected $dateFormat = 'U';
 
     protected $fillable = [
-        'name','gaurd_name'
+        'name', 'gaurd_name',
     ];
 
     public $timestamps = false;
@@ -39,7 +38,7 @@ final class Role extends SpatieRole
 
     public function users(): BelongsToMany
     {
-        return $this->morphedByMany(User::class,'model', 'model_has_roles', 'role_id', 'model_uuid'); // Adjust User class as needed
+        return $this->morphedByMany(User::class, 'model', 'model_has_roles', 'role_id', 'model_uuid'); // Adjust User class as needed
     }
 
     public function usersCount()
@@ -56,6 +55,4 @@ final class Role extends SpatieRole
             'permission_id'
         );
     }
-
-
 }

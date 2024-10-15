@@ -30,7 +30,8 @@ final class RegisteredUserController extends Controller
      *
      *              @OA\Schema(
      *
-     *                  @OA\Property(property="name", type="string", description="User's name"),
+     *                  @OA\Property(property="first_name", type="string", description="User's first name"),
+     *                  @OA\Property(property="last_name", type="string", description="User's last name"),
      *                  @OA\Property(property="email", type="string", format="email", description="User's email"),
      *                  @OA\Property(property="password", type="string", format="password", description="User's password"),
      *              )
@@ -61,13 +62,14 @@ final class RegisteredUserController extends Controller
         try {
             $user = new User();
 
-            $user->name = $request->name;
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
             $user->email = $request->email;
             $user->user_type = $request->user_type ?? 'patient';
             $user->password = Hash::make($request->password);
             $user->save();
 
-            $roleNames = 'Patient';
+            $roleNames = 'User';
             if ($request->has('roles')) {
                 $roleNames = $request->input('roles');
             }

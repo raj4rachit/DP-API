@@ -38,11 +38,10 @@ use Shared\Helpers\StringHelper;
         //dd($request);
         return [
             'uuid' => $this->uuid,
-            'name' => StringHelper::toTitleCase($this->name),
+            'name' => StringHelper::toTitleCase($this->first_name.' '.$this->last_name),
+            'first_name' => StringHelper::toTitleCase($this->first_name),
+            'last_name' => StringHelper::toTitleCase($this->last_name),
             'email' => $this->email,
-            'gender' => $this->gender,
-            'dob' => $this->dob,
-            'address' => $this->address,
             'profile_image' => $this->profile_image,
             'mobile_no' => $this->mobile_no,
             'user_type' => $this->user_type,

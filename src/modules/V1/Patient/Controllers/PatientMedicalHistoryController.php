@@ -8,33 +8,13 @@ use App\Http\Controllers\V1\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Modules\V1\Patient\Models\Patient;
+use Modules\V1\Patient\Models\PatientMedicalHistory;
 use Modules\V1\Patient\Resources\PatientResource;
-use Modules\V1\User\Models\User;
 use OpenApi\Annotations as OA;
 use Shared\Helpers\ResponseHelper;
 
-final class PatientController extends Controller
+final class PatientMedicalHistoryController extends Controller
 {
-    /**
-     * @OA\Get(
-     *     path="/patients/",
-     *     summary="List all patients",
-     *     operationId="listPatients",
-     *     tags={"Patients"},
-     *
-     *     @OA\Response(
-     *         response=200,
-     *         description="List of patients",
-     *
-     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/PatientResource"))
-     *     ),
-     * )
-     */
-    public function index()
-    {
-        return ResponseHelper::success(data: PatientResource::collection(Patient::with('user', 'medicalHistories')->all()), message: 'Patients data getting successfully. ');
-    }
-
     /**
      * @OA\Post(
      *     path="/patients/",
@@ -59,28 +39,18 @@ final class PatientController extends Controller
     public function store(Request $request): \Illuminate\Http\JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'gender' => 'required|string|in:Male,Female,Other',
-            'dob' => 'required|date',
-            'address' => 'required|string',
-            'mobile_no' => 'nullable|string|max:20',
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'id_type' => 'required|string',
-            'id_number' => 'required|string',
-            'marital_status' => 'required|string|in:Single,Married,Divorced,Widowed',
-            'primary_phone' => 'required|string|max:20',
-            'secondary_phone' => 'string|max:20',
-            'home_phone' => 'string|max:20',
-            'work_phone' => 'string|max:20',
-            'languages' => 'required|array'
+            'patient_id' => 'required|exists:patients,uuid',
+            'medical_aid' => 'nullable|string',
+            'race' => 'nullable|string',
+            'ethnicity' => 'nullable|string',
+            'mrn_number' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $patient = Patient::create($request->all());
+        $patient = PatientMedicalHistory::create($request->all());
 
         return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient created successfully');
     }
@@ -112,12 +82,12 @@ final class PatientController extends Controller
      */
     public function show($id)
     {
-        $patient = Patient::with('user', 'medicalHistories')->findOrFail($id);
-        if ( ! $patient) {
+        $history = PatientMedicalHistory::findOrFail($id);
+        if ( ! $history) {
             return ResponseHelper::error('Patient not found');
         }
 
-        return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient data fetched successfully');
+        return ResponseHelper::success(data: new PatientResource($history), message: 'Patient data fetched successfully');
     }
 
     /**
@@ -154,18 +124,17 @@ final class PatientController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'sometimes|required|string|max:255',
-            'gender' => 'sometimes|required|string',
-            'dob' => 'sometimes|required|date',
-            'address' => 'sometimes|required|string',
-            'mobile_no' => 'nullable|string|max:20',
+            'medical_aid' => 'nullable|string',
+            'race' => 'nullable|string',
+            'ethnicity' => 'nullable|string',
+            'mrn_number' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $patient = Patient::findOrFail($id);
+        $patient = PatientMedicalHistory::findOrFail($id);
         if ( ! $patient) {
             return ResponseHelper::error('Patient not found');
         }
@@ -173,41 +142,5 @@ final class PatientController extends Controller
         $patient->update($request->all());
 
         return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient updated successfully');
-    }
-
-    /**
-     * @OA\Delete(
-     *     path="/patients/{id}",
-     *     summary="Delete a specific patient",
-     *     operationId="deletePatient",
-     *     tags={"Patients"},
-     *
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *
-     *         @OA\Schema(type="integer")
-     *     ),
-     *
-     *     @OA\Response(
-     *         response=204,
-     *         description="Patient deleted successfully"
-     *     ),
-     *     @OA\Response(response=404, description="Patient not found")
-     * )
-     */
-    public function destroy($id)
-    {
-        $patient = Patient::findOrFail($id);
-        if ( ! $patient) {
-            return ResponseHelper::error('Patient not found');
-        }
-
-        $patient->delete();
-
-        return ResponseHelper::success(message: 'Patient deleted successfully');
-
-        return response()->json(null, 204);
     }
 }

@@ -13,9 +13,19 @@ return new class extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->uuid();
-            $table->uuid('user_id')->nullable(); // Foreign key for users table
+            $table->uuid('user_id'); // Foreign key for users table
             $table->string('arn_number');
-            $table->string('medical_history')->nullable();
+            $table->string('id_type');
+            $table->string('id_number');
+            $table->date('dob');
+            $table->enum('gender', ['Male', 'Female', 'Other'])->default('Male');
+            $table->longText('address')->nullable();
+            $table->enum('marital_status', ['Single', 'Married', 'Divorced', 'Widowed'])->default('Single');
+            $table->string('primary_phone');
+            $table->string('secondary_phone')->nullable();
+            $table->string('home_phone')->nullable();
+            $table->string('work_phone')->nullable();
+            $table->json('languages'); // Store multiple languages in JSON format
             $table->timestamps();
 
             // Foreign key constraint

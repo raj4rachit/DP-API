@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\V1\Auth\Notifications\ResetPassword;
 use Modules\V1\Auth\Notifications\VerifyEmailAddress;
+use Modules\V1\Patient\Models\Patient;
 use Shared\Helpers\GlobalHelper;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -42,19 +43,16 @@ final class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'uuid',
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
         'role_id',
         'provider_id',
         'provider_type',
         'oauth',
-        'balance',
-        'address',
-        'gender',
         'profile_image',
-        'mobile_no',
-        'dob',
+        'user_type',
     ];
 
     /**
@@ -148,5 +146,11 @@ final class User extends Authenticatable implements MustVerifyEmail
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class, 'model_has_roles', 'model_uuid', 'role_id')->with('permissions');
+    }
+
+    // Define the relationship to Patient (One-to-One)
+    public function patient()
+    {
+        return $this->hasOne(Patient::class, 'user_id', 'uuid');
     }
 }

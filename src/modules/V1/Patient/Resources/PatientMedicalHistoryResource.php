@@ -29,7 +29,7 @@ use Shared\Helpers\StringHelper;
  *     @OA\Property(property="gender",type="string", example="Male"),
  * )
  */
-#[AllowDynamicProperties] final class PatientResource extends JsonResource
+#[AllowDynamicProperties] final class PatientMedicalHistoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

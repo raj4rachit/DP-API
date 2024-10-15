@@ -12,8 +12,9 @@ use Modules\V1\User\Models\User;
  *     title="User Registration Request",
  *     description="Schema for the user registration request",
  *     type="object",
- *     required={"name", "email", "password"},
- *     @OA\Property(property="name", type="string", maxLength=255, example="John"),
+ *     required={"first_name", "last_name", "email", "password"},
+ *     @OA\Property(property="first_name", type="string", maxLength=255, example="John"),
+ *     @OA\Property(property="last_name", type="string", maxLength=255, example="John"),
  *     @OA\Property(property="email", type="string", format="email", example="john@example.com"),
  *     @OA\Property(property="password", type="string", example="password123"),
  * )
@@ -36,7 +37,8 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', Rules\Password::defaults()],
         ];
