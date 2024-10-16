@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pathologies', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary()->unique();
             $table->string('test_name'); // The name of the pathology test (e.g., Blood Test)
             $table->text('description')->nullable(); // Description of the test
             $table->decimal('price', 8, 2)->nullable(); // Optional price of the test

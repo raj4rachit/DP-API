@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('symptoms', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary()->unique();
             $table->string('name'); // Name of the allergy (e.g., "Peanut Allergy")
             $table->text('description')->nullable(); // Optional description of the allergy
             $table->timestamps();

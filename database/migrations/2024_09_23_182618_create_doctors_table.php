@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+return new class() extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('doctors', function (Blueprint $table) {
-            $table->id();
+        Schema::create('doctors', function (Blueprint $table): void {
+            $table->uuid()->primary()->unique();
             $table->uuid('user_id'); // Foreign key for users table
             $table->string('specialization'); // Doctor's field of specialization
             $table->string('contact_phone')->nullable();

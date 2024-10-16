@@ -1,16 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Modules\V1\User\Models\Role;
 use Modules\V1\User\Models\User;
 use Spatie\Permission\Models\Permission;
 
-class CreateOtherUserSeeder extends Seeder
+final class CreateOtherUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +17,8 @@ class CreateOtherUserSeeder extends Seeder
     public function run(): void
     {
         $user = User::create([
-            'name' => 'Doctor',
+            'first_name' => 'Doctor',
+            'last_name' => 'Admin',
             'email' => 'doctor@gmail.com',
             'password' => bcrypt('123456789'), // Make sure to hash passwords
             'user_type' => 'doctor',
@@ -26,18 +26,32 @@ class CreateOtherUserSeeder extends Seeder
         ]);
 
         // Find the role by its name
-        $adminRole = Role::where('name', 'doctor')->first();
+        $doctorRole = Role::where('name', 'doctor')->first();
 
         // Assign the 'admin' role to the user
-        if ($adminRole) {
-            $permissions = Permission::pluck('uuid','uuid')->where('name','full-access');
-            $adminRole->syncPermissions($permissions);
-            $user->assignRole([$adminRole->uuid]);
-        } else {
-            $role = Role::create(['uuid' => Str::uuid(),'name' => 'Admin']);
-            $permissions = Permission::pluck('uuid','uuid')->where('name','full-access');
-            $role->syncPermissions($permissions);
-            $user->assignRole([$role->uuid]);
+        if ($doctorRole) {
+            $permissions = Permission::where('name', 'like', 'doctor-%')->orWhere('name', 'like', 'patient-%')->pluck('uuid')->toArray();
+            $doctorRole->syncPermissions($permissions);
+            $user->assignRole([$doctorRole->uuid]);
+        }
+
+        $user1 = User::create([
+            'first_name' => 'Patient',
+            'last_name' => 'Admin',
+            'email' => 'patient@gmail.com',
+            'password' => bcrypt('123456789'), // Make sure to hash passwords
+            'user_type' => 'patient',
+            'email_verified_at' => now(),
+        ]);
+
+        // Find the role by its name
+        $patientRole = Role::where('name', 'patient')->first();
+
+        // Assign the 'admin' role to the user
+        if ($patientRole) {
+            $permissions1 = Permission::where('name', 'like', 'patient-%')->pluck('uuid')->toArray();
+            $patientRole->syncPermissions($permissions1);
+            $user1->assignRole([$patientRole->uuid]);
         }
     }
 }

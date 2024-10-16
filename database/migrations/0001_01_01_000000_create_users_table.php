@@ -22,6 +22,8 @@ return new class() extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('user_type')->default('user');
+            $table->string('mobile_no')->nullable()->default(null);
+            $table->string('profile_image')->nullable()->default(null);
             $table->boolean('oauth')->default(false);
             $table->string('provider_name')->nullable();
             $table->string('provider_id')->nullable();

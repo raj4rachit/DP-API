@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('patients', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid()->primary()->unique();
             $table->uuid('user_id'); // Foreign key for users table
             $table->string('arn_number');
             $table->string('id_type');

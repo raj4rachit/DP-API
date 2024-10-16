@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pathology_labs', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary()->unique();
             $table->string('lab_name'); // Name of the pathology lab
             $table->string('address')->nullable(); // Address of the lab
             $table->string('contact_number')->nullable(); // Contact number for the lab

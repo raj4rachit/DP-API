@@ -12,14 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('patient_symptom', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('patient_id'); // Foreign key for patients
-            $table->unsignedBigInteger('symptom_id'); // Foreign key for symptoms
+            $table->uuid('patient_id'); // Foreign key for patients
+            $table->uuid('symptom_id'); // Foreign key for symptoms
             $table->timestamps();
 
             // Foreign key constraints
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
-            $table->foreign('symptom_id')->references('id')->on('symptoms')->onDelete('cascade');
+            $table->foreign('patient_id')->references('uuid')->on('patients')->onDelete('cascade');
+            $table->foreign('symptom_id')->references('uuid')->on('symptoms')->onDelete('cascade');
         });
     }
 

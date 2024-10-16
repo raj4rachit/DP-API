@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('patient_insurance', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('patient_id'); // Foreign key for patient
-            $table->unsignedBigInteger('insurance_id'); // Foreign key for insurance
+            $table->uuid()->primary()->unique();
+            $table->uuid('patient_id'); // Foreign key for patient
+            $table->uuid('insurance_id'); // Foreign key for insurance
             $table->date('policy_start_date'); // Date when the policy starts
             $table->date('policy_end_date')->nullable(); // Date when the policy ends
             $table->timestamps();
 
             // Foreign key constraints
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
-            $table->foreign('insurance_id')->references('id')->on('insurances')->onDelete('cascade');
+            $table->foreign('patient_id')->references('uuid')->on('patients')->onDelete('cascade');
+            $table->foreign('insurance_id')->references('uuid')->on('insurances')->onDelete('cascade');
         });
     }
 

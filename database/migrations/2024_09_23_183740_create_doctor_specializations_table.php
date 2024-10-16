@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('doctor_specializations', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary()->unique();
             $table->string('specialization'); // Name of the specialization (e.g., "Cardiology", "Dermatology")
             $table->text('description')->nullable(); // Optional description of the specialization
             $table->timestamps();

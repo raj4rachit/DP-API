@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Modules\V1\User\Models\Role;
 use Modules\V1\User\Models\User;
 use Spatie\Permission\Models\Permission;
 
-class CreateAdminUserSeeder extends Seeder
+final class CreateAdminUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +18,8 @@ class CreateAdminUserSeeder extends Seeder
     public function run(): void
     {
         $user = User::create([
-            'name' => 'admin',
+            'first_name' => 'admin',
+            'last_name' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('123456789'), // Make sure to hash passwords
             'user_type' => 'admin',
@@ -30,12 +31,12 @@ class CreateAdminUserSeeder extends Seeder
 
         // Assign the 'admin' role to the user
         if ($adminRole) {
-            $permissions = Permission::pluck('uuid','uuid')->where('name','full-access');
+            $permissions = Permission::where('name', 'full-access')->pluck('uuid')->toArray();
             $adminRole->syncPermissions($permissions);
             $user->assignRole([$adminRole->uuid]);
         } else {
-            $role = Role::create(['uuid' => Str::uuid(),'name' => 'Admin']);
-            $permissions = Permission::pluck('uuid','uuid')->where('name','full-access');
+            $role = Role::create(['uuid' => Str::uuid(), 'name' => 'Admin']);
+            $permissions = Permission::where('name', 'full-access')->pluck('uuid')->toArray();
             $role->syncPermissions($permissions);
             $user->assignRole([$role->uuid]);
         }

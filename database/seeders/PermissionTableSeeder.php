@@ -42,6 +42,7 @@ final class PermissionTableSeeder extends Seeder
         ];
         $permissions = array_map(static function ($data) {
             $data['guard_name'] = 'web';
+            $data['uuid'] = Str::uuid();
             return $data;
         }, $permissions);
         Permission::upsert($permissions, ['name'], ['name']);

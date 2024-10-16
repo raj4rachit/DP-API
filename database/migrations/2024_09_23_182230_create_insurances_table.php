@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('insurances', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('vendor_id'); // Foreign key to insurance_vendors
+            $table->uuid()->primary()->unique();
+            $table->uuid('vendor_id'); // Foreign key to insurance_vendors
             $table->string('policy_number')->unique(); // Unique policy number
             $table->string('type'); // Insurance type (e.g., health, auto, life)
             $table->date('start_date'); // Policy start date
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign key constraint
-            $table->foreign('vendor_id')->references('id')->on('insurance_vendors')->onDelete('cascade');
+            $table->foreign('vendor_id')->references('uuid')->on('insurance_vendors')->onDelete('cascade');
         });
     }
 

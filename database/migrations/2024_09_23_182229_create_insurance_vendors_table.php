@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('insurance_vendors', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary()->unique();
             $table->string('name')->unique(); // Vendor name
             $table->string('contact_email')->nullable(); // Contact email
             $table->string('contact_phone')->nullable(); // Contact phone number
