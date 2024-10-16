@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\V1\User\Resources\UserResource;
 use OpenApi\Annotations as OA;
-use Shared\Helpers\StringHelper;
 
 /**
  * @OA\Schema(
@@ -40,16 +39,11 @@ use Shared\Helpers\StringHelper;
     {
         return [
             'id' => $this->uuid,
-            'name' => StringHelper::toTitleCase($this->name),
-            'email' => $this->email,
             'gender' => $this->gender,
             'dob' => $this->dob,
             'address' => $this->address,
-            'profile_image' => $this->profile_image,
-            'mobile_no' => $this->mobile_no,
-            'role' => $this->role_id,
-            'user' => new UserResource($this->user),
-            'Medical_history' => $this->medicalHistories,
+            'user' => new UserResource($this->whenLoaded('user')),
+            'medical_history' => PatientMedicalHistoryResource::collection($this->whenLoaded('medicalHistories')),
         ];
     }
 }

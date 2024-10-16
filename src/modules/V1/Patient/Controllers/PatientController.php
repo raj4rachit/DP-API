@@ -7,11 +7,14 @@ namespace Modules\V1\Patient\Controllers;
 use App\Http\Controllers\V1\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Modules\V1\Patient\Models\Patient;
 use Modules\V1\Patient\Resources\PatientResource;
 use Modules\V1\User\Models\User;
 use OpenApi\Annotations as OA;
+use SebastianBergmann\Invoker\Exception;
 use Shared\Helpers\ResponseHelper;
 
 final class PatientController extends Controller
@@ -33,7 +36,8 @@ final class PatientController extends Controller
      */
     public function index(): JsonResponse
     {
-        return ResponseHelper::success(data: PatientResource::collection(Patient::with('user', 'medicalHistories')->all()), message: 'Patients data getting successfully. ');
+        $patients = Patient::with('user', 'medicalHistories')->get();
+        return ResponseHelper::success(data: PatientResource::collection($patients), message: 'Patients data getting successfully. ');
     }
 
     /**
@@ -59,31 +63,39 @@ final class PatientController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'gender' => 'required|string|in:Male,Female,Other',
-            'dob' => 'required|date',
-            'address' => 'required|string',
-            'mobile_no' => 'nullable|string|max:20',
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'id_type' => 'required|string',
-            'id_number' => 'required|string',
-            'marital_status' => 'required|string|in:Single,Married,Divorced,Widowed',
-            'primary_phone' => 'required|string|max:20',
-            'secondary_phone' => 'string|max:20',
-            'home_phone' => 'string|max:20',
-            'work_phone' => 'string|max:20',
-            'languages' => 'required|array',
-        ]);
+        DB::beginTransaction();
+        try {
+            $validator = Validator::make($request->all(), [
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'gender' => 'required|string|in:Male,Female,Other',
+                'dob' => 'required|date',
+                'address' => 'required|string',
+                'mobile_no' => 'nullable|string|max:20',
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+                'id_type' => 'required|string',
+                'id_number' => 'required|string',
+                'marital_status' => 'required|string|in:Single,Married,Divorced,Widowed',
+                'primary_phone' => 'required|string|max:20',
+                'secondary_phone' => 'string|max:20',
+                'home_phone' => 'string|max:20',
+                'work_phone' => 'string|max:20',
+                'languages' => 'required|array',
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+
+            $patient = Patient::create($request->all());
+            DB::commit();
+            return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient created successfully');
+        } catch (Exception $exception){
+            Log::error($exception->getMessage());
+            DB::rollBack();
+
+            return ResponseHelper::error($exception->getMessage(), 500);
         }
-
-        $patient = Patient::create($request->all());
-
-        return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient created successfully');
     }
 
     /**

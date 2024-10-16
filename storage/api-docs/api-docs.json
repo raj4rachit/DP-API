@@ -773,7 +773,7 @@
                 }
             }
         },
-        "/patients/": {
+        "/patient/": {
             "get": {
                 "tags": [
                     "Patients"
@@ -826,7 +826,7 @@
                 }
             }
         },
-        "/patients/{id}": {
+        "/patient/{id}": {
             "get": {
                 "tags": [
                     "Patients"

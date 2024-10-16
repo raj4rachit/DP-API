@@ -19,6 +19,14 @@ final class Patient extends Model
      *
      * @var string
      */
+    // Set the primary key to 'uuid'
+    protected $primaryKey = 'uuid';
+
+    // If the UUID is not auto-incrementing, set this to false
+    public $incrementing = false;
+
+    // Specify the type of the primary key
+    protected $keyType = 'string';
     protected $dateFormat = 'U';
 
     public string $prefix = 'HOA';
@@ -29,6 +37,7 @@ final class Patient extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'uuid',
         'user_id',
         'id_type',
         'id_number',
@@ -48,12 +57,12 @@ final class Patient extends Model
     // Define the relationship to User (One-to-One)
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_uuid', 'uuid');
+        return $this->belongsTo(User::class, 'user_id', 'uuid');
     }
 
     // Define the relationship to Medical History (One-to-Many)
     public function medicalHistories()
     {
-        return $this->hasMany(PatientMedicalHistory::class, 'patient_uuid', 'uuid');
+        return $this->hasMany(PatientMedicalHistory::class, 'patient_id', 'uuid');
     }
 }

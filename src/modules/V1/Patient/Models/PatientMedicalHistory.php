@@ -29,6 +29,6 @@ final class PatientMedicalHistory extends Model
     // Define the relationship to Patient (Inverse One-to-Many)
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_uuid', 'uuid');
+        return $this->belongsTo(Patient::class, 'patient_id', 'uuid');
     }
 }
