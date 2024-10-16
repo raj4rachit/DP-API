@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\V1\Patient\Controllers;
 
 use App\Http\Controllers\V1\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Modules\V1\Patient\Models\Patient;
@@ -17,7 +18,7 @@ final class PatientController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/patients/",
+     *     path="/patient/",
      *     summary="List all patients",
      *     operationId="listPatients",
      *     tags={"Patients"},
@@ -30,14 +31,14 @@ final class PatientController extends Controller
      *     ),
      * )
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return ResponseHelper::success(data: PatientResource::collection(Patient::with('user', 'medicalHistories')->all()), message: 'Patients data getting successfully. ');
     }
 
     /**
      * @OA\Post(
-     *     path="/patients/",
+     *     path="/patient/",
      *     summary="Create a new patient",
      *     operationId="createPatient",
      *     tags={"Patients"},
@@ -56,7 +57,7 @@ final class PatientController extends Controller
      *     ),
      * )
      */
-    public function store(Request $request): \Illuminate\Http\JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
@@ -73,7 +74,7 @@ final class PatientController extends Controller
             'secondary_phone' => 'string|max:20',
             'home_phone' => 'string|max:20',
             'work_phone' => 'string|max:20',
-            'languages' => 'required|array'
+            'languages' => 'required|array',
         ]);
 
         if ($validator->fails()) {
@@ -87,7 +88,7 @@ final class PatientController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/patients/{id}",
+     *     path="/patient/{id}",
      *     summary="Show a specific patient",
      *     operationId="showPatient",
      *     tags={"Patients"},
@@ -110,7 +111,7 @@ final class PatientController extends Controller
      *     @OA\Response(response=404, description="Patient not found")
      * )
      */
-    public function show($id)
+    public function show($id): JsonResponse
     {
         $patient = Patient::with('user', 'medicalHistories')->findOrFail($id);
         if ( ! $patient) {
@@ -122,7 +123,7 @@ final class PatientController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/patients/{id}",
+     *     path="/patient/{id}",
      *     summary="Update a specific patient",
      *     operationId="updatePatient",
      *     tags={"Patients"},
@@ -151,7 +152,7 @@ final class PatientController extends Controller
      *     @OA\Response(response=404, description="Patient not found")
      * )
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|required|string|max:255',
@@ -177,7 +178,7 @@ final class PatientController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/patients/{id}",
+     *     path="/patient/{id}",
      *     summary="Delete a specific patient",
      *     operationId="deletePatient",
      *     tags={"Patients"},
