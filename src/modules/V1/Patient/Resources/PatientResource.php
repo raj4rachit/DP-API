@@ -39,7 +39,7 @@ use Shared\Helpers\StringHelper;
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            'id' => $this->uuid,
             'name' => StringHelper::toTitleCase($this->name),
             'email' => $this->email,
             'gender' => $this->gender,
