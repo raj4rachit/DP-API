@@ -18,6 +18,7 @@ final class PatientMedicalHistory extends Model
      *
      * @var array<int, string>
      */
+    protected $primaryKey = 'uuid';
     protected $fillable = [
         'patient_id',
         'medical_aid',
@@ -25,6 +26,8 @@ final class PatientMedicalHistory extends Model
         'ethnicity',
         'mrn_number',
     ];
+
+    public $timestamps = false;
 
     // Define the relationship to Patient (Inverse One-to-Many)
     public function patient()

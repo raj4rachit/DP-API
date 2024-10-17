@@ -50,6 +50,8 @@ final class Patient extends Model
         'languages',
     ];
 
+    public $timestamps = false;
+
     protected $casts = [
         'languages' => 'array', // Convert JSON to array
     ];

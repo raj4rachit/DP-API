@@ -12,4 +12,6 @@ class Permission extends SpatiePermission
     use HasFactory, HasUuids;
 
     protected $primaryKey = 'uuid';
+
+    public $timestamps = false;
 }

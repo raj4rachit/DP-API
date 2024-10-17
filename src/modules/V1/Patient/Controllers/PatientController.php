@@ -8,10 +8,13 @@ use App\Http\Controllers\V1\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Modules\V1\Patient\Models\Patient;
+use Modules\V1\Patient\Models\PatientMedicalHistory;
 use Modules\V1\Patient\Resources\PatientResource;
+use Modules\V1\User\Models\Role;
 use Modules\V1\User\Models\User;
 use OpenApi\Annotations as OA;
 use SebastianBergmann\Invoker\Exception;
@@ -75,19 +78,82 @@ final class PatientController extends Controller
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
                 'id_type' => 'required|string',
                 'id_number' => 'required|string',
+                'arn_number' => 'required|string',
                 'marital_status' => 'required|string|in:Single,Married,Divorced,Widowed',
                 'primary_phone' => 'required|string|max:20',
-                'secondary_phone' => 'string|max:20',
-                'home_phone' => 'string|max:20',
-                'work_phone' => 'string|max:20',
+                'secondary_phone' => 'nullable|string|max:20',
+                'home_phone' => 'nullable|string|max:20',
+                'work_phone' => 'nullable|string|max:20',
                 'languages' => 'required|array',
+                'medical_aid'  => 'required|string',
+                'race' => 'nullable|string',
+                'ethnicity' => 'nullable|string',
+                'mrn_number' => 'nullable|string',
             ]);
 
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 422);
             }
 
-            $patient = Patient::create($request->all());
+            // User Creation
+            $user = new User();
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            $user->email = $request->email;
+            $user->user_type = 'patient';
+            $user->password = Hash::make('123456789');
+            if($request->mobile_no != ''){
+                $user->mobile_no = $request->mobile_no;
+            }
+            $user->save();
+            $roleNames = 'Patient';
+            // Retrieve role IDs based on role names
+            $roles = Role::where('name', $roleNames)->pluck('uuid'); // Adjust 'id' if your primary key is different
+            $user->roles()->sync($roles); // Sync the roles
+            // send email verification mail
+            $user->sendEmailVerificationNotification();
+
+            // Patient Creation
+            $patient = new Patient();
+            $patient->user_id = $user->uuid;
+            $patient->gender = $request->gender;
+            $patient->dob = $request->dob;
+            $patient->address = $request->address;
+            $patient->id_type = $request->id_type;
+            $patient->id_number = $request->id_number;
+            $patient->arn_number = $request->arn_number;
+            $patient->marital_status = $request->marital_status;
+            $patient->primary_phone = $request->primary_phone;
+            if($request->home_phone != ''){
+                $patient->home_phone = $request->home_phone;
+            }
+            if($request->work_phone != ''){
+                $patient->work_phone = $request->work_phone;
+            }
+            if($request->secondary_phone != ''){
+                $patient->secondary_phone = $request->secondary_phone;
+            }
+            if($request->work_phone != ''){
+                $patient->work_phone = $request->work_phone;
+            }
+            $patient->languages = $request->languages;
+            $patient->save();
+
+            // Patient Medical History
+            $patientMedicalHistory = new PatientMedicalHistory();
+            $patientMedicalHistory->patient_id = $patient->uuid;
+            $patientMedicalHistory->medical_aid = $request->medical_aid;
+            if($request->race != ''){
+                $patientMedicalHistory->race = $request->race;
+            }
+            if($request->ethnicity != ''){
+                $patientMedicalHistory->ethnicity = $request->ethnicity;
+            }
+            if($request->mrn_number != ''){
+                $patientMedicalHistory->mrn_number = $request->mrn_number;
+            }
+            $patientMedicalHistory->save();
+
             DB::commit();
             return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient created successfully');
         } catch (Exception $exception){

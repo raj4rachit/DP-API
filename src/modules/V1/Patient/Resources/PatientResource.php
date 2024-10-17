@@ -25,6 +25,7 @@ use OpenApi\Annotations as OA;
  *
  *         @OA\Items(type="string", example="user")
  *     ),
+ *
  *     @OA\Property(property="gender",type="string", example="Male"),
  * )
  */
@@ -38,10 +39,19 @@ use OpenApi\Annotations as OA;
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->uuid,
+            'uuid' => $this->uuid,
             'gender' => $this->gender,
             'dob' => $this->dob,
             'address' => $this->address,
+            'arn_number' => $this->arn_number,
+            'id_type' => $this->id_type,
+            'id_number' => $this->id_number,
+            'marital_status' => $this->marital_status,
+            'primary_phone' => $this->primary_phone,
+            'home_phone' => $this->home_phone,
+            'work_phone' => $this->work_phone,
+            'secondary_phone' => $this->secondary_phone,
+            'languages' => $this->languages,
             'user' => new UserResource($this->whenLoaded('user')),
             'medical_history' => PatientMedicalHistoryResource::collection($this->whenLoaded('medicalHistories')),
         ];

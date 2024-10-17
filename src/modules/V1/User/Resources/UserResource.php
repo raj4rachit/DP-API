@@ -38,8 +38,9 @@ use Shared\Helpers\StringHelper;
         //dd($request);
         return [
             'uuid' => $this->uuid,
-            'name' => StringHelper::toTitleCase($this->first_name.' '.$this->last_name),
+            'name' => StringHelper::toTitleCase($this->first_name . ' ' . $this->last_name),
             'first_name' => StringHelper::toTitleCase($this->first_name),
+            'middle_name' => $this->middle_name,
             'last_name' => StringHelper::toTitleCase($this->last_name),
             'email' => $this->email,
             'profile_image' => $this->profile_image,
@@ -60,6 +61,7 @@ use Shared\Helpers\StringHelper;
                 $formattedPermission = ucfirst($prefix) . ' ' . ucfirst($suffix);
                 $groupedPermissions[$prefix][$permission->name] = $formattedPermission;
             }
+
             return $groupedPermissions;
             //return $role->permissions->pluck('name');
         })->unique(); // Use unique to avoid duplicates

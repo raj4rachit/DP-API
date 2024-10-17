@@ -18,6 +18,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
     public function toArray(Request $request): array
     {
         return [
+            'uuid' => $this->uuid,
             'medical_aid' => $this->medical_aid,
             'race' => $this->race,
             'ethnicity' => $this->ethnicity,
