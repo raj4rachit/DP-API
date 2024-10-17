@@ -53,7 +53,9 @@ final class PermissionController extends Controller
     public function index(): JsonResponse
     {
         try {
-            return ResponseHelper::success(data: PermissionResource::collection(Permission::all()), message: 'Permissions data getting successfully. ');
+            $permissionsList = PermissionResource::collection(Permission::all());
+            $data = $this->groupPermissionsByPrefix($permissionsList);
+            return ResponseHelper::success(data: $data, message: 'Permissions data getting successfully. ');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
 
@@ -178,5 +180,23 @@ final class PermissionController extends Controller
 
             return ResponseHelper::error($exception->getMessage(), 500);
         }
+    }
+
+    /**
+     * Group permissions by their prefix (like "doctor", "role")
+     */
+    public function groupPermissionsByPrefix($permissions)
+    {
+        $grouped = [];
+
+        foreach ($permissions as $permission) {
+            // Extract the prefix (first part of the name before the '-')
+            $prefix = explode('-', $permission['name'])[0];
+
+            // Group by the prefix
+            $grouped[$prefix][] = $permission;
+        }
+
+        return $grouped;
     }
 }
