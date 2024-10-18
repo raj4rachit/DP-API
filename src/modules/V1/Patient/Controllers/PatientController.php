@@ -233,11 +233,25 @@ final class PatientController extends Controller
     public function update(Request $request, $id): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'sometimes|required|string|max:255',
-            'gender' => 'sometimes|required|string',
-            'dob' => 'sometimes|required|date',
-            'address' => 'sometimes|required|string',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'gender' => 'required|string|in:Male,Female,Other',
+            'dob' => 'required|date',
+            'address' => 'required|string',
             'mobile_no' => 'nullable|string|max:20',
+            'id_type' => 'required|string',
+            'id_number' => 'required|string',
+            'arn_number' => 'required|string',
+            'marital_status' => 'required|string|in:Single,Married,Divorced,Widowed',
+            'primary_phone' => 'required|string|max:20',
+            'secondary_phone' => 'nullable|string|max:20',
+            'home_phone' => 'nullable|string|max:20',
+            'work_phone' => 'nullable|string|max:20',
+            'languages' => 'required|array',
+            'medical_aid'  => 'required|string',
+            'race' => 'nullable|string',
+            'ethnicity' => 'nullable|string',
+            'mrn_number' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
