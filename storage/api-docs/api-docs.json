@@ -773,12 +773,13 @@
                 }
             }
         },
-        "/patient/": {
+        "/patient": {
             "get": {
                 "tags": [
                     "Patients"
                 ],
                 "summary": "List all patients",
+                "description": "Retrieve a list of all patients.",
                 "operationId": "listPatients",
                 "responses": {
                     "200": {
@@ -786,28 +787,146 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/PatientResource"
-                                    }
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Patients data retrieved successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PatientResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
                     "Patients"
                 ],
                 "summary": "Create a new patient",
+                "description": "Create a new patient with the provided information.",
                 "operationId": "createPatient",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/PatientCreateRequest"
+                                "properties": {
+                                    "first_name": {
+                                        "description": "Patient's first name",
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "description": "Patient's last name",
+                                        "type": "string"
+                                    },
+                                    "gender": {
+                                        "description": "Patient's gender",
+                                        "type": "string"
+                                    },
+                                    "dob": {
+                                        "description": "Date of birth (YYYY-MM-DD)",
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "address": {
+                                        "description": "Patient's address",
+                                        "type": "string"
+                                    },
+                                    "mobile_no": {
+                                        "description": "Patient's mobile number",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Patient's email address",
+                                        "type": "string"
+                                    },
+                                    "id_type": {
+                                        "description": "ID type",
+                                        "type": "string"
+                                    },
+                                    "id_number": {
+                                        "description": "ID number",
+                                        "type": "string"
+                                    },
+                                    "arn_number": {
+                                        "description": "ARN number",
+                                        "type": "string"
+                                    },
+                                    "marital_status": {
+                                        "description": "Marital status",
+                                        "type": "string"
+                                    },
+                                    "primary_phone": {
+                                        "description": "Primary phone number",
+                                        "type": "string"
+                                    },
+                                    "secondary_phone": {
+                                        "description": "Secondary phone number",
+                                        "type": "string"
+                                    },
+                                    "home_phone": {
+                                        "description": "Home phone number",
+                                        "type": "string"
+                                    },
+                                    "work_phone": {
+                                        "description": "Work phone number",
+                                        "type": "string"
+                                    },
+                                    "languages": {
+                                        "description": "Languages spoken by the patient",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "medical_aid": {
+                                        "description": "Medical aid",
+                                        "type": "string"
+                                    },
+                                    "race": {
+                                        "description": "Race",
+                                        "type": "string"
+                                    },
+                                    "ethnicity": {
+                                        "description": "Ethnicity",
+                                        "type": "string"
+                                    },
+                                    "mrn_number": {
+                                        "description": "MRN number",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
                     }
@@ -818,12 +937,40 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PatientResource"
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Patient created successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "string",
+                                            "example": "201"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PatientResource"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/patient/{id}": {
@@ -832,14 +979,17 @@
                     "Patients"
                 ],
                 "summary": "Show a specific patient",
+                "description": "Fetch details of a patient by their ID.",
                 "operationId": "showPatient",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "ID of the patient to show",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
                         }
                     }
                 ],
@@ -849,26 +999,119 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PatientResource"
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Profile fetch successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PatientResource"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
-                    "404": {
-                        "description": "Patient not found"
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized access"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid patient ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred on the server"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
                     "Patients"
                 ],
                 "summary": "Update a specific patient",
+                "description": "Update the details of a patient by their ID.",
                 "operationId": "updatePatient",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "ID of the patient to update",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -876,11 +1119,98 @@
                     }
                 ],
                 "requestBody": {
+                    "description": "Updated patient data",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/PatientUpdateRequest"
+                                "properties": {
+                                    "first_name": {
+                                        "description": "Patient's first name",
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "description": "Patient's last name",
+                                        "type": "string"
+                                    },
+                                    "gender": {
+                                        "description": "Patient's gender",
+                                        "type": "string"
+                                    },
+                                    "dob": {
+                                        "description": "Date of birth (YYYY-MM-DD)",
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "address": {
+                                        "description": "Patient's address",
+                                        "type": "string"
+                                    },
+                                    "mobile_no": {
+                                        "description": "Patient's mobile number",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Patient's email address",
+                                        "type": "string"
+                                    },
+                                    "id_type": {
+                                        "description": "ID type",
+                                        "type": "string"
+                                    },
+                                    "id_number": {
+                                        "description": "ID number",
+                                        "type": "string"
+                                    },
+                                    "arn_number": {
+                                        "description": "ARN number",
+                                        "type": "string"
+                                    },
+                                    "marital_status": {
+                                        "description": "Marital status",
+                                        "type": "string"
+                                    },
+                                    "primary_phone": {
+                                        "description": "Primary phone number",
+                                        "type": "string"
+                                    },
+                                    "secondary_phone": {
+                                        "description": "Secondary phone number",
+                                        "type": "string"
+                                    },
+                                    "home_phone": {
+                                        "description": "Home phone number",
+                                        "type": "string"
+                                    },
+                                    "work_phone": {
+                                        "description": "Work phone number",
+                                        "type": "string"
+                                    },
+                                    "languages": {
+                                        "description": "Languages spoken by the patient",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "medical_aid": {
+                                        "description": "Medical aid",
+                                        "type": "string"
+                                    },
+                                    "race": {
+                                        "description": "Race",
+                                        "type": "string"
+                                    },
+                                    "ethnicity": {
+                                        "description": "Ethnicity",
+                                        "type": "string"
+                                    },
+                                    "mrn_number": {
+                                        "description": "MRN number",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
                     }
@@ -906,14 +1236,16 @@
                     "Patients"
                 ],
                 "summary": "Delete a specific patient",
+                "description": "Delete a patient by their ID.",
                 "operationId": "deletePatient",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "ID of the patient to be deleted",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
