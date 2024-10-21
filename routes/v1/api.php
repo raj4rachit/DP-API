@@ -38,6 +38,13 @@ Route::middleware(['auth:sanctum'])->prefix('permission')->as('permission:')->gr
 );
 
 /**
+ * Device Routes
+ */
+Route::middleware(['auth:sanctum'])->prefix('device')->as('device:')->group(
+    base_path('routes/v1/device.php'),
+);
+
+/**
  * patient Routes
  */
 Route::middleware(['auth:sanctum'])->prefix('patient')->as('patient:')->group(

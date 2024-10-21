@@ -773,6 +773,60 @@
                 }
             }
         },
+        "/device/": {
+            "get": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Get list of all devices",
+                "operationId": "65f23d3bc40ca1e83485aea6acf0c9da",
+                "responses": {
+                    "200": {
+                        "description": "Device data getting successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DeviceResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/device/vendor/": {
+            "get": {
+                "tags": [
+                    "Device Vendors"
+                ],
+                "summary": "Get list of all device vendors",
+                "operationId": "ebd038559fcaa9ce12cdff5d25cd7293",
+                "responses": {
+                    "200": {
+                        "description": "Device vendors data getting successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DeviceVendorResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
         "/patient": {
             "get": {
                 "tags": [
@@ -2010,6 +2064,52 @@
                 },
                 "type": "object"
             },
+            "DeviceResource": {
+                "title": "Device Resource",
+                "description": "Device resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john@example.com"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "example": "Male"
+                    }
+                },
+                "type": "object"
+            },
+            "DeviceVendorResource": {
+                "title": "Device Vendor Resource",
+                "description": "Device Vendor resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john@example.com"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "example": "Male"
+                    }
+                },
+                "type": "object"
+            },
             "PatientCreateRequest": {
                 "title": "Patient Create Request",
                 "description": "Request data for creating Patient profile.",
@@ -2391,6 +2491,14 @@
         {
             "name": "Authentication",
             "description": "Authentication"
+        },
+        {
+            "name": "Devices",
+            "description": "Devices"
+        },
+        {
+            "name": "Device Vendors",
+            "description": "Device Vendors"
         },
         {
             "name": "Patients",
