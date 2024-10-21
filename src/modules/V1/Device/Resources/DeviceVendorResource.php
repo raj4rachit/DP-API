@@ -16,10 +16,9 @@ use OpenApi\Annotations as OA;
  *     title="Device Vendor Resource",
  *     description="Device Vendor resource representation",
  *
- *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="uuid", type="string", example=1),
  *     @OA\Property(property="name", type="string", example="John Doe"),
- *     @OA\Property(property="email", type="string", example="john@example.com"),
- *     @OA\Property(property="gender",type="string", example="Male"),
+ *     @OA\Property(property="status",type="string", example="Active"),
  * )
  */
 #[AllowDynamicProperties] final class DeviceVendorResource extends JsonResource

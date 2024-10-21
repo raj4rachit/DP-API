@@ -800,31 +800,60 @@
                 }
             }
         },
-        "/device/vendor/": {
+        "/device/vendor": {
             "get": {
                 "tags": [
                     "Device Vendors"
                 ],
-                "summary": "Get list of all device vendors",
-                "operationId": "ebd038559fcaa9ce12cdff5d25cd7293",
+                "summary": "List all device vendors",
+                "description": "Retrieve a list of all device vendors.",
+                "operationId": "listDeviceVendors",
                 "responses": {
                     "200": {
-                        "description": "Device vendors data getting successfully",
+                        "description": "List of device vendors",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/DeviceVendorResource"
-                                    }
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "device vendors data retrieved successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/DeviceVendorResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
                     "500": {
-                        "description": "Internal Server Error"
+                        "$ref": "#/components/responses/500"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/patient": {
@@ -2068,21 +2097,41 @@
                 "title": "Device Resource",
                 "description": "Device resource representation",
                 "properties": {
-                    "id": {
-                        "type": "integer",
+                    "uuid": {
+                        "type": "string",
                         "example": 1
                     },
-                    "name": {
+                    "device_vendor_id": {
                         "type": "string",
-                        "example": "John Doe"
+                        "example": "fasdfsdaf"
                     },
-                    "email": {
+                    "api_key": {
                         "type": "string",
-                        "example": "john@example.com"
+                        "example": "JohnDoe"
                     },
-                    "gender": {
+                    "device_type": {
                         "type": "string",
-                        "example": "Male"
+                        "example": "test"
+                    },
+                    "device_sim": {
+                        "type": "string",
+                        "example": "Yes"
+                    },
+                    "secret_key": {
+                        "type": "string",
+                        "example": "Asddfdsfererer"
+                    },
+                    "device_model": {
+                        "type": "string",
+                        "example": "open model"
+                    },
+                    "rfid": {
+                        "type": "string",
+                        "example": "No"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "Active"
                     }
                 },
                 "type": "object"
@@ -2091,21 +2140,17 @@
                 "title": "Device Vendor Resource",
                 "description": "Device Vendor resource representation",
                 "properties": {
-                    "id": {
-                        "type": "integer",
+                    "uuid": {
+                        "type": "string",
                         "example": 1
                     },
                     "name": {
                         "type": "string",
                         "example": "John Doe"
                     },
-                    "email": {
+                    "status": {
                         "type": "string",
-                        "example": "john@example.com"
-                    },
-                    "gender": {
-                        "type": "string",
-                        "example": "Male"
+                        "example": "Active"
                     }
                 },
                 "type": "object"

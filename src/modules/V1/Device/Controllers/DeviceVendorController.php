@@ -14,26 +14,33 @@ final class DeviceVendorController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/device/vendor/",
-     *     summary="Get list of all device vendors",
+     *     path="/device/vendor",
+     *     summary="List all device vendors",
+     *     operationId="listDeviceVendors",
      *     tags={"Device Vendors"},
+     *     description="Retrieve a list of all device vendors.",
+     *
      *     @OA\Response(
      *         response=200,
-     *         description="Device vendors data getting successfully",
+     *         description="List of device vendors",
      *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/DeviceVendorResource")
+     *             @OA\Property(property="message", type="string", example="device vendors data retrieved successfully"),
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="statusCode", type="integer", example=200),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(ref="#/components/schemas/DeviceVendorResource")
+     *             )
      *         )
      *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Internal Server Error"
-     *     )
+     *
+     *     @OA\Response(response=401, ref="#/components/responses/401"),
+     *     @OA\Response(response=422, ref="#/components/responses/422"),
+     *     @OA\Response(response=500, ref="#/components/responses/500"),
+     *
+     *     security={
+     *         {"bearerAuth": {}}
+     *     }
      * )
-     *
-     * Get all device vendors
-     *
-     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
