@@ -15,6 +15,7 @@ return new class() extends Migration
     {
         Schema::create('devices', function (Blueprint $table): void {
             $table->uuid()->primary()->unique();
+            $table->string('name')->unique()->index();
             $table->uuid('device_vendor_id');
             $table->string('api_key')->unique();
             $table->string('device_type');

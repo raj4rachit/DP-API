@@ -856,6 +856,76 @@
                 ]
             }
         },
+        "/device/vendor/": {
+            "post": {
+                "tags": [
+                    "DeviceVendors"
+                ],
+                "summary": "Create a new Device vendor",
+                "description": "Create a new Device vendorv with the provided information.",
+                "operationId": "createDeviceVendor",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "vendor company name",
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "description": "Status",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Device vendor created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Device vendor created successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "string",
+                                            "example": "201"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DeviceVendorResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/patient": {
             "get": {
                 "tags": [
@@ -2093,6 +2163,26 @@
                 },
                 "type": "object"
             },
+            "DeviceVendorCreateRequest": {
+                "title": "Device Vendor Create Request",
+                "description": "Request data for creating Device Vendor profile.",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Device Vendor's company name",
+                        "type": "string",
+                        "example": "My company"
+                    },
+                    "status": {
+                        "description": "Device Vendor status",
+                        "type": "string",
+                        "example": "Active"
+                    }
+                },
+                "type": "object"
+            },
             "DeviceResource": {
                 "title": "Device Resource",
                 "description": "Device resource representation",
@@ -2544,6 +2634,10 @@
         {
             "name": "Device Vendors",
             "description": "Device Vendors"
+        },
+        {
+            "name": "DeviceVendors",
+            "description": "DeviceVendors"
         },
         {
             "name": "Patients",

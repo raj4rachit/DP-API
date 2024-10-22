@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Modules\V1\Patient\Models\PatientMedicalHistory;
-use Modules\V1\User\Models\User;
 
 final class Device extends Model
 {
@@ -49,7 +47,6 @@ final class Device extends Model
 
     public function vendor()
     {
-        return $this->belongsTo(DeviceVendor::class, 'device_vendor_id','uuid');
+        return $this->belongsTo(DeviceVendor::class, 'device_vendor_id', 'uuid');
     }
-
 }
