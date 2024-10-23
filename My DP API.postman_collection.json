@@ -449,14 +449,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{APP_URL}}/user/show/9d343db0-1598-4608-9b30-78578e8fad44",
+							"raw": "{{APP_URL}}/user/show/9d32d0ae-61b9-4f9c-8d6c-95a4e1cf562e",
 							"host": [
 								"{{APP_URL}}"
 							],
 							"path": [
 								"user",
 								"show",
-								"9d343db0-1598-4608-9b30-78578e8fad44"
+								"9d32d0ae-61b9-4f9c-8d6c-95a4e1cf562e"
 							]
 						}
 					},
@@ -543,7 +543,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Admin Patel\",\r\n  \"mobile_no\": 1245676985,\r\n  \"gender\": \"male\",\r\n  \"dob\": \"1995-04-22\",\r\n  \"address\": \"Bopal, Ahmedabad\",\r\n  \"profile_image\": \"\",\r\n  \"user_type\":\"admin\",\r\n  \"roles\":\"Admin\"\r\n}",
+							"raw": "{\r\n  \"first_name\": \"Admin\",\r\n  \"last_name\": \"Patel\",\r\n  \"mobile_no\": 1245676985,\r\n  \"profile_image\": \"\",\r\n  \"user_type\":\"admin\",\r\n  \"roles\":\"Admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -765,7 +765,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"permission-delete\"\r\n}",
+							"raw": "{\r\n    \"name\":\"device-vendor-delete\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -780,6 +780,464 @@
 							"path": [
 								"permission",
 								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patient",
+			"item": [
+				{
+					"name": "Patient Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\":\"\",\r\n    \"last_name\":\"Demo\",\r\n    \"gender\":\"Male\",\r\n    \"dob\":\"2001-01-05\",\r\n    \"address\":\"asdfasd asdfasdf asdfa sdfd \",\r\n    \"mobile_no\":\"\",\r\n    \"email\":\"user.demo@gmail.com\",\r\n    \"id_type\":\"card\",\r\n    \"id_number\":\"fasdfasdfasdf\",\r\n    \"arn_number\":\"32423sdfsdfdsf\",\r\n    \"marital_status\":\"Single\",\r\n    \"primary_phone\":\"5423546798\",\r\n    \"secondary_phone\":\"\",\r\n    \"home_phone\":\"\",\r\n    \"work_phone\":\"\",\r\n    \"languages\":[\r\n        \"English\",\r\n        \"Gujarati\"\r\n    ],\r\n    \"medical_aid\":\"test\",\r\n    \"race\":\"tttsadf\",\r\n    \"ethnicity\":\"normal\",\r\n    \"mrn_number\":\"3455123123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP_URL}}/patient",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patient Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\":\"User\",\r\n    \"last_name\":\"Demo\",\r\n    \"gender\":\"Male\",\r\n    \"dob\":\"2001-01-05\",\r\n    \"address\":\"asdfasd asdfasdf asdfa sdfd \",\r\n    \"mobile_no\":\"\",\r\n    \"email\":\"user.demo@gmail.com\",\r\n    \"id_type\":\"card\",\r\n    \"id_number\":\"fasdfasdfasdf\",\r\n    \"arn_number\":\"32423sdfsdfdsf\",\r\n    \"marital_status\":\"Single\",\r\n    \"primary_phone\":\"5423546798\",\r\n    \"secondary_phone\":\"\",\r\n    \"home_phone\":\"\",\r\n    \"work_phone\":\"\",\r\n    \"languages\":[\r\n        \"English\",\r\n        \"Gujarati\"\r\n    ],\r\n    \"medical_aid\":\"\",\r\n    \"race\":\"tttsadf\",\r\n    \"ethnicity\":\"normal\",\r\n    \"mrn_number\":\"3455123123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP_URL}}/patient/9d445a1c-cee5-4a68-b729-9edf8df71d87",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"patient",
+								"9d445a1c-cee5-4a68-b729-9edf8df71d87"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patient List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL}}/patient",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patient Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL}}/patient/9d445a1c-cee5-4a68-b729-9edf8df71d87",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"patient",
+								"9d445a1c-cee5-4a68-b729-9edf8df71d87"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Device & Vendors",
+			"item": [
+				{
+					"name": "Device List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL}}/device",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"device"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL}}/device/vendor/",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"device",
+								"vendor",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"TBS\",\r\n    \"status\":\"Active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP_URL}}/device/vendor/",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"device",
+								"vendor",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"TBS\",\r\n    \"status\":\"Inactive\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP_URL}}/device/vendor/9d4e6337-a5c8-4099-93b0-52bad077556a",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"device",
+								"vendor",
+								"9d4e6337-a5c8-4099-93b0-52bad077556a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL}}/device/vendor/9d4e6337-a5c8-4099-93b0-52bad077556a",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"device",
+								"vendor",
+								"9d4e6337-a5c8-4099-93b0-52bad077556a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Device Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL}}/device/9d4e6337-a5c8-4099-93b0-52bad077556a",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"device",
+								"9d4e6337-a5c8-4099-93b0-52bad077556a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Device Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Weight Scale\",\r\n    \"status\":\"Active\",\r\n    \"device_vendor_id\":\"9d4e62df-015b-43cc-a149-a0454ca6b143\",\r\n    \"api_key\":\"tesasdfsdfasdcxcxcf\",\r\n    \"device_type\":\"Weight\",\r\n    \"device_sim\":\"Yes\",\r\n    \"secret_key\":\"\",\r\n    \"device_model\":\"\",\r\n    \"rfid\":\"Yes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP_URL}}/device/",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"device",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Device Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Weight Scale\",\r\n    \"status\":\"Active\",\r\n    \"device_vendor_id\":\"9d4e6337-a5c8-4099-93b0-52bad077556a\",\r\n    \"api_key\":\"tesasdfsdfasdcxcxcf\",\r\n    \"device_type\":\"Weight\",\r\n    \"device_sim\":\"Yes\",\r\n    \"secret_key\":\"\",\r\n    \"device_model\":\"\",\r\n    \"rfid\":\"Yes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP_URL}}/device/9d50011a-6db3-4d8c-bcb0-aab16c923312",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"device",
+								"9d50011a-6db3-4d8c-bcb0-aab16c923312"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Device Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL}}/device/9d50011a-6db3-4d8c-bcb0-aab16c923312",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"device",
+								"9d50011a-6db3-4d8c-bcb0-aab16c923312"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL}}/device/vendor/9d4e6337-a5c8-4099-93b0-52bad077556a",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"device",
+								"vendor",
+								"9d4e6337-a5c8-4099-93b0-52bad077556a"
 							]
 						}
 					},
