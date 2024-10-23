@@ -50,3 +50,11 @@ Route::middleware(['auth:sanctum'])->prefix('device')->as('device:')->group(
 Route::middleware(['auth:sanctum'])->prefix('patient')->as('patient:')->group(
     base_path('routes/v1/patient.php'),
 );
+
+
+/**
+ * Hospital Routes
+ */
+Route::middleware(['auth:sanctum'])->prefix('hospital')->as('hospital:')->group(
+    base_path('routes/v1/hospital.php'),
+);

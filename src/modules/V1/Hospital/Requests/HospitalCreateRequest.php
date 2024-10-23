@@ -1,0 +1,49 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Modules\V1\Hospital\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Modules\V1\Hospital\Models\Hospital;
+
+/**
+ * @OA\Schema(
+ *     schema="HospitalCreateRequest",
+ *     title="Hospital Create Request",
+ *     description="Request data for creating Hospital profile.",
+ *     type="object",
+ *     required={"name"},
+ *
+ *     @OA\Property(property="name", type="string", example="My company", description="Hospital name"),
+ *     @OA\Property(property="status", type="string", example="Active", description="Hospital status"),
+ * )
+ */
+final class HospitalCreateRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'name' => ['required', 'string', 'max:155', 'unique:' . Hospital::class],
+            'status' => 'required|string|in:Active,Inactive',
+            'location' => 'required|string',
+            'phone' => 'nullable|string|in:Yes,No',
+            'email' => 'required|email|unique:hospitals,email,' . $this->route('hospital'),
+            'description' => 'nullable|string',
+        ];
+
+    }
+}

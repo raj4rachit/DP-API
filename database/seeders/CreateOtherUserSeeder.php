@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\V1\Hospital\Models\Hospital;
 use Modules\V1\User\Models\Role;
 use Modules\V1\User\Models\User;
 use Spatie\Permission\Models\Permission;
@@ -16,6 +17,14 @@ final class CreateOtherUserSeeder extends Seeder
      */
     public function run(): void
     {
+        $hospital = Hospital::create([
+            'name' => 'HMS Hospital',
+            'location' => 'Ahmedabad',
+            'phone' => '9876543210',
+            'email' => 'updated@hospital.com',
+            'description' => 'Updated description.',
+        ]);
+
         $user = User::create([
             'first_name' => 'Doctor',
             'last_name' => 'Admin',
