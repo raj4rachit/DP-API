@@ -7,6 +7,7 @@ namespace Modules\V1\Device\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 
 final class Device extends Model
@@ -33,6 +34,7 @@ final class Device extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'name',
         'device_vendor_id',
         'status',
         'api_key',
@@ -45,7 +47,10 @@ final class Device extends Model
 
     public $timestamps = false;
 
-    public function vendor()
+    /**
+     * @return BelongsTo
+     */
+    public function vendor(): BelongsTo
     {
         return $this->belongsTo(DeviceVendor::class, 'device_vendor_id', 'uuid');
     }

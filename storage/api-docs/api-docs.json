@@ -773,13 +773,13 @@
                 }
             }
         },
-        "/device/": {
+        "/device": {
             "get": {
                 "tags": [
                     "Devices"
                 ],
                 "summary": "Get list of all devices",
-                "operationId": "65f23d3bc40ca1e83485aea6acf0c9da",
+                "operationId": "eb744815d30238306021a383ed460f08",
                 "responses": {
                     "200": {
                         "description": "Device data getting successfully",
@@ -798,12 +798,364 @@
                         "description": "Internal Server Error"
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Create a new Device",
+                "description": "Create a new Device with the provided information.",
+                "operationId": "createDevice",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Device name",
+                                        "type": "string",
+                                        "example": "My company"
+                                    },
+                                    "device_vendor_id": {
+                                        "description": "Device Vendor id",
+                                        "type": "string",
+                                        "example": "safsdfsf"
+                                    },
+                                    "api_key": {
+                                        "description": "Device api key",
+                                        "type": "string",
+                                        "example": "Mydsfsdfds"
+                                    },
+                                    "device_type": {
+                                        "description": "Device type",
+                                        "type": "string",
+                                        "example": "My company"
+                                    },
+                                    "status": {
+                                        "description": "Device status",
+                                        "type": "string",
+                                        "example": "Active"
+                                    },
+                                    "device_sim": {
+                                        "description": "Device Sim",
+                                        "type": "string",
+                                        "example": "No"
+                                    },
+                                    "secret_key": {
+                                        "description": "Device secret key",
+                                        "type": "string",
+                                        "example": "Acsdfgfgtive"
+                                    },
+                                    "device_model": {
+                                        "description": "Device model",
+                                        "type": "string",
+                                        "example": "Active vcxzv"
+                                    },
+                                    "rfid": {
+                                        "description": "Device rfid",
+                                        "type": "string",
+                                        "example": "Yes"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Device created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Device created successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "string",
+                                            "example": "201"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DeviceResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/device/{id}": {
+            "get": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Show a specific Device",
+                "description": "Fetch details of a Device by their ID.",
+                "operationId": "showDevice",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Device to show",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Device details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Device data fetch successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DeviceResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized access"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid Device ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred on the server"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Update a specific Device",
+                "description": "Update the details of a Device by their ID.",
+                "operationId": "updateDevice",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Device to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated Device data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Device name",
+                                        "type": "string",
+                                        "example": "My company"
+                                    },
+                                    "device_vendor_id": {
+                                        "description": "Device Vendor id",
+                                        "type": "string",
+                                        "example": "safsdfsf"
+                                    },
+                                    "api_key": {
+                                        "description": "Device api key",
+                                        "type": "string",
+                                        "example": "Mydsfsdfds"
+                                    },
+                                    "device_type": {
+                                        "description": "Device type",
+                                        "type": "string",
+                                        "example": "My company"
+                                    },
+                                    "status": {
+                                        "description": "Device status",
+                                        "type": "string",
+                                        "example": "Active"
+                                    },
+                                    "device_sim": {
+                                        "description": "Device Sim",
+                                        "type": "string",
+                                        "example": "No"
+                                    },
+                                    "secret_key": {
+                                        "description": "Device secret key",
+                                        "type": "string",
+                                        "example": "Acsdfgfgtive"
+                                    },
+                                    "device_model": {
+                                        "description": "Device model",
+                                        "type": "string",
+                                        "example": "Active vcxzv"
+                                    },
+                                    "rfid": {
+                                        "description": "Device rfid",
+                                        "type": "string",
+                                        "example": "Yes"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Device updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeviceResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Device not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Delete a specific Device",
+                "description": "Delete a Device by their ID.",
+                "operationId": "deleteDevice",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Device to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Device deleted successfully"
+                    },
+                    "404": {
+                        "description": "Device not found"
+                    }
+                }
             }
         },
         "/device/vendor": {
             "get": {
                 "tags": [
-                    "Device Vendors"
+                    "DeviceVendors"
                 ],
                 "summary": "List all device vendors",
                 "description": "Retrieve a list of all device vendors.",
@@ -924,6 +1276,220 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/device/vendor/{id}": {
+            "get": {
+                "tags": [
+                    "DeviceVendors"
+                ],
+                "summary": "Show a specific Device Vendor",
+                "description": "Fetch details of a Device Vendor by their ID.",
+                "operationId": "showDeviceVendor",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Device Vendor to show",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Device Vendor details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Device Vendor data fetch successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DeviceVendorResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized access"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid Device Vendor ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred on the server"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "DeviceVendors"
+                ],
+                "summary": "Update a specific Device Vendor",
+                "description": "Update the details of a Device Vendor by their ID.",
+                "operationId": "updateDeviceVendor",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Device Vendor to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated Device Vendor data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Device Vendor name",
+                                        "type": "string",
+                                        "example": "My company"
+                                    },
+                                    "status": {
+                                        "description": "Device Vendor status",
+                                        "type": "string",
+                                        "example": "Active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Device Vendor updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeviceResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Device Vendor not found"
+                    }
+                }
+            }
+        },
+        "/device/Vendor/{id}": {
+            "delete": {
+                "tags": [
+                    "DeviceVendors"
+                ],
+                "summary": "Delete Vendor a specific Device",
+                "description": "Delete a Device Vendor by their ID.",
+                "operationId": "deleteDeviceVendor",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Device Vendor to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Device Vendor deleted successfully"
+                    },
+                    "404": {
+                        "description": "Device Vendor not found"
+                    }
+                }
             }
         },
         "/patient": {
@@ -2163,6 +2729,85 @@
                 },
                 "type": "object"
             },
+            "DeviceCreateRequest": {
+                "title": "Device Create Request",
+                "description": "Request data for creating Device profile.",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Device name",
+                        "type": "string",
+                        "example": "My company"
+                    },
+                    "status": {
+                        "description": "Device status",
+                        "type": "string",
+                        "example": "Active"
+                    }
+                },
+                "type": "object"
+            },
+            "DeviceUpdateRequest": {
+                "title": "Device Update Request",
+                "description": "Request data for update Device profile.",
+                "required": [
+                    "name",
+                    "device_vendor_id",
+                    "status",
+                    "api_key",
+                    "device_type"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Device name",
+                        "type": "string",
+                        "example": "My company"
+                    },
+                    "device_vendor_id": {
+                        "description": "Device Vendor id",
+                        "type": "string",
+                        "example": "safsdfsf"
+                    },
+                    "api_key": {
+                        "description": "Device api key",
+                        "type": "string",
+                        "example": "Mydsfsdfds"
+                    },
+                    "device_type": {
+                        "description": "Device type",
+                        "type": "string",
+                        "example": "My company"
+                    },
+                    "status": {
+                        "description": "Device status",
+                        "type": "string",
+                        "example": "Active"
+                    },
+                    "device_sim": {
+                        "description": "Device Sim",
+                        "type": "string",
+                        "example": "No"
+                    },
+                    "secret_key": {
+                        "description": "Device secret key",
+                        "type": "string",
+                        "example": "Acsdfgfgtive"
+                    },
+                    "device_model": {
+                        "description": "Device model",
+                        "type": "string",
+                        "example": "Active vcxzv"
+                    },
+                    "rfid": {
+                        "description": "Device rfid",
+                        "type": "string",
+                        "example": "Yes"
+                    }
+                },
+                "type": "object"
+            },
             "DeviceVendorCreateRequest": {
                 "title": "Device Vendor Create Request",
                 "description": "Request data for creating Device Vendor profile.",
@@ -2189,7 +2834,11 @@
                 "properties": {
                     "uuid": {
                         "type": "string",
-                        "example": 1
+                        "example": "asdfasdfsadfsd"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "test name"
                     },
                     "device_vendor_id": {
                         "type": "string",
@@ -2630,10 +3279,6 @@
         {
             "name": "Devices",
             "description": "Devices"
-        },
-        {
-            "name": "Device Vendors",
-            "description": "Device Vendors"
         },
         {
             "name": "DeviceVendors",

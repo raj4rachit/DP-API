@@ -19,6 +19,7 @@ use Modules\V1\User\Models\Role;
  *
  *     @OA\Property(property="name", type="string", example="Admin", description="Role's name"),
  *     @OA\Property(property="permissions", type="array", description="Permission's name",
+ *
  *           @OA\Items(type="string")
  *       )
  * )
@@ -41,7 +42,7 @@ final class RoleUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:55', Rule::unique(Role::class)->ignore($this->route('id'),'uuid')],
+            'name' => ['required', 'string', 'max:55', Rule::unique(Role::class)->ignore($this->route('id'), 'uuid')],
             'permissions' => ['required', 'array'],
             'permissions.*' => ['string', 'exists:permissions,name'],
         ];

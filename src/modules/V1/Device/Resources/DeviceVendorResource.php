@@ -7,7 +7,6 @@ namespace Modules\V1\Device\Resources;
 use AllowDynamicProperties;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\V1\User\Resources\UserResource;
 use OpenApi\Annotations as OA;
 
 /**
@@ -32,8 +31,9 @@ use OpenApi\Annotations as OA;
     {
         return [
             'uuid' => $this->uuid,
-            'status' => $this->status,
             'name' => $this->name,
+            'status' => $this->status,
+            'devices' => DeviceResource::collection($this->whenLoaded('device')),
         ];
     }
 }

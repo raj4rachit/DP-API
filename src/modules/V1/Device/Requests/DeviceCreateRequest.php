@@ -6,7 +6,6 @@ namespace Modules\V1\Device\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\V1\Device\Models\Device;
-use Modules\V1\Device\Models\DeviceVendor;
 
 /**
  * @OA\Schema(
@@ -39,14 +38,14 @@ final class DeviceCreateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:155', 'unique:' . Device::class],
-            'device_vendor_id' => 'required|string|exists:device_vendors,id',
+            'device_vendor_id' => 'required|string|exists:device_vendors,uuid',
             'status' => 'required|string|in:Active,Inactive',
-            'api_key' => ['nullable', 'string', 'max:255', 'unique:' . Device::class],
-            'device_type' => 'nullable|string',
+            'api_key' => ['required', 'string', 'max:255', 'unique:' . Device::class],
+            'device_type' => 'required|string',
             'device_sim' => 'nullable|string|in:Yes,No',
             'secret_key' => 'nullable|string',
             'device_model' => 'nullable|string',
-            'rfid' => 'nullable|string|in:Yes,No'
+            'rfid' => 'nullable|string|in:Yes,No',
         ];
 
     }

@@ -16,7 +16,8 @@ use OpenApi\Annotations as OA;
  *     title="Device Resource",
  *     description="Device resource representation",
  *
- *     @OA\Property(property="uuid", type="string", example=1),
+ *     @OA\Property(property="uuid", type="string", example="asdfasdfsadfsd"),
+ *     @OA\Property(property="name", type="string", example="test name"),
  *     @OA\Property(property="device_vendor_id",type="string", example="fasdfsdaf"),
  *     @OA\Property(property="api_key", type="string", example="JohnDoe"),
  *     @OA\Property(property="device_type", type="string", example="test"),
@@ -38,6 +39,7 @@ use OpenApi\Annotations as OA;
     {
         return [
             'uuid' => $this->uuid,
+            'name' => $this->name,
             'status' => $this->status,
             'api_key' => $this->api_key,
             'device_type' => $this->device_type,

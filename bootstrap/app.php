@@ -43,13 +43,13 @@ return Application::configure(basePath: dirname(__DIR__))
         // customize response for 404 error for route and resource
         $exceptions->renderable(function (NotFoundHttpException $e, Request $request) {
             if (($previous = $e->getPrevious()) instanceof ModelNotFoundException && $request->expectsJson()) {
-                return ResponseHelper::error(class_basename($previous->getModel()) . ' Not Found.', status: 404);
+                return ResponseHelper::error(class_basename($previous->getModel()) . ' Not Found.', 404);
             }
 
-            return ResponseHelper::error(message: 'Route not found', status: 404);
+            return ResponseHelper::error(message: 'Route not found', statusCode: 404);
         });
 
         $exceptions->renderable(function (TooManyRequestsHttpException $e) {
-            return ResponseHelper::error(message: 'Duplicate requests', status: 429);
+            return ResponseHelper::error(message: 'Duplicate requests', statusCode: 429);
         });
     })->create();

@@ -397,9 +397,6 @@ final class PatientController extends Controller
         }
 
         $patient->delete();
-
         return ResponseHelper::success(message: 'Patient deleted successfully');
-
-        return response()->json(null, 204);
     }
 }

@@ -28,9 +28,8 @@ final class DeviceVendor extends Model
 
     public $timestamps = false;
 
-    public function devices()
+    public function device(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Device::class);
+        return $this->hasMany(Device::class, 'device_vendor_id', 'uuid');
     }
-
 }
