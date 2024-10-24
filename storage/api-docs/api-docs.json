@@ -1492,6 +1492,364 @@
                 }
             }
         },
+        "/hospital": {
+            "get": {
+                "tags": [
+                    "Hospitals"
+                ],
+                "summary": "Get list of all devices",
+                "operationId": "7a6637573e25f25cac0b4ce90edd5543",
+                "responses": {
+                    "200": {
+                        "description": "Hospital data getting successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/HospitalResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Hospitals"
+                ],
+                "summary": "Create a new Hospital",
+                "description": "Create a new Hospital with the provided information.",
+                "operationId": "createHospital",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "test name"
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "example": "JohnDoe"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "1231231231"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "hos@gmail.com"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Asddfdsfererer"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "Active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Hospital created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hospital created successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "string",
+                                            "example": "201"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/HospitalResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/hospital/{id}": {
+            "get": {
+                "tags": [
+                    "Hospitals"
+                ],
+                "summary": "Show a specific Hospital",
+                "description": "Fetch details of a Hospital by their ID.",
+                "operationId": "showHospital",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Hospital to show",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Hospital details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hospital data fetch successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/HospitalResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized access"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid Hospital ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred on the server"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "HospitalS"
+                ],
+                "summary": "Update a specific Hospital",
+                "description": "Update the details of a Hospital by their ID.",
+                "operationId": "updateHospital",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Hospital to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated Hospital data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Hospital name",
+                                        "type": "string",
+                                        "example": "My company"
+                                    },
+                                    "device_vendor_id": {
+                                        "description": "Hospital Vendor id",
+                                        "type": "string",
+                                        "example": "safsdfsf"
+                                    },
+                                    "api_key": {
+                                        "description": "Hospital api key",
+                                        "type": "string",
+                                        "example": "Mydsfsdfds"
+                                    },
+                                    "device_type": {
+                                        "description": "Hospital type",
+                                        "type": "string",
+                                        "example": "My company"
+                                    },
+                                    "status": {
+                                        "description": "Hospital status",
+                                        "type": "string",
+                                        "example": "Active"
+                                    },
+                                    "device_sim": {
+                                        "description": "Hospital Sim",
+                                        "type": "string",
+                                        "example": "No"
+                                    },
+                                    "secret_key": {
+                                        "description": "Hospital secret key",
+                                        "type": "string",
+                                        "example": "Acsdfgfgtive"
+                                    },
+                                    "device_model": {
+                                        "description": "Hospital model",
+                                        "type": "string",
+                                        "example": "Active vcxzv"
+                                    },
+                                    "rfid": {
+                                        "description": "Hospital rfid",
+                                        "type": "string",
+                                        "example": "Yes"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Hospital updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HospitalResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Hospital not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Hospitals"
+                ],
+                "summary": "Delete a specific Hospital",
+                "description": "Delete a Hospital by their ID.",
+                "operationId": "deleteHospital",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Hospital to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Hospital deleted successfully"
+                    },
+                    "404": {
+                        "description": "Hospital not found"
+                    }
+                }
+            }
+        },
         "/patient": {
             "get": {
                 "tags": [
@@ -2894,6 +3252,61 @@
                 },
                 "type": "object"
             },
+            "HospitalCreateRequest": {
+                "title": "Hospital Create Request",
+                "description": "Request data for creating Hospital profile.",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Hospital name",
+                        "type": "string",
+                        "example": "My company"
+                    },
+                    "status": {
+                        "description": "Hospital status",
+                        "type": "string",
+                        "example": "Active"
+                    }
+                },
+                "type": "object"
+            },
+            "HospitalResource": {
+                "title": "Hospital Resource",
+                "description": "Hospital resource representation",
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "example": "asdfasdfsadfsd"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "test name"
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "JohnDoe"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "1231231231"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "hos@gmail.com"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Asddfdsfererer"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "Active"
+                    }
+                },
+                "type": "object"
+            },
             "PatientCreateRequest": {
                 "title": "Patient Create Request",
                 "description": "Request data for creating Patient profile.",
@@ -3283,6 +3696,14 @@
         {
             "name": "DeviceVendors",
             "description": "DeviceVendors"
+        },
+        {
+            "name": "Hospitals",
+            "description": "Hospitals"
+        },
+        {
+            "name": "HospitalS",
+            "description": "HospitalS"
         },
         {
             "name": "Patients",

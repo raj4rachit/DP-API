@@ -40,9 +40,7 @@ use OpenApi\Annotations as OA;
             'phone' => $this->phone,
             'email' => $this->email,
             'location' => $this->location,
-            'description' => $this->description,
-            'created_at' => $this->created_at->toDateTimeString(),
-            'updated_at' => $this->updated_at->toDateTimeString(),
+            'description' => $this->description
         ];
     }
 }

@@ -109,7 +109,9 @@ final class HospitalController extends Controller
             $hospital = new Hospital();
             $hospital->name = $request->name;
             $hospital->email = $request->email;
-            $hospital->status = $request->status;
+            if($request->status != ''){
+                $hospital->status = $request->status;
+            }
             $hospital->phone = $request->phone;
             $hospital->location = $request->location;
 
@@ -133,7 +135,7 @@ final class HospitalController extends Controller
      * @OA\Get(
      *     path="/hospital/{id}",
      *     summary="Show a specific Hospital",
-     *     operationId="showDevice",
+     *     operationId="showHospital",
      *     tags={"Hospitals"},
      *     description="Fetch details of a Hospital by their ID.",
      *
@@ -202,7 +204,7 @@ final class HospitalController extends Controller
     public function show($id): JsonResponse
     {
         try {
-            $hospital = Hospital::with('vendor')->findOrFail($id);
+            $hospital = Hospital::findOrFail($id);
             if ( ! $hospital) {
                 return ResponseHelper::error('Hospital not found');
             }
@@ -219,7 +221,7 @@ final class HospitalController extends Controller
      * @OA\Put(
      *     path="/hospital/{id}",
      *     summary="Update a specific Hospital",
-     *     operationId="updateDevice",
+     *     operationId="updateHospital",
      *     tags={"HospitalS"},
      *     description="Update the details of a Hospital by their ID.",
      *
@@ -280,7 +282,7 @@ final class HospitalController extends Controller
                 'status' => 'required|string|in:Active,Inactive',
                 'location' => 'required|string|max:255',
                 'phone' => 'required|string|max:15',
-                'email' => 'required|email|unique:hospitals,email,' . $id,
+                'email' => 'required|email|unique:hospitals,email,' . $id.',uuid',
                 'description' => 'nullable|string',
             ]);
 
@@ -311,7 +313,7 @@ final class HospitalController extends Controller
      * @OA\Delete(
      *     path="/hospital/{id}",
      *     summary="Delete a specific Hospital",
-     *     operationId="deleteDevice",
+     *     operationId="deleteHospital",
      *     tags={"Hospitals"},
      *     description="Delete a Hospital by their ID.",
      *

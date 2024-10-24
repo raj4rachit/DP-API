@@ -38,10 +38,10 @@ final class HospitalCreateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:155', 'unique:' . Hospital::class],
-            'status' => 'required|string|in:Active,Inactive',
+            'status' => 'nullable|string|in:Active,Inactive',
             'location' => 'required|string',
-            'phone' => 'nullable|string|in:Yes,No',
-            'email' => 'required|email|unique:hospitals,email,' . $this->route('hospital'),
+            'phone' => 'required|string',
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.Hospital::class],
             'description' => 'nullable|string',
         ];
 

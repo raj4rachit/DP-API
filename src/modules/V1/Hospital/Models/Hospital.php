@@ -7,7 +7,6 @@ namespace Modules\V1\Hospital\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 
 final class Hospital extends Model
@@ -34,7 +33,7 @@ final class Hospital extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'location', 'phone', 'email', 'description',
+        'name', 'location', 'phone', 'email', 'description', 'status',
     ];
 
     public $timestamps = false;
