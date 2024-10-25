@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\V1\Auth\Notifications\ResetPassword;
 use Modules\V1\Auth\Notifications\VerifyEmailAddress;
+use Modules\V1\Doctor\Models\Doctor;
 use Modules\V1\Patient\Models\Patient;
 use Shared\Helpers\GlobalHelper;
 use Spatie\Permission\Traits\HasRoles;
@@ -153,5 +154,11 @@ final class User extends Authenticatable implements MustVerifyEmail
     public function patient()
     {
         return $this->hasOne(Patient::class, 'user_id', 'uuid');
+    }
+
+    // Define the relationship to Doctor (One-to-One)
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class, 'user_id', 'uuid');
     }
 }

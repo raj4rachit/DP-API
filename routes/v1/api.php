@@ -51,6 +51,13 @@ Route::middleware(['auth:sanctum'])->prefix('patient')->as('patient:')->group(
     base_path('routes/v1/patient.php'),
 );
 
+/**
+ * Doctor Routes
+ */
+Route::middleware(['auth:sanctum'])->prefix('doctor')->as('doctor:')->group(
+    base_path('routes/v1/doctor.php'),
+);
+
 
 /**
  * Hospital Routes

@@ -7,6 +7,7 @@ namespace Modules\V1\Hospital\Resources;
 use AllowDynamicProperties;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\V1\Doctor\Resources\DoctorResource;
 use OpenApi\Annotations as OA;
 
 /**
@@ -40,7 +41,8 @@ use OpenApi\Annotations as OA;
             'phone' => $this->phone,
             'email' => $this->email,
             'location' => $this->location,
-            'description' => $this->description
+            'description' => $this->description,
+            'doctor' => DoctorResource::collection($this->whenLoaded('doctor')),
         ];
     }
 }

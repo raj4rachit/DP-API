@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('doctor_specializations', function (Blueprint $table) {
             $table->uuid()->primary()->unique();
-            $table->string('specialization'); // Name of the specialization (e.g., "Cardiology", "Dermatology")
+            $table->string('name')->unique(); // Name of the specialization (e.g., "Cardiology", "Dermatology")
+            $table->string('code')->unique();
             $table->text('description')->nullable(); // Optional description of the specialization
             $table->timestamps();
         });

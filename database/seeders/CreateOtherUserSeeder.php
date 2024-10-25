@@ -23,6 +23,7 @@ final class CreateOtherUserSeeder extends Seeder
             'phone' => '9876543210',
             'email' => 'updated@hospital.com',
             'description' => 'Updated description.',
+            'status' => 'Active',
         ]);
 
         $user = User::create([
@@ -45,7 +46,7 @@ final class CreateOtherUserSeeder extends Seeder
         }
 
         $user1 = User::create([
-            'first_name' => 'Patient',
+            'first_name' => 'Doctor',
             'last_name' => 'Admin',
             'email' => 'patient@gmail.com',
             'password' => bcrypt('123456789'), // Make sure to hash passwords

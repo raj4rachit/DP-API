@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('doctor_specialization', function (Blueprint $table) {
+        Schema::create('specialization_doctor', function (Blueprint $table) {
             $table->uuid('doctor_id'); // Foreign key for doctors
             $table->uuid('specialization_id'); // Foreign key for specializations
             $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('doctor_specialization');
+        Schema::dropIfExists('specialization_doctor');
     }
 };

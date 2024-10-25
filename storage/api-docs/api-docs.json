@@ -1492,6 +1492,794 @@
                 }
             }
         },
+        "/doctor": {
+            "get": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "List all Doctors",
+                "description": "Retrieve a list of all Doctors.",
+                "operationId": "listDoctors",
+                "responses": {
+                    "200": {
+                        "description": "List of Doctors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Doctors data retrieved successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/DoctorResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Create a new Doctor",
+                "description": "Create a new Doctor with the provided information.",
+                "operationId": "createDoctor",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "description": "Doctor's first name",
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "description": "Doctor's last name",
+                                        "type": "string"
+                                    },
+                                    "gender": {
+                                        "description": "Doctor's gender",
+                                        "type": "string"
+                                    },
+                                    "dob": {
+                                        "description": "Date of birth (YYYY-MM-DD)",
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "clinic_address": {
+                                        "description": "Doctor's clinic address",
+                                        "type": "string"
+                                    },
+                                    "mobile_no": {
+                                        "description": "Doctor's mobile number",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Doctor's email address",
+                                        "type": "string"
+                                    },
+                                    "hospital_id ": {
+                                        "description": "hospital_id ",
+                                        "type": "string"
+                                    },
+                                    "marital_status": {
+                                        "description": "Marital status",
+                                        "type": "string"
+                                    },
+                                    "specialization": {
+                                        "description": "specialization by the doctor",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Doctor created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Doctor created successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "string",
+                                            "example": "201"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DoctorResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/doctor/{id}": {
+            "get": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Show a specific Doctor",
+                "description": "Fetch details of a Doctor by their ID.",
+                "operationId": "showDoctor",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Doctor to show",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doctor details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Profile fetch successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DoctorResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized access"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid Doctor ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred on the server"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Update a specific Doctor",
+                "description": "Update the details of a Doctor by their ID.",
+                "operationId": "updateDoctor",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Doctor to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated Doctor data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "description": "Doctor's first name",
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "description": "Doctor's last name",
+                                        "type": "string"
+                                    },
+                                    "gender": {
+                                        "description": "Doctor's gender",
+                                        "type": "string"
+                                    },
+                                    "dob": {
+                                        "description": "Date of birth (YYYY-MM-DD)",
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "address": {
+                                        "description": "Doctor's address",
+                                        "type": "string"
+                                    },
+                                    "mobile_no": {
+                                        "description": "Doctor's mobile number",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Doctor's email address",
+                                        "type": "string"
+                                    },
+                                    "id_type": {
+                                        "description": "ID type",
+                                        "type": "string"
+                                    },
+                                    "id_number": {
+                                        "description": "ID number",
+                                        "type": "string"
+                                    },
+                                    "arn_number": {
+                                        "description": "ARN number",
+                                        "type": "string"
+                                    },
+                                    "marital_status": {
+                                        "description": "Marital status",
+                                        "type": "string"
+                                    },
+                                    "primary_phone": {
+                                        "description": "Primary phone number",
+                                        "type": "string"
+                                    },
+                                    "secondary_phone": {
+                                        "description": "Secondary phone number",
+                                        "type": "string"
+                                    },
+                                    "home_phone": {
+                                        "description": "Home phone number",
+                                        "type": "string"
+                                    },
+                                    "work_phone": {
+                                        "description": "Work phone number",
+                                        "type": "string"
+                                    },
+                                    "languages": {
+                                        "description": "Languages spoken by the patient",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "medical_aid": {
+                                        "description": "Medical aid",
+                                        "type": "string"
+                                    },
+                                    "race": {
+                                        "description": "Race",
+                                        "type": "string"
+                                    },
+                                    "ethnicity": {
+                                        "description": "Ethnicity",
+                                        "type": "string"
+                                    },
+                                    "mrn_number": {
+                                        "description": "MRN number",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Doctor updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DoctorResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Doctor not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Delete a specific Doctor",
+                "description": "Delete a Doctor by their ID.",
+                "operationId": "deleteDoctor",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Doctor to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Doctor deleted successfully"
+                    },
+                    "404": {
+                        "description": "Doctor not found"
+                    }
+                }
+            }
+        },
+        "/doctor/specialization": {
+            "get": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "List all Doctor Specializations",
+                "description": "Retrieve a list of all Doctor Specializations.",
+                "operationId": "listSpecializations",
+                "responses": {
+                    "200": {
+                        "description": "List of Doctor Specializations",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Doctor Specializations data retrieved successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/DoctorSpecializationResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Create a new Doctor specialization",
+                "description": "Create a new Doctor specialization with the provided information.",
+                "operationId": "createDoctorSpecialization",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Doctor specialization's name",
+                                        "type": "string"
+                                    },
+                                    "code": {
+                                        "description": "Doctor specialization's code",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Doctor specialization's description",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Doctor specialization created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Doctor specialization created successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "string",
+                                            "example": "201"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DoctorSpecializationResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/doctor/specialization/{id}": {
+            "get": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Show a specific Doctor specialization",
+                "description": "Fetch details of a Doctor specialization by their ID.",
+                "operationId": "showDoctorSpecialization",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Doctor specialization to show",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doctor specialization details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "specialization fetch successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DoctorSpecializationResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized access"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid Doctor specialization ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred on the server"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Update a specific Doctor specialization",
+                "description": "Update the details of a Doctor specialization by their ID.",
+                "operationId": "updateDoctorSpecialization",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Doctor specialization to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated Doctor specialization data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Doctor specialization's name",
+                                        "type": "string"
+                                    },
+                                    "code": {
+                                        "description": "Doctor specialization's code",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Doctor specialization's description",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Doctor specialization updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DoctorSpecializationResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Doctor specialization not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Doctors"
+                ],
+                "summary": "Delete a specific Doctor specialization",
+                "description": "Delete a Doctor  specialization by their ID.",
+                "operationId": "deleteDoctorSpecialization",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Doctor specialization to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Doctor specialization deleted successfully"
+                    },
+                    "404": {
+                        "description": "Doctor specialization not found"
+                    }
+                }
+            }
+        },
         "/hospital": {
             "get": {
                 "tags": [
@@ -1732,7 +2520,7 @@
             },
             "put": {
                 "tags": [
-                    "HospitalS"
+                    "Hospitals"
                 ],
                 "summary": "Update a specific Hospital",
                 "description": "Update the details of a Hospital by their ID.",
@@ -3252,6 +4040,98 @@
                 },
                 "type": "object"
             },
+            "DoctorCreateRequest": {
+                "title": "Doctor Create Request",
+                "description": "Request data for creating Doctor profile.",
+                "required": [
+                    "name",
+                    "job_title"
+                ],
+                "properties": {
+                    "first_name": {
+                        "description": "Doctor's first name",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "description": "Doctor's last name",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "gender": {
+                        "description": "Doctor's gender",
+                        "type": "string",
+                        "example": "Doe"
+                    }
+                },
+                "type": "object"
+            },
+            "DoctorSpecializationCreateRequest": {
+                "title": "Doctor Specialization Create Request",
+                "description": "Request data for creating Doctor Specialization.",
+                "required": [
+                    "name",
+                    "descriptiion"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Doctor Specialization's name",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "descriptiion": {
+                        "description": "Doctor Specialization's description",
+                        "type": "string",
+                        "example": "John"
+                    }
+                },
+                "type": "object"
+            },
+            "DoctorResource": {
+                "title": "Doctor Resource",
+                "description": "Doctor resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john@example.com"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "user"
+                        }
+                    },
+                    "gender": {
+                        "type": "string",
+                        "example": "Male"
+                    }
+                },
+                "type": "object"
+            },
+            "DoctorSpecializationResource": {
+                "title": "Doctor Specialization Resource",
+                "description": "Doctor Specialization resource representation",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Test addresses"
+                    }
+                },
+                "type": "object"
+            },
             "HospitalCreateRequest": {
                 "title": "Hospital Create Request",
                 "description": "Request data for creating Hospital profile.",
@@ -3310,27 +4190,6 @@
             "PatientCreateRequest": {
                 "title": "Patient Create Request",
                 "description": "Request data for creating Patient profile.",
-                "required": [
-                    "name",
-                    "job_title"
-                ],
-                "properties": {
-                    "name": {
-                        "description": "Patient's first name",
-                        "type": "string",
-                        "example": "John"
-                    },
-                    "job_title": {
-                        "description": "Patient's job title",
-                        "type": "string",
-                        "example": "Doe"
-                    }
-                },
-                "type": "object"
-            },
-            "PatientUpdateRequest": {
-                "title": "Patient Update Request",
-                "description": "Request data for updating Patient profile.",
                 "required": [
                     "name",
                     "job_title"
@@ -3698,12 +4557,12 @@
             "description": "DeviceVendors"
         },
         {
-            "name": "Hospitals",
-            "description": "Hospitals"
+            "name": "Doctors",
+            "description": "Doctors"
         },
         {
-            "name": "HospitalS",
-            "description": "HospitalS"
+            "name": "Hospitals",
+            "description": "Hospitals"
         },
         {
             "name": "Patients",

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Modules\V1\Doctor\Models\Doctor;
 
 final class Hospital extends Model
 {
@@ -37,4 +38,10 @@ final class Hospital extends Model
     ];
 
     public $timestamps = false;
+
+    // Define the relationship to Doctor (One-to-One)
+    public function doctor()
+    {
+        return $this->hasMany(Doctor::class, 'hospital_id', 'uuid');
+    }
 }

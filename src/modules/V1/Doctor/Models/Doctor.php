@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Modules\V1\Patient\Models;
+namespace Modules\V1\Doctor\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Modules\V1\Hospital\Models\Hospital;
 use Modules\V1\User\Models\User;
 
-final class Patient extends Model
+final class Doctor extends Model
 {
     use HasFactory, HasUuids, Notifiable;
 
@@ -37,23 +38,16 @@ final class Patient extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'uuid',
         'user_id',
-        'id_type',
-        'id_number',
-        'primary_phone',
-        'secondary_phone',
-        'home_phone',
-        'work_phone',
-        'languages',
-        'arn_number',
-        'address'
+        'hospital_id',
+        'contact_phone',
+        'clinic_address',
     ];
 
     public $timestamps = false;
 
     protected $casts = [
-        'languages' => 'array', // Convert JSON to array
+        'specialization' => 'array', // Convert JSON to array
     ];
 
     // Define the relationship to User (One-to-One)
@@ -62,9 +56,15 @@ final class Patient extends Model
         return $this->belongsTo(User::class, 'user_id', 'uuid');
     }
 
-    // Define the relationship to Medical History (One-to-Many)
-    public function medicalHistories()
+    // Define the relationship to Hospital (One-to-One)
+    public function hospital()
     {
-        return $this->hasMany(PatientMedicalHistory::class, 'patient_id', 'uuid');
+        return $this->belongsTo(Hospital::class, 'hospital_id', 'uuid');
+    }
+
+    // Many-to-Many Relationship with Specializations via specialization_doctors table
+    public function specializations()
+    {
+        return $this->belongsToMany(DoctorSpecialization::class, 'specialization_doctor', 'doctor_id', 'specialization_id');
     }
 }

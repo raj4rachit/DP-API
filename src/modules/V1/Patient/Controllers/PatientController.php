@@ -129,6 +129,9 @@ final class PatientController extends Controller
             $user->email = $request->email;
             $user->user_type = 'patient';
             $user->password = Hash::make('123456789');
+            $user->gender = $request->gender;
+            $user->dob = $request->dob;
+            $user->marital_status = $request->marital_status;
             if($request->mobile_no != ''){
                 $user->mobile_no = $request->mobile_no;
             }
@@ -143,13 +146,10 @@ final class PatientController extends Controller
             // Patient Creation
             $patient = new Patient();
             $patient->user_id = $user->uuid;
-            $patient->gender = $request->gender;
-            $patient->dob = $request->dob;
             $patient->address = $request->address;
             $patient->id_type = $request->id_type;
             $patient->id_number = $request->id_number;
             $patient->arn_number = $request->arn_number;
-            $patient->marital_status = $request->marital_status;
             $patient->primary_phone = $request->primary_phone;
             if($request->home_phone != ''){
                 $patient->home_phone = $request->home_phone;

@@ -48,7 +48,7 @@ final class HospitalController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $hospitals = Hospital::all();
+            $hospitals = Hospital::with('doctor')->get();
 
             return ResponseHelper::success(HospitalResource::collection($hospitals), message: 'Hospital data getting successfully. ');
         } catch (Exception $e) {
@@ -222,7 +222,7 @@ final class HospitalController extends Controller
      *     path="/hospital/{id}",
      *     summary="Update a specific Hospital",
      *     operationId="updateHospital",
-     *     tags={"HospitalS"},
+     *     tags={"Hospitals"},
      *     description="Update the details of a Hospital by their ID.",
      *
      *     @OA\Parameter(
