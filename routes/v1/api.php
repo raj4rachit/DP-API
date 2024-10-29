@@ -65,3 +65,17 @@ Route::middleware(['auth:sanctum'])->prefix('doctor')->as('doctor:')->group(
 Route::middleware(['auth:sanctum'])->prefix('hospital')->as('hospital:')->group(
     base_path('routes/v1/hospital.php'),
 );
+
+/**
+ * Report Routes
+ */
+Route::middleware(['auth:sanctum'])->prefix('report')->as('report:')->group(
+    base_path('routes/v1/report.php'),
+);
+
+/**
+ * Lab Routes
+ */
+Route::middleware(['auth:sanctum'])->prefix('lab')->as('lab:')->group(
+    base_path('routes/v1/lab.php'),
+);

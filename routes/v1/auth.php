@@ -40,5 +40,5 @@ Route::prefix('auth')->group(function (): void {
     Route::get('/google/url', [GoogleAuthController::class, 'googleAuthUrl']);
     Route::post('/google/login', [GoogleAuthController::class, 'googleOauthLogin'])->name('google.login');
 
-    Route::post('/refresh-token', [AuthenticatedSessionController::class, 'refreshToken'])->name('refersh.token');;
+    Route::post('/refresh-token', [AuthenticatedSessionController::class, 'refreshToken'])->middleware('auth:sanctum')->name('refersh.token');;
 });

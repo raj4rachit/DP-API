@@ -54,7 +54,7 @@ final class AuthenticatedSessionController extends Controller
      *     @OA\Response(response=401, ref="#/components/responses/401"),
      * )
      */
-    public function store(LoginRequest $request): \Illuminate\Http\JsonResponse
+    public function store(LoginRequest $request): JsonResponse
     {
         $user = User::where('email', $request->email)->first();
 
@@ -70,7 +70,7 @@ final class AuthenticatedSessionController extends Controller
         $user->tokens()->delete();
         $token = $user->createToken($device)->plainTextToken;
 
-        return ResponseHelper::success(new UserResource($user), 'Login successful', 200, ['accessToken' => $token]);
+        return ResponseHelper::success(new UserResource($user), 'Login successful', 200, ['accessToken' => $token,'expires_in' => config('sanctum.expiration')]);
     }
 
     /**
@@ -140,14 +140,14 @@ final class AuthenticatedSessionController extends Controller
      */
     public function refreshToken(Request $request): JsonResponse
     {
-        $user = Auth::user();
+        $user = $request->user();
         $user->tokens()->delete(); // Revoke all existing tokens
 
         $device = Str::limit($request->userAgent(), 255);
         $token = $user->createToken($device)->plainTextToken;
 
         return ResponseHelper::success(
-            null,
+            new UserResource($user),
             'Token refreshed',
             200,
             [
