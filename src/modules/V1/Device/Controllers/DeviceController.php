@@ -50,7 +50,7 @@ final class DeviceController extends Controller
         try {
             $devices = Device::with('vendor')->get();
 
-            return ResponseHelper::success(DeviceResource::collection($devices), message: 'Device data getting successfully. ');
+            return ResponseHelper::success(DeviceResource::collection($devices), 'Device data getting successfully.');
         } catch (Exception $e) {
             log::error($e->getMessage());
 
@@ -133,7 +133,7 @@ final class DeviceController extends Controller
 
             DB::commit();
 
-            return ResponseHelper::success(data: new DeviceResource($device), message: 'Device created successfully');
+            return ResponseHelper::success(new DeviceResource($device), 'Device created successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
@@ -220,7 +220,7 @@ final class DeviceController extends Controller
                 return ResponseHelper::error('Device not found');
             }
 
-            return ResponseHelper::success(data: new DeviceResource($device), message: 'Device data fetched successfully');
+            return ResponseHelper::success(new DeviceResource($device), 'Device data fetched successfully');
         } catch (Exception $e) {
             log::error($e->getMessage());
 
@@ -318,7 +318,7 @@ final class DeviceController extends Controller
             $device->update($request->all());
             DB::commit();
 
-            return ResponseHelper::success(data: new DeviceResource($device), message: 'Device updated successfully');
+            return ResponseHelper::success(new DeviceResource($device), 'Device updated successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
@@ -367,7 +367,7 @@ final class DeviceController extends Controller
             $device->delete();
             DB::commit();
 
-            return ResponseHelper::success(message: 'Device deleted successfully');
+            return ResponseHelper::success(null,'Device deleted successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();

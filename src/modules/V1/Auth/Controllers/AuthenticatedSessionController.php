@@ -70,11 +70,7 @@ final class AuthenticatedSessionController extends Controller
         $user->tokens()->delete();
         $token = $user->createToken($device)->plainTextToken;
 
-        return ResponseHelper::success(
-            data: new UserResource($user),
-            message: 'Login successful',
-            meta: ['accessToken' => $token]
-        );
+        return ResponseHelper::success(new UserResource($user), 'Login successful', 200, ['accessToken' => $token]);
     }
 
     /**
@@ -111,7 +107,7 @@ final class AuthenticatedSessionController extends Controller
 
         $request->user()->tokens()->delete();
 
-        return ResponseHelper::success(null, message: 'logged out successfully', status: 204);
+        return ResponseHelper::success(null, 'logged out successfully', 204);
     }
 
     /**
@@ -120,7 +116,6 @@ final class AuthenticatedSessionController extends Controller
      *     summary="Refresh the authentication token",
      *     description="Revokes the existing token and generates a new token for the authenticated user.",
      *     tags={"Authentication"},
-
      *
      *     @OA\Response(
      *         response=200,
@@ -146,7 +141,6 @@ final class AuthenticatedSessionController extends Controller
     public function refreshToken(Request $request): JsonResponse
     {
         $user = Auth::user();
-        dd($user);
         $user->tokens()->delete(); // Revoke all existing tokens
 
         $device = Str::limit($request->userAgent(), 255);
@@ -154,8 +148,9 @@ final class AuthenticatedSessionController extends Controller
 
         return ResponseHelper::success(
             null,
-            message: 'Token refreshed',
-            meta: [
+            'Token refreshed',
+            200,
+            [
                 'accessToken' => $token,
                 'expires_in' => config('sanctum.expiration'),
             ],

@@ -145,14 +145,14 @@ class NewPasswordController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
 
-            return ResponseHelper::success(message: 'Password changed successfully');
+            return ResponseHelper::success(null,'Password changed successfully');
 
         }catch (DecryptException $e) {
             Log::error('Invalid decryption token: ' . $e->getMessage());
             return ResponseHelper::error('Invalid verification token', 422); // or throw a custom exception
         }catch (\Exception $e) {
             Log::error($e);
-            return ResponseHelper::error();
+            return ResponseHelper::error($e->getMessage());
         }
     }
 }

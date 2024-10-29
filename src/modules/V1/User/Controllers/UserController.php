@@ -198,7 +198,7 @@ final class UserController extends Controller
             }
             DB::commit(); // Commit the transaction
 
-            return ResponseHelper::success(data: new UserResource($user), message: 'Profile updated successfully');
+            return ResponseHelper::success(new UserResource($user), 'Profile updated successfully');
         } catch (Exception $e) {
             DB::rollBack(); // Roll back the transaction
 

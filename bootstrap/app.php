@@ -46,10 +46,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 return ResponseHelper::error(class_basename($previous->getModel()) . ' Not Found.', 404);
             }
 
-            return ResponseHelper::error(message: 'Route not found', statusCode: 404);
+            return ResponseHelper::error('Route not found', 404);
         });
 
         $exceptions->renderable(function (TooManyRequestsHttpException $e) {
-            return ResponseHelper::error(message: 'Duplicate requests', statusCode: 429);
+            return ResponseHelper::error('Duplicate requests', 429);
         });
     })->create();

@@ -30,7 +30,7 @@ final class PatientMedicalHistoryController extends Controller
 
         $patient = PatientMedicalHistory::create($request->all());
 
-        return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient created successfully');
+        return ResponseHelper::success(new PatientResource($patient), 'Patient created successfully');
     }
 
     public function show($id)
@@ -40,7 +40,7 @@ final class PatientMedicalHistoryController extends Controller
             return ResponseHelper::error('Patient not found');
         }
 
-        return ResponseHelper::success(data: new PatientResource($history), message: 'Patient data fetched successfully');
+        return ResponseHelper::success(new PatientResource($history), 'Patient data fetched successfully');
     }
 
     public function update(Request $request, $id)
@@ -63,6 +63,6 @@ final class PatientMedicalHistoryController extends Controller
 
         $patient->update($request->all());
 
-        return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient updated successfully');
+        return ResponseHelper::success(new PatientResource($patient), 'Patient updated successfully');
     }
 }

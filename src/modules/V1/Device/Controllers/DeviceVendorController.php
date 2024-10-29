@@ -58,7 +58,7 @@ final class DeviceVendorController extends Controller
         try {
             $deviceVendors = DeviceVendor::with('device')->get();
 
-            return ResponseHelper::success(DeviceVendorResource::collection($deviceVendors), message: 'Device vendors data getting successfully. ');
+            return ResponseHelper::success(DeviceVendorResource::collection($deviceVendors), 'Device vendors data getting successfully. ');
         } catch (Exception $e) {
             log::error($e->getMessage());
 
@@ -118,7 +118,7 @@ final class DeviceVendorController extends Controller
 
             DB::commit();
 
-            return ResponseHelper::success(data: new DeviceVendorResource($deviceVendor), message: 'Device Vendor created successfully');
+            return ResponseHelper::success(new DeviceVendorResource($deviceVendor), 'Device Vendor created successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
@@ -205,7 +205,7 @@ final class DeviceVendorController extends Controller
                 return ResponseHelper::error('Device Vendor not found');
             }
 
-            return ResponseHelper::success(data: new DeviceVendorResource($deviceVendor), message: 'Device Vendor data fetched successfully');
+            return ResponseHelper::success(new DeviceVendorResource($deviceVendor), 'Device Vendor data fetched successfully');
         } catch (Exception $e) {
             log::error($e->getMessage());
 
@@ -284,7 +284,7 @@ final class DeviceVendorController extends Controller
             $deviceVendor->update($request->all());
             DB::commit();
 
-            return ResponseHelper::success(data: new DeviceVendorResource($deviceVendor), message: 'Device Vendor updated successfully');
+            return ResponseHelper::success(new DeviceVendorResource($deviceVendor), 'Device Vendor updated successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
@@ -335,7 +335,7 @@ final class DeviceVendorController extends Controller
 
             DB::commit();
 
-            return ResponseHelper::success(message: 'Device Vendor deleted successfully');
+            return ResponseHelper::success(null,'Device Vendor deleted successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();

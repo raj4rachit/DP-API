@@ -178,7 +178,7 @@ final class VerifyEmailController extends Controller
         } catch (Exception $exception) {
             Log::error($exception);
             DB::rollBack();
-            return ResponseHelper::error();
+            return ResponseHelper::error($exception->getMessage());
         }
 
     }

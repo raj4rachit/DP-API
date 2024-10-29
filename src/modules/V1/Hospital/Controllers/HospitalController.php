@@ -50,7 +50,7 @@ final class HospitalController extends Controller
         try {
             $hospitals = Hospital::with('doctor')->get();
 
-            return ResponseHelper::success(HospitalResource::collection($hospitals), message: 'Hospital data getting successfully. ');
+            return ResponseHelper::success(HospitalResource::collection($hospitals), 'Hospital data getting successfully. ');
         } catch (Exception $e) {
             log::error($e->getMessage());
 
@@ -122,7 +122,7 @@ final class HospitalController extends Controller
 
             DB::commit();
 
-            return ResponseHelper::success(data: new HospitalResource($hospital), message: 'Hospital created successfully');
+            return ResponseHelper::success(new HospitalResource($hospital), 'Hospital created successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
@@ -209,7 +209,7 @@ final class HospitalController extends Controller
                 return ResponseHelper::error('Hospital not found');
             }
 
-            return ResponseHelper::success(data: new HospitalResource($hospital), message: 'Hospital data fetched successfully');
+            return ResponseHelper::success(new HospitalResource($hospital), 'Hospital data fetched successfully');
         } catch (Exception $e) {
             log::error($e->getMessage());
 
@@ -299,7 +299,7 @@ final class HospitalController extends Controller
             $hospital->update($request->all());
             DB::commit();
 
-            return ResponseHelper::success(data: new HospitalResource($hospital), message: 'Hospital updated successfully');
+            return ResponseHelper::success(new HospitalResource($hospital), 'Hospital updated successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
@@ -348,7 +348,7 @@ final class HospitalController extends Controller
             $hospital->delete();
             DB::commit();
 
-            return ResponseHelper::success(message: 'Hospital deleted successfully');
+            return ResponseHelper::success(null,'Hospital deleted successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();

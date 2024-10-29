@@ -63,7 +63,7 @@ final class DoctorController extends Controller
     {
         $doctors = Doctor::with(['user', 'hospital', 'specializations'])->get();
 
-        return ResponseHelper::success(data: DoctorResource::collection($doctors), message: 'Doctors data getting successfully. ');
+        return ResponseHelper::success(DoctorResource::collection($doctors), 'Doctors data getting successfully.');
     }
 
     /**
@@ -168,7 +168,7 @@ final class DoctorController extends Controller
 
             DB::commit();
 
-            return ResponseHelper::success(data: new DoctorResource($doctor), message: 'Doctor created successfully');
+            return ResponseHelper::success(new DoctorResource($doctor), 'Doctor created successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
@@ -254,7 +254,7 @@ final class DoctorController extends Controller
             return ResponseHelper::error('Doctor not found');
         }
 
-        return ResponseHelper::success(data: new DoctorResource($doctor), message: 'Doctor data fetched successfully');
+        return ResponseHelper::success(new DoctorResource($doctor), 'Doctor data fetched successfully');
     }
 
     /**
@@ -362,7 +362,7 @@ final class DoctorController extends Controller
 
         $patient->update($request->all());
 
-        return ResponseHelper::success(data: new DoctorResource($patient), message: 'Doctor updated successfully');
+        return ResponseHelper::success(new DoctorResource($patient), 'Doctor updated successfully');
     }
 
     /**
@@ -401,7 +401,7 @@ final class DoctorController extends Controller
 
         $doctor->delete();
 
-        return ResponseHelper::success(message: 'Doctor deleted successfully');
+        return ResponseHelper::success(null,'Doctor deleted successfully');
     }
 
     /**
@@ -441,7 +441,7 @@ final class DoctorController extends Controller
     {
         $specializations = DoctorSpecialization::all();
 
-        return ResponseHelper::success(data: DoctorSpecializationResource::collection($specializations), message: 'Doctor specializations data getting successfully. ');
+        return ResponseHelper::success(DoctorSpecializationResource::collection($specializations), 'Doctor specializations data getting successfully.');
     }
 
     /**
@@ -498,7 +498,7 @@ final class DoctorController extends Controller
             $specialization->save();
             DB::commit();
 
-            return ResponseHelper::success(data: new DoctorSpecializationResource($specialization), message: 'Doctor specialization created successfully');
+            return ResponseHelper::success(new DoctorSpecializationResource($specialization), 'Doctor specialization created successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
@@ -584,7 +584,7 @@ final class DoctorController extends Controller
             return ResponseHelper::error('Doctor not found');
         }
 
-        return ResponseHelper::success(data: new DoctorSpecializationResource($doctorSpecialization), message: 'Doctor specialization data fetched successfully');
+        return ResponseHelper::success(new DoctorSpecializationResource($doctorSpecialization), 'Doctor specialization data fetched successfully');
     }
 
     /**
@@ -652,7 +652,7 @@ final class DoctorController extends Controller
 
         $specialization->update($request->all());
 
-        return ResponseHelper::success(data: new DoctorSpecializationResource($specialization), message: 'Doctor specialization updated successfully');
+        return ResponseHelper::success(new DoctorSpecializationResource($specialization), 'Doctor specialization updated successfully');
     }
 
     /**
@@ -691,6 +691,6 @@ final class DoctorController extends Controller
 
         $specialization->delete();
 
-        return ResponseHelper::success(message: 'Doctor specialization deleted successfully');
+        return ResponseHelper::success(null,'Doctor specialization deleted successfully');
     }
 }

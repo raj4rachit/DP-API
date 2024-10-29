@@ -54,7 +54,7 @@ final class RoleController extends Controller
     public function index(): JsonResponse
     {
         try {
-            return ResponseHelper::success(data: RoleResource::collection(Role::all()), message: 'Roles data getting successfully. ');
+            return ResponseHelper::success(RoleResource::collection(Role::all()), 'Roles data getting successfully. ');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
 
@@ -119,7 +119,7 @@ final class RoleController extends Controller
             $role->givePermissionTo($request->permissions);
             DB::commit();
 
-            return ResponseHelper::success(data: new RoleResource($role), message: 'Role updated successfully');
+            return ResponseHelper::success(new RoleResource($role), 'Role updated successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
@@ -182,7 +182,7 @@ final class RoleController extends Controller
             $role->givePermissionTo($request->permissions);
 
             DB::commit();
-            return ResponseHelper::success(data: new RoleResource($role), message: 'Role created successfully');
+            return ResponseHelper::success(new RoleResource($role), 'Role created successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();

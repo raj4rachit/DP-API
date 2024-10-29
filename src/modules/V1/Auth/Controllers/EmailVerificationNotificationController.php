@@ -112,13 +112,13 @@ final class EmailVerificationNotificationController extends Controller
 
             $user->sendEmailVerificationNotification();
 
-            return ResponseHelper::success(null, message: 'Verification link sent successfully to your email', statusCode: 200);
+            return ResponseHelper::success(null, 'Verification link sent successfully to your email', 200);
         } catch (ValidationException $e) {
             Log::error('Validation error: ', ['errors' => $e->validator->errors()]);
-            return ResponseHelper::error($e->getMessage(), 422, 422);
+            return ResponseHelper::error($e->getMessage(), 422);
         } catch (Exception $e) {
             Log::error('Unexpected error: ', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-            return ResponseHelper::error('An unexpected error occurred', 500, 500);
+            return ResponseHelper::error('An unexpected error occurred', 500);
         }
     }
 }

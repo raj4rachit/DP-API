@@ -55,7 +55,7 @@ final class PermissionController extends Controller
         try {
             $permissionsList = PermissionResource::collection(Permission::all());
             $data = $this->groupPermissionsByPrefix($permissionsList);
-            return ResponseHelper::success(data: $data, message: 'Permissions data getting successfully. ');
+            return ResponseHelper::success($data, 'Permissions data getting successfully. ');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
 
@@ -117,7 +117,7 @@ final class PermissionController extends Controller
             ]);
             DB::commit();
 
-            return ResponseHelper::success(data: new PermissionResource($permission), message: 'Permission updated successfully');
+            return ResponseHelper::success(new PermissionResource($permission), 'Permission updated successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
@@ -173,7 +173,7 @@ final class PermissionController extends Controller
             $permission->save();
             DB::commit();
 
-            return ResponseHelper::success(data: new PermissionResource($permission), message: 'Permission created successfully');
+            return ResponseHelper::success(new PermissionResource($permission), 'Permission created successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();

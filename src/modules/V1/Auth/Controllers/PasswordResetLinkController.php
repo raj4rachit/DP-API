@@ -88,7 +88,7 @@ final class PasswordResetLinkController extends Controller
             return ResponseHelper::error('Failed to send password reset link');
         }
 
-        return ResponseHelper::success(message: 'Password reset link sent successfully');
+        return ResponseHelper::success(null,'Password reset link sent successfully');
 
     }
 }

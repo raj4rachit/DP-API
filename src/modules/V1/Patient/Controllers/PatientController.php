@@ -57,7 +57,7 @@ final class PatientController extends Controller
     public function index(): JsonResponse
     {
         $patients = Patient::with('user', 'medicalHistories')->get();
-        return ResponseHelper::success(data: PatientResource::collection($patients), message: 'Patients data getting successfully. ');
+        return ResponseHelper::success(PatientResource::collection($patients), 'Patients data getting successfully. ');
     }
 
     /**
@@ -182,7 +182,7 @@ final class PatientController extends Controller
             $patientMedicalHistory->save();
 
             DB::commit();
-            return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient created successfully');
+            return ResponseHelper::success(new PatientResource($patient), 'Patient created successfully');
         } catch (Exception $exception){
             Log::error($exception->getMessage());
             DB::rollBack();
@@ -258,7 +258,7 @@ final class PatientController extends Controller
             return ResponseHelper::error('Patient not found');
         }
 
-        return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient data fetched successfully');
+        return ResponseHelper::success(new PatientResource($patient), 'Patient data fetched successfully');
     }
 
     /**
@@ -359,7 +359,7 @@ final class PatientController extends Controller
 
         $patient->update($request->all());
 
-        return ResponseHelper::success(data: new PatientResource($patient), message: 'Patient updated successfully');
+        return ResponseHelper::success(new PatientResource($patient), 'Patient updated successfully');
     }
 
     /**
@@ -397,6 +397,6 @@ final class PatientController extends Controller
         }
 
         $patient->delete();
-        return ResponseHelper::success(message: 'Patient deleted successfully');
+        return ResponseHelper::success(null,'Patient deleted successfully');
     }
 }

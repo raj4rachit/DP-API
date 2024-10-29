@@ -80,7 +80,7 @@ final class RegisteredUserController extends Controller
             // send email verification mail
             $user->sendEmailVerificationNotification();
             DB::commit();
-            return ResponseHelper::success(message: 'Registration successful. Check your email for Verification.', status: 201);
+            return ResponseHelper::success(null,'Registration successful. Check your email for Verification.', 201);
         } catch (Exception $e) {
             DB::rollBack(); // Roll back the transaction
 

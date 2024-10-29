@@ -65,7 +65,7 @@ final class GoogleAuthController extends Controller
     {
         $url = Socialite::driver('google')->stateless()->redirect()->getTargetUrl();
 
-        return ResponseHelper::success(['url' => $url]);
+        return ResponseHelper::success(null,null,200,['url' => $url]);
     }
 
     public function googleOauthLogin(Request $request): \Illuminate\Http\JsonResponse
@@ -79,9 +79,10 @@ final class GoogleAuthController extends Controller
         $token = $user->createToken($device)->plainTextToken;
 
         return ResponseHelper::success(
-            data: new UserResource($user),
-            message: 'Login successful',
-            meta: ['accessToken' => $token]
+            new UserResource($user),
+            'Login successful',
+            200,
+            ['accessToken' => $token]
         );
     }
     /**
@@ -162,9 +163,10 @@ final class GoogleAuthController extends Controller
         $token = $user->createToken($device)->plainTextToken;
 
         return ResponseHelper::success(
-            data: new UserResource($user),
-            message: 'Login successful',
-            meta: ['accessToken' => $token]
+            new UserResource($user),
+            'Login successful',
+            200,
+            ['accessToken' => $token]
         );
     }
 }
