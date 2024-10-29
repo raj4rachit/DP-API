@@ -12,8 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('labs', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary()->unique();
+            $table->uuid('user_id'); // Foreign key for users table
+            $table->string('name')->unique();
+            $table->longText('address')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamps();
+
+            // Foreign key constraint
+            $table->foreign('user_id')->references('uuid')->on('users')->onDelete('cascade');
         });
     }
 
