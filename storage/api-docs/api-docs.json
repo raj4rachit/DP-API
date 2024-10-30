@@ -1821,8 +1821,8 @@
                                         "type": "string",
                                         "format": "date"
                                     },
-                                    "address": {
-                                        "description": "Doctor's address",
+                                    "clinic_address": {
+                                        "description": "Doctor's clinic address",
                                         "type": "string"
                                     },
                                     "mobile_no": {
@@ -1833,60 +1833,20 @@
                                         "description": "Doctor's email address",
                                         "type": "string"
                                     },
-                                    "id_type": {
-                                        "description": "ID type",
-                                        "type": "string"
-                                    },
-                                    "id_number": {
-                                        "description": "ID number",
-                                        "type": "string"
-                                    },
-                                    "arn_number": {
-                                        "description": "ARN number",
+                                    "hospital_id ": {
+                                        "description": "hospital_id ",
                                         "type": "string"
                                     },
                                     "marital_status": {
                                         "description": "Marital status",
                                         "type": "string"
                                     },
-                                    "primary_phone": {
-                                        "description": "Primary phone number",
-                                        "type": "string"
-                                    },
-                                    "secondary_phone": {
-                                        "description": "Secondary phone number",
-                                        "type": "string"
-                                    },
-                                    "home_phone": {
-                                        "description": "Home phone number",
-                                        "type": "string"
-                                    },
-                                    "work_phone": {
-                                        "description": "Work phone number",
-                                        "type": "string"
-                                    },
-                                    "languages": {
-                                        "description": "Languages spoken by the patient",
+                                    "specialization": {
+                                        "description": "specialization by the doctor",
                                         "type": "array",
                                         "items": {
                                             "type": "string"
                                         }
-                                    },
-                                    "medical_aid": {
-                                        "description": "Medical aid",
-                                        "type": "string"
-                                    },
-                                    "race": {
-                                        "description": "Race",
-                                        "type": "string"
-                                    },
-                                    "ethnicity": {
-                                        "description": "Ethnicity",
-                                        "type": "string"
-                                    },
-                                    "mrn_number": {
-                                        "description": "MRN number",
-                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -2638,6 +2598,341 @@
                 }
             }
         },
+        "/lab": {
+            "get": {
+                "tags": [
+                    "Labs"
+                ],
+                "summary": "Get list of all Labs",
+                "operationId": "a3f3b396c3ebd7411079fc8f4f2d2f4b",
+                "responses": {
+                    "200": {
+                        "description": "Lab data getting successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/LabResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Labs"
+                ],
+                "summary": "Create a new Lab",
+                "description": "Create a new Lab with the provided information.",
+                "operationId": "createLab",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "test name"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "JohnDoe"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "1231231231"
+                                    },
+                                    "user_id": {
+                                        "type": "string",
+                                        "example": "hos-gmail.com"
+                                    },
+                                    "reports": {
+                                        "description": "lab reports",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Lab created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lab created successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "string",
+                                            "example": "201"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/LabResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/lab/{id}": {
+            "get": {
+                "tags": [
+                    "Labs"
+                ],
+                "summary": "Show a specific Lab",
+                "description": "Fetch details of a Lab by their ID.",
+                "operationId": "showLab",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Lab to show",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lab details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lab data fetch successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/LabResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized access"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid Lab ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred on the server"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Labs"
+                ],
+                "summary": "Update a specific Lab",
+                "description": "Update the details of a Lab by their ID.",
+                "operationId": "updateLab",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Lab to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated Lab data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "test name"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "JohnDoe"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "1231231231"
+                                    },
+                                    "user_id": {
+                                        "type": "string",
+                                        "example": "hos-gmail.com"
+                                    },
+                                    "reports": {
+                                        "description": "lab reports",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Lab updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LabResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lab not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Labs"
+                ],
+                "summary": "Delete a specific Lab",
+                "description": "Delete a Lab by their ID.",
+                "operationId": "deleteLab",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Lab to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Lab deleted successfully"
+                    },
+                    "404": {
+                        "description": "Lab not found"
+                    }
+                }
+            }
+        },
         "/patient": {
             "get": {
                 "tags": [
@@ -3120,6 +3415,313 @@
                     },
                     "404": {
                         "description": "Patient not found"
+                    }
+                }
+            }
+        },
+        "/report": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Get list of all Reports",
+                "operationId": "d613ba05b9771fbacd62ea7d57a43a13",
+                "responses": {
+                    "200": {
+                        "description": "Report data getting successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ReportResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Create a new Report",
+                "description": "Create a new Report with the provided information.",
+                "operationId": "createReport",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "test name"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Asddfdsfererer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Report created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Report created successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "string",
+                                            "example": "201"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ReportResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/report/{id}": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Show a specific Report",
+                "description": "Fetch details of a Report by their ID.",
+                "operationId": "showReport",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Report to show",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Report details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Report data fetch successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ReportResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized access"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid Report ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred on the server"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Update a specific Report",
+                "description": "Update the details of a Report by their ID.",
+                "operationId": "updateReport",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Report to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated Report data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Report name",
+                                        "type": "string",
+                                        "example": "My company"
+                                    },
+                                    "description": {
+                                        "description": "Report description",
+                                        "type": "string",
+                                        "example": "safsdfsf"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Report updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ReportResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Report not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Delete a specific Report",
+                "description": "Delete a Report by their ID.",
+                "operationId": "deleteReport",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Report to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Report deleted successfully"
+                    },
+                    "404": {
+                        "description": "Report not found"
                     }
                 }
             }
@@ -4187,6 +4789,57 @@
                 },
                 "type": "object"
             },
+            "LabCreateRequest": {
+                "title": "Lab Create Request",
+                "description": "Request data for creating Lab profile.",
+                "required": [
+                    "name",
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Lab's first name",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "address": {
+                        "description": "Lab's job title",
+                        "type": "string",
+                        "example": "Doe"
+                    }
+                },
+                "type": "object"
+            },
+            "LabResource": {
+                "title": "Lab Resource",
+                "description": "Lab resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "john@example.com"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "user"
+                        }
+                    },
+                    "gender": {
+                        "type": "string",
+                        "example": "Male"
+                    }
+                },
+                "type": "object"
+            },
             "PatientCreateRequest": {
                 "title": "Patient Create Request",
                 "description": "Request data for creating Patient profile.",
@@ -4234,6 +4887,45 @@
                     "gender": {
                         "type": "string",
                         "example": "Male"
+                    }
+                },
+                "type": "object"
+            },
+            "ReportCreateRequest": {
+                "title": "Report Create Request",
+                "description": "Request data for creating Report profile.",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Report name",
+                        "type": "string",
+                        "example": "My company"
+                    },
+                    "description": {
+                        "description": "Report description",
+                        "type": "string",
+                        "example": "Active"
+                    }
+                },
+                "type": "object"
+            },
+            "ReportResource": {
+                "title": "Report Resource",
+                "description": "Report resource representation",
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "example": "asdfasdfsadfsd"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "test name"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Asddfdsfererer"
                     }
                 },
                 "type": "object"
@@ -4565,8 +5257,16 @@
             "description": "Hospitals"
         },
         {
+            "name": "Labs",
+            "description": "Labs"
+        },
+        {
             "name": "Patients",
             "description": "Patients"
+        },
+        {
+            "name": "Reports",
+            "description": "Reports"
         },
         {
             "name": "Permission",

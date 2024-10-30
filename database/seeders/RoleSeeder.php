@@ -20,7 +20,7 @@ final class RoleSeeder extends Seeder
         $roles = RoleEnum::names();
 
         foreach ($roles as $name) {
-            $role = Role::firstOrCreate(['uuid' => Str::uuid(),'name' => $name]);
+            $role = Role::firstOrCreate(['uuid' => Str::uuid(), 'name' => $name]);
             if (RoleEnum::ADMIN === $name) {
                 $permissions = Permission::pluck('id', 'id')->all();
                 $role->syncPermissions($permissions);

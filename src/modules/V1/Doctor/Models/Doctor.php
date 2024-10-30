@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Modules\V1\Hospital\Models\Hospital;
+use Modules\V1\Patient\Models\Patient;
 use Modules\V1\User\Models\User;
 
 final class Doctor extends Model
@@ -66,5 +67,10 @@ final class Doctor extends Model
     public function specializations()
     {
         return $this->belongsToMany(DoctorSpecialization::class, 'specialization_doctor', 'doctor_id', 'specialization_id');
+    }
+
+    public function patients()
+    {
+        return $this->belongsToMany(Patient::class, 'patient_doctor', 'patient_id', 'doctor_id');
     }
 }

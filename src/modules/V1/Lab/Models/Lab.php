@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Modules\V1\Report\Models\Report;
 use Modules\V1\User\Models\User;
 
 final class Lab extends Model
@@ -27,6 +28,7 @@ final class Lab extends Model
 
     // Specify the type of the primary key
     protected $keyType = 'string';
+
     protected $dateFormat = 'U';
 
     public string $prefix = 'HOA';
@@ -40,7 +42,7 @@ final class Lab extends Model
         'user_id',
         'name',
         'phone',
-        'address'
+        'address',
     ];
 
     public $timestamps = false;
@@ -54,6 +56,6 @@ final class Lab extends Model
     // Define the relationship to Medical History (One-to-Many)
     public function reports()
     {
-        return $this->hasMany(LabReport::class, 'lab_id', 'uuid');
+        return $this->belongsToMany(Report::class, 'lab_reports', 'lab_id', 'report_id');
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Modules\V1\Doctor\Models\Doctor;
 use Modules\V1\User\Models\User;
 
 final class Patient extends Model
@@ -66,5 +67,10 @@ final class Patient extends Model
     public function medicalHistories()
     {
         return $this->hasMany(PatientMedicalHistory::class, 'patient_id', 'uuid');
+    }
+
+    public function doctors()
+    {
+        return $this->belongsToMany(Doctor::class, 'patient_doctor', 'doctor_id', 'patient_id');
     }
 }

@@ -18,8 +18,8 @@ return new class() extends Migration
             $table->uuid('report_id');
 
             // Foreign key constraint
-            $table->foreign('lab_id')->references('uuid')->on('labs')->onDelete('set null');
-            $table->foreign('report_id')->references('uuid')->on('reports')->onDelete('set null');
+            $table->foreign('lab_id')->references('uuid')->on('labs')->onDelete('cascade');
+            $table->foreign('report_id')->references('uuid')->on('reports')->onDelete('cascade');
         });
     }
 

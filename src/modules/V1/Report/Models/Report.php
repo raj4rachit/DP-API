@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Modules\V1\Lab\Models\Lab;
 
 final class Report extends Model
 {
@@ -37,4 +38,9 @@ final class Report extends Model
     ];
 
     public $timestamps = false;
+
+    public function labs()
+    {
+        return $this->belongsToMany(Lab::class, 'lab_reports', 'report_id', 'lab_id');
+    }
 }

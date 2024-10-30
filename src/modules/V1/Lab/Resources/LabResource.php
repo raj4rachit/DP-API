@@ -7,6 +7,7 @@ namespace Modules\V1\Lab\Resources;
 use AllowDynamicProperties;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\V1\Report\Resources\ReportResource;
 use Modules\V1\User\Resources\UserResource;
 use OpenApi\Annotations as OA;
 
@@ -44,7 +45,7 @@ use OpenApi\Annotations as OA;
             'address' => $this->address,
             'phone' => $this->phone,
             'user' => new UserResource($this->whenLoaded('user')),
-            'reports' => LabResource::collection($this->whenLoaded('reports')),
+            'reports' => ReportResource::collection($this->whenLoaded('reports')),
         ];
     }
 }

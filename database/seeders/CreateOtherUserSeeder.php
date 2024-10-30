@@ -63,5 +63,24 @@ final class CreateOtherUserSeeder extends Seeder
             $patientRole->syncPermissions($permissions1);
             $user1->assignRole([$patientRole->uuid]);
         }
+
+        $user2 = User::create([
+            'first_name' => 'Lab',
+            'last_name' => 'Admin',
+            'email' => 'lab@gmail.com',
+            'password' => bcrypt('123456789'), // Make sure to hash passwords
+            'user_type' => 'lab',
+            'email_verified_at' => now(),
+        ]);
+
+        // Find the role by its name
+        $labRole = Role::where('name', 'lab')->first();
+
+        // Assign the 'lab' role to the user
+        if ($labRole) {
+            $permissions2 = Permission::where('name', 'like', 'lab-%')->orWhere('name', 'like', 'report-%')->orWhere('name', 'like', 'patient-%')->pluck('uuid')->toArray();
+            $labRole->syncPermissions($permissions2);
+            $user2->assignRole([$labRole->uuid]);
+        }
     }
 }

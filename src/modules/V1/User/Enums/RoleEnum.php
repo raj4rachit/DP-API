@@ -13,7 +13,7 @@ enum RoleEnum: int
     case USER = 3;
     case PATIENT = 4;
     case DOCTOR = 5;
-    case LAB_ASSISTANT = 6;
+    case LAB = 6;
 
     public static function names(): array
     {

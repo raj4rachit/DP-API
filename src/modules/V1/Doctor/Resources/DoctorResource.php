@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\V1\Doctor\Models\DoctorSpecialization;
 use Modules\V1\Hospital\Resources\HospitalResource;
+use Modules\V1\Patient\Models\Patient;
+use Modules\V1\Patient\Resources\PatientResource;
 use Modules\V1\User\Resources\UserResource;
 use OpenApi\Annotations as OA;
 
@@ -42,11 +44,12 @@ use OpenApi\Annotations as OA;
     {
         return [
             'uuid' => $this->uuid,
-            'clinic_address' => $this->address,
+            'clinic_address' => $this->clinic_address,
             'contact_phone' => $this->contact_phone,
             'user' => new UserResource($this->whenLoaded('user')),
             'hospital' => new HospitalResource($this->whenLoaded('hospital')),
             'specializations' => DoctorSpecializationResource::collection($this->whenLoaded('specializations')),
+            'patients' => PatientResource::collection($this->whenLoaded('patients')),
         ];
     }
 }

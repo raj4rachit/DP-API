@@ -20,6 +20,7 @@ final class DatabaseSeeder extends Seeder
                 RoleSeeder::class,
                 CreateAdminUserSeeder::class,
                 CreateOtherUserSeeder::class,
+                ReportSeeder::class,
             ]
         );
     }

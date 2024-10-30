@@ -61,7 +61,7 @@ final class DoctorController extends Controller
      */
     public function index(): JsonResponse
     {
-        $doctors = Doctor::with(['user', 'hospital', 'specializations'])->get();
+        $doctors = Doctor::with(['user', 'hospital', 'specializations','patients'])->get();
 
         return ResponseHelper::success(DoctorResource::collection($doctors), 'Doctors data getting successfully.');
     }
@@ -249,7 +249,7 @@ final class DoctorController extends Controller
      */
     public function show($id): JsonResponse
     {
-        $doctor = Doctor::with('user')->findOrFail($id);
+        $doctor = Doctor::with(['user', 'hospital', 'specializations','patients'])->findOrFail($id);
         if ( ! $doctor) {
             return ResponseHelper::error('Doctor not found');
         }
@@ -287,29 +287,18 @@ final class DoctorController extends Controller
      *                  @OA\Property(property="last_name", type="string", description="Doctor's last name"),
      *                  @OA\Property(property="gender", type="string", description="Doctor's gender"),
      *                  @OA\Property(property="dob", type="string", format="date", description="Date of birth (YYYY-MM-DD)"),
-     *                  @OA\Property(property="address", type="string", description="Doctor's address"),
+     *                  @OA\Property(property="clinic_address", type="string", description="Doctor's clinic address"),
      *                  @OA\Property(property="mobile_no", type="string", description="Doctor's mobile number"),
      *                  @OA\Property(property="email", type="string", description="Doctor's email address"),
-     *                  @OA\Property(property="id_type", type="string", description="ID type"),
-     *                  @OA\Property(property="id_number", type="string", description="ID number"),
-     *                  @OA\Property(property="arn_number", type="string", description="ARN number"),
+     *                  @OA\Property(property="hospital_id ", type="string", description="hospital_id "),
      *                  @OA\Property(property="marital_status", type="string", description="Marital status"),
-     *                  @OA\Property(property="primary_phone", type="string", description="Primary phone number"),
-     *                  @OA\Property(property="secondary_phone", type="string", description="Secondary phone number"),
-     *                  @OA\Property(property="home_phone", type="string", description="Home phone number"),
-     *                  @OA\Property(property="work_phone", type="string", description="Work phone number"),
      *                  @OA\Property(
-     *                      property="languages",
+     *                      property="specialization",
      *                      type="array",
      *
      *                      @OA\Items(type="string"),
-     *                      description="Languages spoken by the patient"
-     *                  ),
-     *
-     *                  @OA\Property(property="medical_aid", type="string", description="Medical aid"),
-     *                  @OA\Property(property="race", type="string", description="Race"),
-     *                  @OA\Property(property="ethnicity", type="string", description="Ethnicity"),
-     *                  @OA\Property(property="mrn_number", type="string", description="MRN number")
+     *                      description="specialization by the doctor"
+     *                  )
      *              )
      *          )
      *     ),
@@ -334,35 +323,41 @@ final class DoctorController extends Controller
             'last_name' => 'required|string|max:255',
             'gender' => 'required|string|in:Male,Female,Other',
             'dob' => 'required|date',
-            'address' => 'required|string',
+            'clinic_address' => 'required|string',
             'mobile_no' => 'nullable|string|max:20',
-            'id_type' => 'required|string',
-            'id_number' => 'required|string',
-            'arn_number' => 'required|string',
             'marital_status' => 'required|string|in:Single,Married,Divorced,Widowed',
-            'primary_phone' => 'required|string|max:20',
-            'secondary_phone' => 'nullable|string|max:20',
-            'home_phone' => 'nullable|string|max:20',
-            'work_phone' => 'nullable|string|max:20',
-            'languages' => 'required|array',
-            'medical_aid' => 'required|string',
-            'race' => 'nullable|string',
-            'ethnicity' => 'nullable|string',
-            'mrn_number' => 'nullable|string',
+            'contact_phone' => 'nullable|string|max:20',
+            'hospital_id' => 'required|string|exists:hospitals,uuid',
+            'specialization' => 'required|array|exists:doctor_specializations,uuid',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $patient = Doctor::findOrFail($id);
-        if ( ! $patient) {
+        $doctor = Doctor::findOrFail($id);
+        if ( ! $doctor) {
             return ResponseHelper::error('Doctor not found');
         }
+        $doctor->update($request->all());
 
-        $patient->update($request->all());
+        $doctorSpecializations = SpecializationDoctor::where('doctor_id', $id)->get();
+        if(!$doctorSpecializations->isEmpty()) {
+            SpecializationDoctor::where('doctor_id', $id)->delete();
+        }
 
-        return ResponseHelper::success(new DoctorResource($patient), 'Doctor updated successfully');
+        // Doctor Specialization
+        if ('' !== $request->specialization) {
+            foreach ($request->specialization as $value) {
+                $doctorSpecialization = new SpecializationDoctor();
+                $doctorSpecialization->doctor_id = $doctor->uuid;
+                $doctorSpecialization->specialization_id = $value;
+                $doctorSpecialization->save();
+            }
+
+        }
+
+        return ResponseHelper::success(new DoctorResource($doctor), 'Doctor updated successfully');
     }
 
     /**

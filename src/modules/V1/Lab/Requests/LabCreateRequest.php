@@ -40,7 +40,8 @@ final class LabCreateRequest extends FormRequest
             'name' => 'required|string|max:255',
             'address' => 'required|string',
             'phone' => 'nullable|string|max:20',
-            'user_id' => 'nullable|string',
+            'user_id' => 'required|string|exists:users,uuid',
+            'reports' => 'required|array|exists:reports,uuid',
         ];
 
     }

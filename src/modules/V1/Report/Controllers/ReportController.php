@@ -211,7 +211,7 @@ final class ReportController extends Controller
      * @OA\Put(
      *     path="/report/{id}",
      *     summary="Update a specific Report",
-     *     operationId="updateHospital",
+     *     operationId="updateReport",
      *     tags={"Reports"},
      *     description="Update the details of a Report by their ID.",
      *
@@ -220,21 +220,17 @@ final class ReportController extends Controller
      *         in="path",
      *         required=true,
      *         description="ID of the Report to update",
-     *
      *         @OA\Schema(type="integer")
      *     ),
      *
      *     @OA\RequestBody(
      *         required=true,
      *         description="Updated Report data",
-     *
      *         @OA\MediaType(
      *              mediaType="application/json",
-     *
      *              @OA\Schema(
-     *
      *                  @OA\Property(property="name", type="string", example="My company", description="Report name"),
-     *                  @OA\Property(property="description", type="string", example="safsdfsf", description="Report description),
+     *                  @OA\Property(property="description", type="string", example="safsdfsf", description="Report description"),
      *              )
      *          )
      *     ),
@@ -242,7 +238,6 @@ final class ReportController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Report updated successfully",
-     *
      *         @OA\JsonContent(ref="#/components/schemas/ReportResource")
      *     ),
      *
@@ -252,6 +247,7 @@ final class ReportController extends Controller
      *     )
      * )
      */
+
     public function update(Request $request, $id): JsonResponse
     {
         try {
