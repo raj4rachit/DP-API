@@ -14,16 +14,17 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::create('packages', function (Blueprint $table): void {
+        Schema::create('payment_transactions', function (Blueprint $table): void {
             $table->uuid()->primary();
-            $table->string('name')->unique();
-            $table->text('description')->nullable();
-            $table->integer('total_patients')->default(50);
-            $table->float('patient_charge')->default(5.00);
-            $table->enum('is_default', [0, 1])->default(0)->comment('0 - no 1 - yes');
-            $table->enum('status', ['Active', 'Inactive', 'Canceled'])->default('Inactive');
+            $table->foreignUuid('user_id')->references('uuid')->on('users')->onDelete('cascade');
+            $table->double('amount', 8, 2)->default(0);
+            $table->string('payment_gateway')->nullable();
+            $table->string('order_id')->comment('order_id / payment_intent_id');
+            $table->string('transaction_id')->nullable(true);
+            $table->enum('payment_status', [0, 1, 2])->comment('0 - failed 1 - succeed 2 - pending');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->softDeletes();
         });
     }
 
@@ -32,6 +33,6 @@ return new class() extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('packages');
+        Schema::dropIfExists('payment_transactions');
     }
 };

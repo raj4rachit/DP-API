@@ -79,3 +79,10 @@ Route::middleware(['auth:sanctum'])->prefix('report')->as('report:')->group(
 Route::middleware(['auth:sanctum'])->prefix('lab')->as('lab:')->group(
     base_path('routes/v1/lab.php'),
 );
+
+/**
+ * Package Routes
+ */
+Route::middleware(['auth:sanctum'])->prefix('package')->as('package:')->group(
+    base_path('routes/v1/package.php'),
+);
