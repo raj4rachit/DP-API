@@ -2933,6 +2933,345 @@
                 }
             }
         },
+        "/package": {
+            "get": {
+                "tags": [
+                    "Packages"
+                ],
+                "summary": "Get list of all Packages",
+                "operationId": "8106b2be1e96225fb3b8ad5830b34862",
+                "responses": {
+                    "200": {
+                        "description": "Package data getting successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PackageResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Packages"
+                ],
+                "summary": "Create a new Package",
+                "description": "Create a new Package with the provided information.",
+                "operationId": "createPackage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "test name"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Asddfdsfererer"
+                                    },
+                                    "total_patients": {
+                                        "type": "string",
+                                        "example": "10"
+                                    },
+                                    "patient_charge": {
+                                        "type": "string",
+                                        "example": "100"
+                                    },
+                                    "is_default": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "Active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Package created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Package created successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "string",
+                                            "example": "201"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PackageResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/package/{id}": {
+            "get": {
+                "tags": [
+                    "Packages"
+                ],
+                "summary": "Show a specific Package",
+                "description": "Fetch details of a Package by their ID.",
+                "operationId": "showPackage",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Package to show",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Package details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Package data fetch successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PackageResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized access"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid Package ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred on the server"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Packages"
+                ],
+                "summary": "Update a specific Package",
+                "description": "Update the details of a Package by their ID.",
+                "operationId": "updatePackage",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Package to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated Package data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Package name",
+                                        "type": "string",
+                                        "example": "My company"
+                                    },
+                                    "description": {
+                                        "description": "Package description",
+                                        "type": "string",
+                                        "example": "safsdfsf"
+                                    },
+                                    "total_patients": {
+                                        "type": "string",
+                                        "example": "10"
+                                    },
+                                    "patient_charge": {
+                                        "type": "string",
+                                        "example": "100"
+                                    },
+                                    "is_default": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "Active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Package updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PackageResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Package not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Packages"
+                ],
+                "summary": "Delete a specific Package",
+                "description": "Delete a Package by their ID.",
+                "operationId": "deletePackage",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Package to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Package deleted successfully"
+                    },
+                    "404": {
+                        "description": "Package not found"
+                    }
+                }
+            }
+        },
         "/patient": {
             "get": {
                 "tags": [
@@ -4840,6 +5179,80 @@
                 },
                 "type": "object"
             },
+            "PackageCreateRequest": {
+                "title": "Package Create Request",
+                "description": "Request data for creating Package profile.",
+                "required": [
+                    "name",
+                    "total_patients",
+                    "patient_charge",
+                    "is_default",
+                    "status"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Package name",
+                        "type": "string",
+                        "example": "My company"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Asddfdsfererer"
+                    },
+                    "total_patients": {
+                        "type": "string",
+                        "example": "10"
+                    },
+                    "patient_charge": {
+                        "type": "string",
+                        "example": "100"
+                    },
+                    "is_default": {
+                        "type": "string",
+                        "example": "1"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "Active"
+                    }
+                },
+                "type": "object"
+            },
+            "PackageResource": {
+                "title": "Package Resource",
+                "description": "Package resource representation",
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "example": "asdfasdfsadfsd"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "test name"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Asddfdsfererer"
+                    },
+                    "total_patients": {
+                        "type": "string",
+                        "example": "10"
+                    },
+                    "patient_charge": {
+                        "type": "string",
+                        "example": "100"
+                    },
+                    "is_default": {
+                        "type": "string",
+                        "example": "1"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "Active"
+                    }
+                },
+                "type": "object"
+            },
             "PatientCreateRequest": {
                 "title": "Patient Create Request",
                 "description": "Request data for creating Patient profile.",
@@ -5259,6 +5672,10 @@
         {
             "name": "Labs",
             "description": "Labs"
+        },
+        {
+            "name": "Packages",
+            "description": "Packages"
         },
         {
             "name": "Patients",
