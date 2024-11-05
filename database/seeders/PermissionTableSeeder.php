@@ -39,6 +39,9 @@ final class PermissionTableSeeder extends Seeder
             ...self::permission('report'),
             ...self::permission('hospital'),
             ...self::permission('device'),
+            ...self::permission('package'),
+            ...self::permission('subscription'),
+            ...self::permission('doctor-specialization'),
             //['name' => 'report-list'],
         ];
         $permissions = array_map(static function ($data) {
