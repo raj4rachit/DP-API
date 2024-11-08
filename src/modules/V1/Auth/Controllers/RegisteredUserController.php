@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Modules\V1\Auth\Requests\RegisterRequest;
+use Modules\V1\Doctor\Models\Doctor;
 use Modules\V1\User\Models\Role;
 use Modules\V1\User\Models\User;
 use Shared\Helpers\ResponseHelper;
@@ -79,6 +80,20 @@ final class RegisteredUserController extends Controller
 
             // send email verification mail
             $user->sendEmailVerificationNotification();
+
+            // Doctor Creation
+            if($request->user_type == 'doctor') {
+                $doctor = new Doctor();
+                $doctor->user_id = $user->uuid;
+                $doctor->email = $request->doctor_email_address;
+                $doctor->clinic_address = $request->clinic_address;
+                $doctor->contact_phone = $request->contact_phone;
+                if ('' !== $request->hospital_id) {
+                    $doctor->hospital_id = $request->hospital_id;
+                }
+                $doctor->save();
+            }
+
             DB::commit();
             return ResponseHelper::success(null,'Registration successful. Check your email for Verification.', 201);
         } catch (Exception $e) {
