@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Modules\V1\Package\Models;
+namespace Modules\V1\Subscription\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Modules\V1\Subscription\Models\Subscription;
+use Modules\V1\Doctor\Models\Doctor;
+use Modules\V1\Package\Models\Package;
+use Modules\V1\User\Models\User;
 
-final class Package extends Model
+final class Subscription extends Model
 {
     use HasFactory, HasUuids, Notifiable;
 
@@ -34,13 +36,29 @@ final class Package extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'description', 'total_patients', 'patient_charge', 'is_default', 'status',
+        'name', 'patient_charge', 'patient_count', 'amount', 'start_date', 'end_date', 'payment_transaction_id', 'user_id', 'package_id',
     ];
 
     public $timestamps = false;
 
-    public function subscriptions()
+
+    public function subscribable()
     {
-        return $this->hasMany(Subscription::class);
+        return $this->morphTo();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function package()
+    {
+        return $this->belongsTo(Package::class);
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class, 'user_id', 'user_id');
     }
 }

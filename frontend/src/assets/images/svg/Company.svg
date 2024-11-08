@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" id="doctor">
+  <defs>
+    <linearGradient id="a" x1="2" x2="62" y1="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fe9661"></stop>
+      <stop offset="1" stop-color="#ffb369"></stop>
+    </linearGradient>
+    <linearGradient id="b" x1="18" x2="46" y1="30" y2="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d3e6f5"></stop>
+      <stop offset="1" stop-color="#f0f7fc"></stop>
+    </linearGradient>
+    <linearGradient id="c" x1="22" x2="42" y1="30" y2="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#54a5ff"></stop>
+      <stop offset="1" stop-color="#8ad3fe"></stop>
+    </linearGradient>
+  </defs>
+  <path fill="url(#a)" d="M31.93 9.27C17.12-5.55-8.34 19.91 6.48 34.72l24 24a2 2 0 0 0 2.83 0l24-24C72.47 19.63 47-5.82 31.93 9.27ZM32 44a14 14 0 1 1 14-14 14 14 0 0 1-14 14Z"></path>
+  <path fill="url(#b)" d="M32 16a14 14 0 1 0 14 14 14 14 0 0 0-14-14Zm8 17h-5v5a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-5h-5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h5v-5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v5h5a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2Z"></path>
+  <path fill="url(#c)" d="M42 29v2a2 2 0 0 1-2 2h-5v5a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-5h-5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h5v-5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v5h5a2 2 0 0 1 2 2Z"></path>
+</svg>

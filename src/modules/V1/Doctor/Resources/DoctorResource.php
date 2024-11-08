@@ -11,6 +11,7 @@ use Modules\V1\Doctor\Models\DoctorSpecialization;
 use Modules\V1\Hospital\Resources\HospitalResource;
 use Modules\V1\Patient\Models\Patient;
 use Modules\V1\Patient\Resources\PatientResource;
+use Modules\V1\Subscription\Resources\SubscriptionResource;
 use Modules\V1\User\Resources\UserResource;
 use OpenApi\Annotations as OA;
 
@@ -50,6 +51,7 @@ use OpenApi\Annotations as OA;
             'hospital' => new HospitalResource($this->whenLoaded('hospital')),
             'specializations' => DoctorSpecializationResource::collection($this->whenLoaded('specializations')),
             'patients' => PatientResource::collection($this->whenLoaded('patients')),
+            'subscriptions' => SubscriptionResource::collection($this->whenLoaded('subscription')),
         ];
     }
 }

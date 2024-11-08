@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@apis/*": [
+        "src/apis/*"
+      ],
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@configs/*": [
+        "src/configs/*"
+      ],
+      "@views/*": [
+        "src/views/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@contexts/*": [
+        "src/contexts/*"
+      ],
+      "@hooks/*": [
+        "src/hooks/*"
+      ],
+      "@store/*": [
+        "src/store/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ]
+    },
+    "jsx": "react-jsx"
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

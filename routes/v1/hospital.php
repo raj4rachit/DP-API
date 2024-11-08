@@ -8,7 +8,6 @@ use Modules\V1\Hospital\Controllers\HospitalController;
 /**
  * Hospital's APIs
  **/
-Route::get('/', [HospitalController::class, 'index'])->name('hospital.index'); // List all hospitals
 Route::post('/', [HospitalController::class, 'store'])->name('hospital.store'); // Create a new hospital
 Route::get('/{id}', [HospitalController::class, 'show'])->name('hospital.show'); // Show a specific hospital
 Route::put('/{id}', [HospitalController::class, 'update'])->name('hospital.update'); // Update a specific hospital

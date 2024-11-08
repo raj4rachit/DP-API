@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use Modules\V1\Hospital\Controllers\HospitalController;
 
 Route::get('/', function () {
     return response()->json(['message' => 'Version 1']);
@@ -62,6 +63,8 @@ Route::middleware(['auth:sanctum'])->prefix('doctor')->as('doctor:')->group(
 /**
  * Hospital Routes
  */
+
+Route::get('/hospital/', [HospitalController::class, 'index'])->name('hospital.index'); // List all hospitals
 Route::middleware(['auth:sanctum'])->prefix('hospital')->as('hospital:')->group(
     base_path('routes/v1/hospital.php'),
 );

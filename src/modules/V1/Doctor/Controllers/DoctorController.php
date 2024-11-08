@@ -61,7 +61,7 @@ final class DoctorController extends Controller
      */
     public function index(): JsonResponse
     {
-        $doctors = Doctor::with(['user', 'hospital', 'specializations','patients'])->get();
+        $doctors = Doctor::with(['user', 'hospital', 'specializations', 'patients', 'subscription'])->get();
 
         return ResponseHelper::success(DoctorResource::collection($doctors), 'Doctors data getting successfully.');
     }
@@ -249,7 +249,7 @@ final class DoctorController extends Controller
      */
     public function show($id): JsonResponse
     {
-        $doctor = Doctor::with(['user', 'hospital', 'specializations','patients'])->findOrFail($id);
+        $doctor = Doctor::with(['user', 'hospital', 'specializations', 'patients'])->findOrFail($id);
         if ( ! $doctor) {
             return ResponseHelper::error('Doctor not found');
         }
@@ -342,7 +342,7 @@ final class DoctorController extends Controller
         $doctor->update($request->all());
 
         $doctorSpecializations = SpecializationDoctor::where('doctor_id', $id)->get();
-        if(!$doctorSpecializations->isEmpty()) {
+        if ( ! $doctorSpecializations->isEmpty()) {
             SpecializationDoctor::where('doctor_id', $id)->delete();
         }
 
@@ -396,7 +396,7 @@ final class DoctorController extends Controller
 
         $doctor->delete();
 
-        return ResponseHelper::success(null,'Doctor deleted successfully');
+        return ResponseHelper::success(null, 'Doctor deleted successfully');
     }
 
     /**
@@ -686,6 +686,6 @@ final class DoctorController extends Controller
 
         $specialization->delete();
 
-        return ResponseHelper::success(null,'Doctor specialization deleted successfully');
+        return ResponseHelper::success(null, 'Doctor specialization deleted successfully');
     }
 }

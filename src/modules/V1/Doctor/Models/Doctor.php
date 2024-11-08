@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Modules\V1\Hospital\Models\Hospital;
 use Modules\V1\Patient\Models\Patient;
+use Modules\V1\Subscription\Models\Subscription;
 use Modules\V1\User\Models\User;
 
 final class Doctor extends Model
@@ -29,6 +30,7 @@ final class Doctor extends Model
 
     // Specify the type of the primary key
     protected $keyType = 'string';
+
     protected $dateFormat = 'U';
 
     public string $prefix = 'HOA';
@@ -72,5 +74,10 @@ final class Doctor extends Model
     public function patients()
     {
         return $this->belongsToMany(Patient::class, 'patient_doctor', 'patient_id', 'doctor_id');
+    }
+
+    public function subscription()
+    {
+        return $this->hasMany(Subscription::class, 'user_id', 'user_id');
     }
 }

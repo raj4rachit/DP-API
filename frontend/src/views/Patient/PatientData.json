@@ -1,0 +1,92 @@
+[
+    {
+        "id": "HCUX65656zx",
+        "name": "John Wick",
+        "age": 35,
+        "email": "john.wick@example.com",
+        "phone": "9550965657",
+        "address": "1234 Main St, New York, NY",
+        "avatar": "path/to/avatar1.png"
+    },
+    {
+        "id": "HCUX12345ab",
+        "name": "Jane Doe",
+        "age": 29,
+        "email": "jane.doe@example.com",
+        "phone": "9450965611",
+        "address": "4321 Elm St, Los Angeles, CA",
+        "avatar": "path/to/avatar2.png"
+    },
+    {
+        "id": "HCUX78910cd",
+        "name": "Michael Smith",
+        "age": 42,
+        "email": "michael.smith@example.com",
+        "phone": "9450865767",
+        "address": "56 Pine Ave, Chicago, IL",
+        "avatar": "path/to/avatar3.png"
+    },
+    {
+        "id": "HCUX11223xy",
+        "name": "Emily Clark",
+        "age": 31,
+        "email": "emily.clark@example.com",
+        "phone": "9321567865",
+        "address": "789 Maple Rd, Seattle, WA",
+        "avatar": "path/to/avatar4.png"
+    },
+    {
+        "id": "HCUX44567ef",
+        "name": "William Johnson",
+        "age": 38,
+        "email": "william.johnson@example.com",
+        "phone": "9250965812",
+        "address": "101 Oak St, Houston, TX",
+        "avatar": "path/to/avatar5.png"
+    },
+    {
+        "id": "HCUX99876gh",
+        "name": "Sophia Martinez",
+        "age": 27,
+        "email": "sophia.martinez@example.com",
+        "phone": "9521369876",
+        "address": "987 Birch St, San Francisco, CA",
+        "avatar": "path/to/avatar6.png"
+    },
+    {
+        "id": "HCUX32452jk",
+        "name": "James Brown",
+        "age": 45,
+        "email": "james.brown@example.com",
+        "phone": "9234567845",
+        "address": "222 Walnut St, Miami, FL",
+        "avatar": "path/to/avatar7.png"
+    },
+    {
+        "id": "HCUX78789lm",
+        "name": "Ava Wilson",
+        "age": 33,
+        "email": "ava.wilson@example.com",
+        "phone": "9345678234",
+        "address": "345 Cedar St, Austin, TX",
+        "avatar": "path/to/avatar8.png"
+    },
+    {
+        "id": "HCUX23453no",
+        "name": "David Lee",
+        "age": 39,
+        "email": "david.lee@example.com",
+        "phone": "9143567867",
+        "address": "456 Spruce St, Portland, OR",
+        "avatar": "path/to/avatar9.png"
+    },
+    {
+        "id": "HCUX65432pq",
+        "name": "Isabella Davis",
+        "age": 30,
+        "email": "isabella.davis@example.com",
+        "phone": "9459865432",
+        "address": "567 Aspen St, Denver, CO",
+        "avatar": "path/to/avatar10.png"
+    }
+]
