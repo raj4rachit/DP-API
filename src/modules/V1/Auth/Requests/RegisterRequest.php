@@ -41,6 +41,7 @@ class RegisterRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', Rules\Password::defaults()],
+            'user_type' => 'required|string|in:doctor,patient,lab',
         ];
     }
 }
