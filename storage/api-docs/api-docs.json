@@ -4065,6 +4065,345 @@
                 }
             }
         },
+        "/subscription": {
+            "get": {
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Get list of all Subscriptions",
+                "operationId": "b9e85096b4986f04d57791b21b214b82",
+                "responses": {
+                    "200": {
+                        "description": "Subscription data getting successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SubscriptionResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Create a new Subscription",
+                "description": "Create a new Subscription with the provided information.",
+                "operationId": "createSubscription",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "test name"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Asddfdsfererer"
+                                    },
+                                    "total_patients": {
+                                        "type": "string",
+                                        "example": "10"
+                                    },
+                                    "patient_charge": {
+                                        "type": "string",
+                                        "example": "100"
+                                    },
+                                    "is_default": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "Active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Subscription created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Subscription created successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "string",
+                                            "example": "201"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/SubscriptionResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/subscription/{id}": {
+            "get": {
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Show a specific Subscription",
+                "description": "Fetch details of a Subscription by their ID.",
+                "operationId": "showSubscription",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Subscription to show",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Subscription details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Subscription data fetch successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/SubscriptionResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized access"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid Subscription ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred on the server"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Update a specific Subscription",
+                "description": "Update the details of a Subscription by their ID.",
+                "operationId": "updateSubscription",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Subscription to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Updated Subscription data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Subscription name",
+                                        "type": "string",
+                                        "example": "My company"
+                                    },
+                                    "description": {
+                                        "description": "Subscription description",
+                                        "type": "string",
+                                        "example": "safsdfsf"
+                                    },
+                                    "total_patients": {
+                                        "type": "string",
+                                        "example": "10"
+                                    },
+                                    "patient_charge": {
+                                        "type": "string",
+                                        "example": "100"
+                                    },
+                                    "is_default": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "Active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Subscription updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SubscriptionResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Subscription not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Subscriptions"
+                ],
+                "summary": "Delete a specific Subscription",
+                "description": "Delete a Subscription by their ID.",
+                "operationId": "deleteSubscription",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Subscription to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Subscription deleted successfully"
+                    },
+                    "404": {
+                        "description": "Subscription not found"
+                    }
+                }
+            }
+        },
         "/permission/list": {
             "get": {
                 "tags": [
@@ -5343,6 +5682,56 @@
                 },
                 "type": "object"
             },
+            "SubscriptionResource": {
+                "title": "Subscription Resource",
+                "description": "Subscription resource representation",
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "example": "asdfasdfsadfsd"
+                    },
+                    "user_id": {
+                        "type": "string",
+                        "example": "user's id"
+                    },
+                    "package_id": {
+                        "type": "string",
+                        "example": "package's id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "test name"
+                    },
+                    "payment_transaction_id": {
+                        "type": "string",
+                        "example": "Asddfdsfererer"
+                    },
+                    "patient_count": {
+                        "type": "string",
+                        "example": "10"
+                    },
+                    "patient_charge": {
+                        "type": "string",
+                        "example": "100"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "double",
+                        "example": "1000"
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-01-01"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-02-01"
+                    }
+                },
+                "type": "object"
+            },
             "PermissionUpdateRequest": {
                 "title": "Permission Update Request",
                 "description": "Request data for updating Permission.",
@@ -5684,6 +6073,10 @@
         {
             "name": "Reports",
             "description": "Reports"
+        },
+        {
+            "name": "Subscriptions",
+            "description": "Subscriptions"
         },
         {
             "name": "Permission",
