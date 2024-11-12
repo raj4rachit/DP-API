@@ -151,7 +151,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"User\",\r\n    \"email\":\"user@gmail.com\",\r\n    \"password\":\"123456789\"\r\n}",
+							"raw": "{\r\n    \"first_name\":\"User\",\r\n    \"last_name\":\"Test\",\r\n    \"email\":\"user@gmail.com\",\r\n    \"password\":\"123456789\",\r\n    \"user_type\":\"doctor\",\r\n    \"clinic_address\":\"Ahmedabad\",\r\n    \"contact_phone\":\"6598324578\",\r\n    \"doctor_email_address\":\"doctor1@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1058,6 +1058,139 @@
 			]
 		},
 		{
+			"name": "Packages",
+			"item": [
+				{
+					"name": "Package Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Pro Package for new doctor\",\r\n    \"description\":\"Pro Package for new doctor\",\r\n    \"total_patients\":\"25\",\r\n    \"patient_charge\":\"6\",\r\n    \"is_default\":\"0\",\r\n    \"status\":\"Active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP_URL}}/package",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"package"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Package Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Pro Package\",\r\n    \"description\":\"Package for doctors & hospital & lab\",\r\n    \"total_patients\":\"50\",\r\n    \"patient_charge\":\"5\",\r\n    \"is_default\":\"1\",\r\n    \"status\":\"Active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP_URL}}/package/9d6a1f40-56f5-4c28-b3ca-c09288cdee05",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"package",
+								"9d6a1f40-56f5-4c28-b3ca-c09288cdee05"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Package List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL}}/package",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"package"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Package Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{APP_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL}}/package/9d6a1f40-56f5-4c28-b3ca-c09288cdee05",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"package",
+								"9d6a1f40-56f5-4c28-b3ca-c09288cdee05"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Device & Vendors",
 			"item": [
 				{
@@ -1815,7 +1948,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Cardiology\",\r\n    \"code\": \"CD\",\r\n    \"description\": \"Specializes in heart-related issues\"\r\n}",
+							"raw": "{\r\n    \"first_name\":\"Leelavati\",\r\n    \"last_name\":\"Pandit\",\r\n    \"gender\":\"Female\",\r\n    \"dob\":\"1995-01-05\",\r\n    \"clinic_address\":\"etete adsfasdasdfasd asdfasdf asdfa sdfd \",\r\n    \"mobile_no\":\"3423123456\",\r\n    \"marital_status\":\"Single\",\r\n    \"specialization\":[\r\n        \"9d5e2bd0-782c-47dd-9ecf-4a423a4ff4d8\",\r\n        \"9d5e2bd3-0052-4854-8a45-c862c29ea804\"\r\n    ],\r\n    \"contact_phone\":\"6598324578\",\r\n    \"hospital_id\":\"9d5de6ce-e8b2-4c38-8293-61f376dfb00a\",\r\n    \"user_id\":\"9d5e2c61-d009-4bed-8c0e-bb50192ebb3a\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1823,13 +1956,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{APP_URL}}/doctor/9d5c3c65-7748-4472-a19a-bdd1b710bce5",
+							"raw": "{{APP_URL}}/doctor/9d5e2c6b-352c-4714-a5c9-b639c3adb9a1",
 							"host": [
 								"{{APP_URL}}"
 							],
 							"path": [
 								"doctor",
-								"9d5c3c65-7748-4472-a19a-bdd1b710bce5"
+								"9d5e2c6b-352c-4714-a5c9-b639c3adb9a1"
 							]
 						}
 					},
