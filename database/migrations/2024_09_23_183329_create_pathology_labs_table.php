@@ -14,7 +14,12 @@ return new class extends Migration
         Schema::create('pathology_labs', function (Blueprint $table) {
             $table->uuid()->primary()->unique();
             $table->string('lab_name'); // Name of the pathology lab
-            $table->string('address')->nullable(); // Address of the lab
+            $table->string('address_line_1')->nullable();
+            $table->string('address_line_2')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->string('country')->nullable();
             $table->string('contact_number')->nullable(); // Contact number for the lab
             $table->string('email')->nullable(); // Email address of the lab
             $table->timestamps();

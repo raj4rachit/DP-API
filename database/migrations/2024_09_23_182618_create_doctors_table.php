@@ -18,7 +18,12 @@ return new class() extends Migration
             $table->uuid('user_id'); // Foreign key for users table
             $table->string('contact_phone')->nullable();
             $table->string('email')->nullable();
-            $table->string('clinic_address')->nullable();
+            $table->string('address_line_1')->nullable();
+            $table->string('address_line_2')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->string('country')->nullable();
             $table->timestamps();
 
             // Foreign key constraint

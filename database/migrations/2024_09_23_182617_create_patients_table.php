@@ -19,7 +19,12 @@ return new class extends Migration
             $table->string('id_number');
             $table->date('dob');
             $table->enum('gender', ['Male', 'Female', 'Other'])->default('Male');
-            $table->longText('address')->nullable();
+            $table->string('address_line_1')->nullable();
+            $table->string('address_line_2')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->string('country')->nullable();
             $table->enum('marital_status', ['Single', 'Married', 'Divorced', 'Widowed'])->default('Single');
             $table->string('primary_phone');
             $table->string('secondary_phone')->nullable();

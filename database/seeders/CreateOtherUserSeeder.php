@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\V1\Doctor\Models\Doctor;
 use Modules\V1\Hospital\Models\Hospital;
+use Modules\V1\Lab\Models\Lab;
+use Modules\V1\Patient\Models\Patient;
+use Modules\V1\Patient\Models\PatientDoctor;
 use Modules\V1\User\Models\Role;
 use Modules\V1\User\Models\User;
 use Spatie\Permission\Models\Permission;
@@ -19,12 +23,18 @@ final class CreateOtherUserSeeder extends Seeder
     {
         $hospital = Hospital::create([
             'name' => 'HMS Hospital',
-            'location' => 'Ahmedabad',
+            'address_line_1' => 'CF 101',
+            'address_line_2' => 'R Street',
+            'city' => 'New York',
+            'state' => 'NY',
+            'country' => 'USA',
+            'postal_code' => '10001',
             'phone' => '9876543210',
             'email' => 'updated@hospital.com',
             'description' => 'Updated description.',
             'status' => 'Active',
         ]);
+        $hospitalID = $hospital->uuid;
 
         $user = User::create([
             'first_name' => 'Doctor',
@@ -44,9 +54,23 @@ final class CreateOtherUserSeeder extends Seeder
             $doctorRole->syncPermissions($permissions);
             $user->assignRole([$doctorRole->uuid]);
         }
+        $userID = $user->uuid;
+        $doctor = Doctor::create([
+            'user_id' => $userID,
+            'hospital_id' => $hospitalID,
+            'address_line_1' => 'CF 1011',
+            'address_line_2' => 'R Street new',
+            'city' => 'New York',
+            'state' => 'NY',
+            'country' => 'USA',
+            'postal_code' => '10001',
+            'contact_phone' => '9876543210',
+            'email' => 'doctor@doctor.com',
+        ]);
+        $doctorId = $doctor->uuid;
 
         $user1 = User::create([
-            'first_name' => 'Doctor',
+            'first_name' => 'Patient',
             'last_name' => 'Admin',
             'email' => 'patient@gmail.com',
             'password' => bcrypt('123456789'), // Make sure to hash passwords
@@ -63,6 +87,29 @@ final class CreateOtherUserSeeder extends Seeder
             $patientRole->syncPermissions($permissions1);
             $user1->assignRole([$patientRole->uuid]);
         }
+        $user1ID = $user1->uuid;
+        $patient = Patient::create([
+            'user_id' => $user1ID,
+            'arn_number' => 'ASDC34345D',
+            'address_line_1' => 'CF 1011',
+            'address_line_2' => 'R Street new',
+            'city' => 'New York',
+            'state' => 'NY',
+            'country' => 'USA',
+            'postal_code' => '10001',
+            'primary_phone' => '9876543210',
+            'gender' => 'Male',
+            'dob' => '1998-01-01',
+            'id_type' => 'Card',
+            'id_number' => '123456789',
+            'languages' => ("English,Gujarati"),
+        ]);
+        $patientID = $patient->uuid;
+        $patientDoctor = PatientDoctor::create([
+            'patient_id' => $patientID,
+            'doctor_id' => $doctorId,
+        ]);
+
 
         $user2 = User::create([
             'first_name' => 'Lab',
@@ -82,5 +129,17 @@ final class CreateOtherUserSeeder extends Seeder
             $labRole->syncPermissions($permissions2);
             $user2->assignRole([$labRole->uuid]);
         }
+        $user2ID = $user2->uuid;
+        $lab = Lab::create([
+            'user_id' => $user2ID,
+            'name' => 'Lab Test New',
+            'address_line_1' => 'CF 1011',
+            'address_line_2' => 'R Street new',
+            'city' => 'New York',
+            'state' => 'NY',
+            'country' => 'USA',
+            'postal_code' => '10001',
+            'phone' => '9876543210',
+        ]);
     }
 }

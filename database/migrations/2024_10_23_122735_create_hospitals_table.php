@@ -14,7 +14,12 @@ return new class extends Migration
         Schema::create('hospitals', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->string('name')->unique();
-            $table->string('location');
+            $table->string('address_line_1')->nullable();
+            $table->string('address_line_2')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->string('country')->nullable();
             $table->string('phone')->unique();
             $table->string('email')->unique();
             $table->text('description')->nullable();
