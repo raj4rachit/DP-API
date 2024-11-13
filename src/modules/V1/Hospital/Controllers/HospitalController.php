@@ -277,7 +277,7 @@ final class HospitalController extends Controller
                     'required',
                     'string',
                     'max:155',
-                    Rule::unique('hospitalS', 'name')->ignore($id, 'uuid'), // Ensures name is unique but ignores the current device
+                    Rule::unique('hospitals', 'name')->ignore($id, 'uuid'), // Ensures name is unique but ignores the current device
                 ],
                 'status' => 'required|string|in:Active,Inactive',
                 'location' => 'required|string|max:255',
