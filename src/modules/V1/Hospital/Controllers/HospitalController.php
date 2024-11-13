@@ -48,7 +48,7 @@ final class HospitalController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $hospitals = Hospital::with('doctor')->get();
+            $hospitals = Hospital::with('doctor')->where('status', 'Active')->get();
 
             return ResponseHelper::success(HospitalResource::collection($hospitals), 'Hospital data getting successfully. ');
         } catch (Exception $e) {
@@ -74,6 +74,7 @@ final class HospitalController extends Controller
      *             mediaType="application/json",
      *
      *             @OA\Schema(
+     *
      *                  @OA\Property(property="name", type="string", example="test name"),
      *                  @OA\Property(property="location", type="string", example="JohnDoe"),
      *                  @OA\Property(property="phone", type="string", example="1231231231"),
@@ -109,11 +110,16 @@ final class HospitalController extends Controller
             $hospital = new Hospital();
             $hospital->name = $request->name;
             $hospital->email = $request->email;
-            if($request->status != ''){
+            if ('' !== $request->status) {
                 $hospital->status = $request->status;
             }
             $hospital->phone = $request->phone;
-            $hospital->location = $request->location;
+            $hospital->address_line_1 = $request->address_line_1;
+            $hospital->address_line_2 = $request->address_line_2;
+            $hospital->city = $request->city;
+            $hospital->state = $request->state;
+            $hospital->country = $request->country;
+            $hospital->postal_code = $request->postal_code;
 
             if ('' !== $request->description) {
                 $hospital->description = $request->description;
@@ -280,9 +286,14 @@ final class HospitalController extends Controller
                     Rule::unique('hospitals', 'name')->ignore($id, 'uuid'), // Ensures name is unique but ignores the current device
                 ],
                 'status' => 'required|string|in:Active,Inactive',
-                'location' => 'required|string|max:255',
+                'address_line_1' => 'required|string',
+                'address_line_2' => 'nullable|string',
+                'city' => 'required|string',
+                'state' => 'required|string',
+                'country' => 'required|string',
+                'postal_code' => 'required|string|min:5',
                 'phone' => 'required|string|max:15',
-                'email' => 'required|email|unique:hospitals,email,' . $id.',uuid',
+                'email' => 'required|email|unique:hospitals,email,' . $id . ',uuid',
                 'description' => 'nullable|string',
             ]);
 
@@ -348,7 +359,7 @@ final class HospitalController extends Controller
             $hospital->delete();
             DB::commit();
 
-            return ResponseHelper::success(null,'Hospital deleted successfully');
+            return ResponseHelper::success(null, 'Hospital deleted successfully');
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();

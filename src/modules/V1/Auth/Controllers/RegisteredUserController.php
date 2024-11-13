@@ -86,7 +86,12 @@ final class RegisteredUserController extends Controller
                 $doctor = new Doctor();
                 $doctor->user_id = $user->uuid;
                 $doctor->email = $request->doctor_email_address;
-                $doctor->clinic_address = $request->clinic_address;
+                $doctor->address_line_1 = $request->address_line_1;
+                $doctor->address_line_2 = $request->address_line_2;
+                $doctor->city = $request->city;
+                $doctor->state = $request->state;
+                $doctor->country = $request->country;
+                $doctor->postal_code = $request->postal_code;
                 $doctor->contact_phone = $request->contact_phone;
                 if ('' !== $request->hospital_id) {
                     $doctor->hospital_id = $request->hospital_id;

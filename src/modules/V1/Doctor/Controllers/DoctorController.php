@@ -148,7 +148,12 @@ final class DoctorController extends Controller
             // Doctor Creation
             $doctor = new Doctor();
             $doctor->user_id = $user->uuid;
-            $doctor->clinic_address = $request->clinic_address;
+            $doctor->address_line_1 = $request->address_line_1;
+            $doctor->address_line_2 = $request->address_line_2;
+            $doctor->city = $request->city;
+            $doctor->state = $request->state;
+            $doctor->country = $request->country;
+            $doctor->postal_code = $request->postal_code;
             $doctor->hospital_id = $request->hospital_id;
             if ('' !== $request->contact_phone) {
                 $doctor->contact_phone = $request->contact_phone;
@@ -323,7 +328,12 @@ final class DoctorController extends Controller
             'last_name' => 'required|string|max:255',
             'gender' => 'required|string|in:Male,Female,Other',
             'dob' => 'required|date',
-            'clinic_address' => 'required|string',
+            'address_line_1' => 'required|string',
+            'address_line_2' => 'nullable|string',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'country' => 'required|string',
+            'postal_code' => 'required|string|min:5',
             'mobile_no' => 'nullable|string|max:20',
             'marital_status' => 'required|string|in:Single,Married,Divorced,Widowed',
             'contact_phone' => 'nullable|string|max:20',

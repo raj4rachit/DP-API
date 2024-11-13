@@ -38,7 +38,12 @@ final class LabCreateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'address' => 'required|string',
+            'address_line_1' => 'required|string',
+            'address_line_2' => 'nullable|string',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'country' => 'required|string',
+            'postal_code' => 'required|string|min:5',
             'phone' => 'nullable|string|max:20',
             'user_id' => 'required|string|exists:users,uuid',
             'reports' => 'required|array|exists:reports,uuid',

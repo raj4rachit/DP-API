@@ -45,7 +45,12 @@ use OpenApi\Annotations as OA;
     {
         return [
             'uuid' => $this->uuid,
-            'clinic_address' => $this->clinic_address,
+            'address_line_1' => $this->address_line_1,
+            'address_line_2' => $this->address_line_2,
+            'city' => $this->city,
+            'state' => $this->state,
+            'country' => $this->country,
+            'postal_code' => $this->postal_code,
             'contact_phone' => $this->contact_phone,
             'user' => new UserResource($this->whenLoaded('user')),
             'hospital' => new HospitalResource($this->whenLoaded('hospital')),

@@ -34,7 +34,7 @@ final class Hospital extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'location', 'phone', 'email', 'description', 'status',
+        'name', 'address_line_1', 'address_line_2', 'city', 'state', 'country', 'postal_code', 'phone', 'email', 'description', 'status',
     ];
 
     public $timestamps = false;

@@ -40,7 +40,12 @@ use OpenApi\Annotations as OA;
             'status' => $this->status,
             'phone' => $this->phone,
             'email' => $this->email,
-            'location' => $this->location,
+            'address_line_1' => $this->address_line_1,
+            'address_line_2' => $this->address_line_2,
+            'city' => $this->city,
+            'state' => $this->state,
+            'country' => $this->country,
+            'postal_code' => $this->postal_code,
             'description' => $this->description,
             'doctor' => DoctorResource::collection($this->whenLoaded('doctor')),
         ];

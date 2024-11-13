@@ -39,9 +39,14 @@ final class HospitalCreateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:155', 'unique:' . Hospital::class],
             'status' => 'nullable|string|in:Active,Inactive',
-            'location' => 'required|string',
+            'address_line_1' => 'required|string',
+            'address_line_2' => 'nullable|string',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'country' => 'required|string',
+            'postal_code' => 'required|string|min:5',
             'phone' => 'required|string',
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.Hospital::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . Hospital::class],
             'description' => 'nullable|string',
         ];
 

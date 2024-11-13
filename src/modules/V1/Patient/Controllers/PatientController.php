@@ -146,7 +146,12 @@ final class PatientController extends Controller
             // Patient Creation
             $patient = new Patient();
             $patient->user_id = $user->uuid;
-            $patient->address = $request->address;
+            $patient->address_line_1 = $request->address_line_1;
+            $patient->address_line_2 = $request->address_line_2;
+            $patient->city = $request->city;
+            $patient->state = $request->state;
+            $patient->country = $request->country;
+            $patient->postal_code = $request->postal_code;
             $patient->id_type = $request->id_type;
             $patient->id_number = $request->id_number;
             $patient->arn_number = $request->arn_number;
@@ -331,7 +336,12 @@ final class PatientController extends Controller
             'last_name' => 'required|string|max:255',
             'gender' => 'required|string|in:Male,Female,Other',
             'dob' => 'required|date',
-            'address' => 'required|string',
+            'address_line_1' => 'required|string',
+            'address_line_2' => 'nullable|string',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'country' => 'required|string',
+            'postal_code' => 'required|string|min:5',
             'mobile_no' => 'nullable|string|max:20',
             'id_type' => 'required|string',
             'id_number' => 'required|string',

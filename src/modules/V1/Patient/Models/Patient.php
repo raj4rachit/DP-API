@@ -28,6 +28,7 @@ final class Patient extends Model
 
     // Specify the type of the primary key
     protected $keyType = 'string';
+
     protected $dateFormat = 'U';
 
     public string $prefix = 'HOA';
@@ -48,7 +49,7 @@ final class Patient extends Model
         'work_phone',
         'languages',
         'arn_number',
-        'address'
+        'address_line_1', 'address_line_2', 'city', 'state', 'country', 'postal_code',
     ];
 
     public $timestamps = false;
