@@ -46,14 +46,16 @@ final class RegisterRequest extends FormRequest
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'string', Rules\Password::defaults()],
             'user_type' => ['required', 'string', 'in:doctor,patient,lab'],
-            'address_line_1' => ['required_if:user_type,doctor', 'string', 'max:255'],
+            'address_line_1' => ['required_if:user_type,doctor,lab', 'string', 'max:255'],
             'address_line_2' => ['nullable', 'string', 'max:255'],
-            'city' => ['required_if:user_type,doctor', 'string', 'max:155'],
-            'state' => ['required_if:user_type,doctor', 'string', 'max:155'],
-            'country' => ['required_if:user_type,doctor', 'string', 'max:155'],
-            'postal_code' => ['required_if:user_type,doctor', 'string', 'min:5'],
+            'city' => ['required_if:user_type,doctor,lab', 'string', 'max:155'],
+            'state' => ['required_if:user_type,doctor,lab', 'string', 'max:155'],
+            'country' => ['required_if:user_type,doctor,lab', 'string', 'max:155'],
+            'postal_code' => ['required_if:user_type,doctor,lab', 'string', 'min:5'],
             'contact_phone' => ['required_if:user_type,doctor', 'string', 'max:15'],
             'doctor_email_address' => ['required_if:user_type,doctor', 'string', 'lowercase', 'email', 'max:255', 'unique:' . Doctor::class . ',email'],
+            'name' => ['required_if:user_type,lab', 'string', 'max:155'],
+            'reports' => ['required_if:user_type,lab', 'array', 'exists:reports,uuid'],
         ];
 
     }

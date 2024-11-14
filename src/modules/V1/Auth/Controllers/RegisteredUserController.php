@@ -10,9 +10,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Modules\V1\Auth\Requests\RegisterRequest;
 use Modules\V1\Doctor\Models\Doctor;
+use Modules\V1\Lab\Models\Lab;
+use Modules\V1\Lab\Models\LabReport;
 use Modules\V1\User\Models\Role;
 use Modules\V1\User\Models\User;
 use Shared\Helpers\ResponseHelper;
+use Spatie\Permission\Models\Permission;
 
 final class RegisteredUserController extends Controller
 {
@@ -69,20 +72,32 @@ final class RegisteredUserController extends Controller
             $user->user_type = $request->user_type ?? 'patient';
             $user->password = Hash::make($request->password);
             $user->save();
-
             $roleNames = 'User';
+            $permissions = '';
+            if ('doctor' === $request->user_type) {
+                $roleNames = 'Doctor';
+                $permissions = Permission::where('name', 'like', 'patient-%')->pluck('uuid')->toArray();
+                $permissions = Permission::where('name', 'like', 'lab-%')->orWhere('name', 'like', 'report-%')->orWhere('name', 'like', 'patient-%')->pluck('uuid')->toArray();
+            }
+            if ('lab' === $request->user_type) {
+                $roleNames = 'Lab';
+                $permissions = Permission::where('name', 'like', 'lab-%')->orWhere('name', 'like', 'report-%')->orWhere('name', 'like', 'patient-%')->pluck('uuid')->toArray();
+            }
             if ($request->has('roles')) {
                 $roleNames = $request->input('roles');
             }
             // Retrieve role IDs based on role names
-            $roles = Role::where('name', $roleNames)->pluck('uuid'); // Adjust 'id' if your primary key is different
+            $roles = Role::where('name', $roleNames)->first(); // Adjust 'id' if your primary key is different
+            if($roles && $permissions){
+                $roles->syncPermissions($permissions);
+            }
             $user->roles()->sync($roles); // Sync the roles
 
             // send email verification mail
             $user->sendEmailVerificationNotification();
 
             // Doctor Creation
-            if($request->user_type == 'doctor') {
+            if ('doctor' === $request->user_type) {
                 $doctor = new Doctor();
                 $doctor->user_id = $user->uuid;
                 $doctor->email = $request->doctor_email_address;
@@ -99,8 +114,33 @@ final class RegisteredUserController extends Controller
                 $doctor->save();
             }
 
+            // Lab Creation
+            if ('lab' === $request->user_type) {
+                $lab = new Lab();
+                $lab->user_id = $user->uuid;
+                $lab->name = $request->name;
+                $lab->address_line_1 = $request->address_line_1;
+                $lab->address_line_2 = $request->address_line_2;
+                $lab->city = $request->city;
+                $lab->state = $request->state;
+                $lab->country = $request->country;
+                $lab->postal_code = $request->postal_code;
+                $lab->phone = $request->phone;
+                $lab->save();
+
+                if (count($request->reports)) {
+                    foreach ($request->reports as $report) {
+                        $data = new LabReport();
+                        $data->lab_id = $lab->uuid;
+                        $data->report_id = $report;
+                        $data->save();
+                    }
+                }
+            }
+
             DB::commit();
-            return ResponseHelper::success(null,'Registration successful. Check your email for Verification.', 201);
+
+            return ResponseHelper::success(null, 'Registration successful. Check your email for Verification.', 201);
         } catch (Exception $e) {
             DB::rollBack(); // Roll back the transaction
 
