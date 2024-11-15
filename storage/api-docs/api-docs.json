@@ -598,21 +598,88 @@
                                 "properties": {
                                     "first_name": {
                                         "description": "User's first name",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "John"
                                     },
                                     "last_name": {
                                         "description": "User's last name",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Doe"
                                     },
                                     "email": {
-                                        "description": "User's email",
+                                        "description": "User's email address",
                                         "type": "string",
-                                        "format": "email"
+                                        "format": "email",
+                                        "example": "john.doe@example.com"
                                     },
                                     "password": {
                                         "description": "User's password",
                                         "type": "string",
-                                        "format": "password"
+                                        "format": "password",
+                                        "example": "password123"
+                                    },
+                                    "user_type": {
+                                        "description": "Type of user being registered",
+                                        "type": "string",
+                                        "enum": [
+                                            "doctor",
+                                            "lab"
+                                        ],
+                                        "example": "doctor"
+                                    },
+                                    "address_line_1": {
+                                        "description": "Address line 1 for doctor or lab users",
+                                        "type": "string",
+                                        "example": "123 Main St."
+                                    },
+                                    "address_line_2": {
+                                        "description": "Address line 2 for doctor or lab users",
+                                        "type": "string",
+                                        "example": "Apt 101"
+                                    },
+                                    "city": {
+                                        "description": "City of the user",
+                                        "type": "string",
+                                        "example": "New York"
+                                    },
+                                    "state": {
+                                        "description": "State of the user",
+                                        "type": "string",
+                                        "example": "NY"
+                                    },
+                                    "country": {
+                                        "description": "Country of the user",
+                                        "type": "string",
+                                        "example": "USA"
+                                    },
+                                    "postal_code": {
+                                        "description": "Postal code of the user",
+                                        "type": "string",
+                                        "example": "10001"
+                                    },
+                                    "contact_phone": {
+                                        "description": "Phone number of the doctor",
+                                        "type": "string",
+                                        "example": "123-456-7890"
+                                    },
+                                    "doctor_email_address": {
+                                        "description": "Email address for the doctor",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "doctor@example.com"
+                                    },
+                                    "name": {
+                                        "description": "Name of the lab",
+                                        "type": "string",
+                                        "example": "LabCorp"
+                                    },
+                                    "reports": {
+                                        "description": "UUIDs of reports associated with the lab",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "report-uuid-123"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -636,8 +703,8 @@
                                             "example": "success"
                                         },
                                         "statusCode": {
-                                            "type": "string",
-                                            "example": "201"
+                                            "type": "integer",
+                                            "example": 201
                                         },
                                         "access-token": {
                                             "type": "string",
@@ -1502,7 +1569,7 @@
                 "operationId": "listDoctors",
                 "responses": {
                     "200": {
-                        "description": "List of Doctors",
+                        "description": "List of Doctors retrieved successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1532,13 +1599,76 @@
                         }
                     },
                     "401": {
-                        "$ref": "#/components/responses/401"
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized access"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 401
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "422": {
-                        "$ref": "#/components/responses/422"
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid input parameters"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "$ref": "#/components/responses/500"
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An unexpected error occurred on the server"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -1555,53 +1685,114 @@
                 "description": "Create a new Doctor with the provided information.",
                 "operationId": "createDoctor",
                 "requestBody": {
+                    "description": "Doctor data for creating a new profile",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "gender",
+                                    "dob",
+                                    "address_line_1",
+                                    "city",
+                                    "state",
+                                    "country",
+                                    "postal_code",
+                                    "hospital_id",
+                                    "specialization"
+                                ],
                                 "properties": {
                                     "first_name": {
                                         "description": "Doctor's first name",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "John"
                                     },
                                     "last_name": {
                                         "description": "Doctor's last name",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Doe"
                                     },
                                     "gender": {
                                         "description": "Doctor's gender",
-                                        "type": "string"
+                                        "type": "string",
+                                        "enum": [
+                                            "Male",
+                                            "Female",
+                                            "Other"
+                                        ],
+                                        "example": "Male"
                                     },
                                     "dob": {
-                                        "description": "Date of birth (YYYY-MM-DD)",
+                                        "description": "Doctor's date of birth",
                                         "type": "string",
-                                        "format": "date"
+                                        "format": "date",
+                                        "example": "1985-08-25"
                                     },
-                                    "clinic_address": {
-                                        "description": "Doctor's clinic address",
-                                        "type": "string"
+                                    "address_line_1": {
+                                        "description": "Primary address line",
+                                        "type": "string",
+                                        "example": "123 Main St"
+                                    },
+                                    "address_line_2": {
+                                        "description": "Secondary address line",
+                                        "type": "string",
+                                        "example": "Apt 101"
+                                    },
+                                    "city": {
+                                        "description": "City",
+                                        "type": "string",
+                                        "example": "New York"
+                                    },
+                                    "state": {
+                                        "description": "State",
+                                        "type": "string",
+                                        "example": "NY"
+                                    },
+                                    "country": {
+                                        "description": "Country",
+                                        "type": "string",
+                                        "example": "USA"
+                                    },
+                                    "postal_code": {
+                                        "description": "Postal code",
+                                        "type": "string",
+                                        "example": "10001"
                                     },
                                     "mobile_no": {
                                         "description": "Doctor's mobile number",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "123-456-7890"
                                     },
                                     "email": {
                                         "description": "Doctor's email address",
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "johndoe@example.com"
                                     },
-                                    "hospital_id ": {
-                                        "description": "hospital_id ",
-                                        "type": "string"
+                                    "hospital_id": {
+                                        "description": "Hospital ID the doctor is associated with",
+                                        "type": "string",
+                                        "example": "d4f7a8f4-98f7-4c0f-8b2a-dce03a2fe6e3"
                                     },
                                     "marital_status": {
-                                        "description": "Marital status",
-                                        "type": "string"
+                                        "description": "Doctor's marital status",
+                                        "type": "string",
+                                        "enum": [
+                                            "Single",
+                                            "Married",
+                                            "Divorced",
+                                            "Widowed"
+                                        ],
+                                        "example": "Single"
                                     },
                                     "specialization": {
-                                        "description": "specialization by the doctor",
+                                        "description": "Specializations of the doctor",
                                         "type": "array",
                                         "items": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "cardiology"
                                         }
                                     }
                                 },
@@ -1639,10 +1830,63 @@
                         }
                     },
                     "422": {
-                        "$ref": "#/components/responses/422"
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "first_name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The first name field is required."
+                                                    }
+                                                },
+                                                "email": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The email has already been taken."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "$ref": "#/components/responses/500"
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An unexpected error occurred."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -1803,49 +2047,109 @@
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "gender",
+                                    "dob",
+                                    "address_line_1",
+                                    "city",
+                                    "state",
+                                    "country",
+                                    "postal_code",
+                                    "hospital_id",
+                                    "specialization"
+                                ],
                                 "properties": {
                                     "first_name": {
                                         "description": "Doctor's first name",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "John"
                                     },
                                     "last_name": {
                                         "description": "Doctor's last name",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Doe"
                                     },
                                     "gender": {
                                         "description": "Doctor's gender",
-                                        "type": "string"
+                                        "type": "string",
+                                        "enum": [
+                                            "Male",
+                                            "Female",
+                                            "Other"
+                                        ],
+                                        "example": "Male"
                                     },
                                     "dob": {
-                                        "description": "Date of birth (YYYY-MM-DD)",
+                                        "description": "Doctor's date of birth",
                                         "type": "string",
-                                        "format": "date"
+                                        "format": "date",
+                                        "example": "1985-08-25"
                                     },
-                                    "clinic_address": {
-                                        "description": "Doctor's clinic address",
-                                        "type": "string"
+                                    "address_line_1": {
+                                        "description": "Primary address line",
+                                        "type": "string",
+                                        "example": "123 Main St"
+                                    },
+                                    "address_line_2": {
+                                        "description": "Secondary address line",
+                                        "type": "string",
+                                        "example": "Apt 101"
+                                    },
+                                    "city": {
+                                        "description": "City",
+                                        "type": "string",
+                                        "example": "New York"
+                                    },
+                                    "state": {
+                                        "description": "State",
+                                        "type": "string",
+                                        "example": "NY"
+                                    },
+                                    "country": {
+                                        "description": "Country",
+                                        "type": "string",
+                                        "example": "USA"
+                                    },
+                                    "postal_code": {
+                                        "description": "Postal code",
+                                        "type": "string",
+                                        "example": "10001"
                                     },
                                     "mobile_no": {
                                         "description": "Doctor's mobile number",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "123-456-7890"
                                     },
                                     "email": {
                                         "description": "Doctor's email address",
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "johndoe@example.com"
                                     },
-                                    "hospital_id ": {
-                                        "description": "hospital_id ",
-                                        "type": "string"
+                                    "hospital_id": {
+                                        "description": "Hospital ID the doctor is associated with",
+                                        "type": "string",
+                                        "example": "d4f7a8f4-98f7-4c0f-8b2a-dce03a2fe6e3"
                                     },
                                     "marital_status": {
-                                        "description": "Marital status",
-                                        "type": "string"
+                                        "description": "Doctor's marital status",
+                                        "type": "string",
+                                        "enum": [
+                                            "Single",
+                                            "Married",
+                                            "Divorced",
+                                            "Widowed"
+                                        ],
+                                        "example": "Single"
                                     },
                                     "specialization": {
-                                        "description": "specialization by the doctor",
+                                        "description": "Specializations of the doctor",
                                         "type": "array",
                                         "items": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "cardiology"
                                         }
                                     }
                                 },
@@ -2245,11 +2549,12 @@
                 "tags": [
                     "Hospitals"
                 ],
-                "summary": "Get list of all devices",
-                "operationId": "7a6637573e25f25cac0b4ce90edd5543",
+                "summary": "Get list of all Hospitals",
+                "description": "Fetch all hospital data.",
+                "operationId": "getAllHospitals",
                 "responses": {
                     "200": {
-                        "description": "Hospital data getting successfully",
+                        "description": "Hospital data retrieved successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2262,7 +2567,28 @@
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error"
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An unexpected error occurred on the server"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -2271,35 +2597,77 @@
                     "Hospitals"
                 ],
                 "summary": "Create a new Hospital",
-                "description": "Create a new Hospital with the provided information.",
+                "description": "Create a new hospital with the provided information.",
                 "operationId": "createHospital",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "name",
+                                    "address_line_1",
+                                    "city",
+                                    "state",
+                                    "country",
+                                    "postal_code",
+                                    "phone",
+                                    "email",
+                                    "status"
+                                ],
                                 "properties": {
                                     "name": {
+                                        "description": "The name of the hospital",
                                         "type": "string",
-                                        "example": "test name"
+                                        "example": "City Hospital"
                                     },
-                                    "location": {
+                                    "address_line_1": {
+                                        "description": "Primary address line",
                                         "type": "string",
-                                        "example": "JohnDoe"
+                                        "example": "123 Main Street"
+                                    },
+                                    "address_line_2": {
+                                        "description": "Secondary address line (optional)",
+                                        "type": "string",
+                                        "example": "Suite 101"
+                                    },
+                                    "city": {
+                                        "description": "City of the hospital",
+                                        "type": "string",
+                                        "example": "New York"
+                                    },
+                                    "state": {
+                                        "description": "State of the hospital",
+                                        "type": "string",
+                                        "example": "NY"
+                                    },
+                                    "country": {
+                                        "description": "Country of the hospital",
+                                        "type": "string",
+                                        "example": "USA"
+                                    },
+                                    "postal_code": {
+                                        "description": "Postal code for the hospital address",
+                                        "type": "string",
+                                        "example": "10001"
                                     },
                                     "phone": {
+                                        "description": "Contact phone number",
                                         "type": "string",
                                         "example": "1231231231"
                                     },
                                     "email": {
+                                        "description": "Contact email address",
                                         "type": "string",
-                                        "example": "hos@gmail.com"
+                                        "example": "contact@cityhospital.com"
                                     },
                                     "description": {
+                                        "description": "Description of the hospital (optional)",
                                         "type": "string",
-                                        "example": "Asddfdsfererer"
+                                        "example": "A leading healthcare provider in the city"
                                     },
                                     "status": {
+                                        "description": "Status of the hospital. Can be 'Active' or 'Inactive'",
                                         "type": "string",
                                         "example": "Active"
                                     }
@@ -2325,8 +2693,8 @@
                                             "example": "success"
                                         },
                                         "statusCode": {
-                                            "type": "string",
-                                            "example": "201"
+                                            "type": "integer",
+                                            "example": 201
                                         },
                                         "data": {
                                             "$ref": "#/components/schemas/HospitalResource"
@@ -2338,10 +2706,52 @@
                         }
                     },
                     "422": {
-                        "$ref": "#/components/responses/422"
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid input data"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "$ref": "#/components/responses/500"
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An unexpected error occurred"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -2483,70 +2893,86 @@
                     "Hospitals"
                 ],
                 "summary": "Update a specific Hospital",
-                "description": "Update the details of a Hospital by their ID.",
+                "description": "Update the details of a Hospital by their unique ID.",
                 "operationId": "updateHospital",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of the Hospital to update",
+                        "description": "Unique ID of the Hospital to update",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
                         }
                     }
                 ],
                 "requestBody": {
-                    "description": "Updated Hospital data",
+                    "description": "Updated data for the Hospital",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
                                     "name": {
-                                        "description": "Hospital name",
+                                        "description": "Name of the hospital",
                                         "type": "string",
-                                        "example": "My company"
+                                        "example": "City General Hospital"
                                     },
-                                    "device_vendor_id": {
-                                        "description": "Hospital Vendor id",
+                                    "location": {
+                                        "description": "Location of the hospital",
                                         "type": "string",
-                                        "example": "safsdfsf"
+                                        "example": "New York"
                                     },
-                                    "api_key": {
-                                        "description": "Hospital api key",
+                                    "phone": {
+                                        "description": "Hospital's contact phone number",
                                         "type": "string",
-                                        "example": "Mydsfsdfds"
+                                        "example": "1231231234"
                                     },
-                                    "device_type": {
-                                        "description": "Hospital type",
+                                    "email": {
+                                        "description": "Contact email for the hospital",
                                         "type": "string",
-                                        "example": "My company"
+                                        "example": "hospital@example.com"
                                     },
                                     "status": {
-                                        "description": "Hospital status",
+                                        "description": "Hospital status (Active/Inactive)",
                                         "type": "string",
                                         "example": "Active"
                                     },
-                                    "device_sim": {
-                                        "description": "Hospital Sim",
+                                    "address_line_1": {
+                                        "description": "Primary address line",
                                         "type": "string",
-                                        "example": "No"
+                                        "example": "123 Main Street"
                                     },
-                                    "secret_key": {
-                                        "description": "Hospital secret key",
+                                    "address_line_2": {
+                                        "description": "Secondary address line (optional)",
                                         "type": "string",
-                                        "example": "Acsdfgfgtive"
+                                        "example": "Suite 200"
                                     },
-                                    "device_model": {
-                                        "description": "Hospital model",
+                                    "city": {
+                                        "description": "City where the hospital is located",
                                         "type": "string",
-                                        "example": "Active vcxzv"
+                                        "example": "New York"
                                     },
-                                    "rfid": {
-                                        "description": "Hospital rfid",
+                                    "state": {
+                                        "description": "State where the hospital is located",
                                         "type": "string",
-                                        "example": "Yes"
+                                        "example": "NY"
+                                    },
+                                    "country": {
+                                        "description": "Country where the hospital is located",
+                                        "type": "string",
+                                        "example": "USA"
+                                    },
+                                    "postal_code": {
+                                        "description": "Postal code for the hospital",
+                                        "type": "string",
+                                        "example": "10001"
+                                    },
+                                    "description": {
+                                        "description": "Additional details about the hospital",
+                                        "type": "string",
+                                        "example": "A well-established hospital providing general healthcare services"
                                     }
                                 },
                                 "type": "object"
@@ -2560,15 +2986,106 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/HospitalResource"
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hospital updated successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/HospitalResource"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Hospital not found"
+                        "description": "Hospital not found - the provided ID does not match any existing hospital",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hospital not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error - invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error, missing required fields"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error - unexpected issue while updating the hospital",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred on the server"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -2938,11 +3455,11 @@
                 "tags": [
                     "Packages"
                 ],
-                "summary": "Get list of all Packages",
+                "summary": "Retrieve a list of all Packages",
                 "operationId": "8106b2be1e96225fb3b8ad5830b34862",
                 "responses": {
                     "200": {
-                        "description": "Package data getting successfully",
+                        "description": "Successfully retrieved the list of packages",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2964,35 +3481,49 @@
                     "Packages"
                 ],
                 "summary": "Create a new Package",
-                "description": "Create a new Package with the provided information.",
+                "description": "Create a new package with the provided information.",
                 "operationId": "createPackage",
                 "requestBody": {
+                    "description": "Package details to be created",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "name",
+                                    "total_patients",
+                                    "patient_charge",
+                                    "is_default",
+                                    "status"
+                                ],
                                 "properties": {
                                     "name": {
+                                        "description": "The name of the package",
                                         "type": "string",
                                         "example": "test name"
                                     },
                                     "description": {
+                                        "description": "Optional description of the package",
                                         "type": "string",
-                                        "example": "Asddfdsfererer"
+                                        "example": "A detailed description of the package"
                                     },
                                     "total_patients": {
-                                        "type": "string",
+                                        "description": "Total number of patients in the package",
+                                        "type": "number",
                                         "example": "10"
                                     },
                                     "patient_charge": {
-                                        "type": "string",
+                                        "description": "Charge per patient in the package",
+                                        "type": "number",
                                         "example": "100"
                                     },
                                     "is_default": {
+                                        "description": "Indicates whether this package is the default (1 = true, 0 = false)",
                                         "type": "string",
                                         "example": "1"
                                     },
                                     "status": {
+                                        "description": "Current status of the package (e.g., Active, Inactive, Canceled)",
                                         "type": "string",
                                         "example": "Active"
                                     }
@@ -3018,8 +3549,8 @@
                                             "example": "success"
                                         },
                                         "statusCode": {
-                                            "type": "string",
-                                            "example": "201"
+                                            "type": "integer",
+                                            "example": 201
                                         },
                                         "data": {
                                             "$ref": "#/components/schemas/PackageResource"
@@ -3049,14 +3580,14 @@
                 "tags": [
                     "Packages"
                 ],
-                "summary": "Show a specific Package",
-                "description": "Fetch details of a Package by their ID.",
+                "summary": "Show details of a specific Package",
+                "description": "Fetch the details of a package by its ID.",
                 "operationId": "showPackage",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of the Package to show",
+                        "description": "ID of the package to fetch",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -3066,14 +3597,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Package details",
+                        "description": "Package details fetched successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Package data fetch successfully"
+                                            "example": "Package data fetched successfully"
                                         },
                                         "status": {
                                             "type": "string",
@@ -3117,7 +3648,7 @@
                         }
                     },
                     "422": {
-                        "description": "Validation error",
+                        "description": "Validation error - Invalid package ID",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3176,49 +3707,61 @@
                     "Packages"
                 ],
                 "summary": "Update a specific Package",
-                "description": "Update the details of a Package by their ID.",
+                "description": "Update the details of a package by its ID.",
                 "operationId": "updatePackage",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of the Package to update",
+                        "description": "ID of the package to update",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
                         }
                     }
                 ],
                 "requestBody": {
-                    "description": "Updated Package data",
+                    "description": "Updated package data",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "name",
+                                    "total_patients",
+                                    "patient_charge",
+                                    "is_default",
+                                    "status"
+                                ],
                                 "properties": {
                                     "name": {
-                                        "description": "Package name",
+                                        "description": "The name of the package",
                                         "type": "string",
                                         "example": "My company"
                                     },
                                     "description": {
-                                        "description": "Package description",
+                                        "description": "Description of the package's features or purpose",
                                         "type": "string",
-                                        "example": "safsdfsf"
+                                        "example": "Detailed package description"
                                     },
                                     "total_patients": {
+                                        "description": "Total number of patients in the package",
                                         "type": "string",
                                         "example": "10"
                                     },
                                     "patient_charge": {
+                                        "description": "Charge per patient for the package",
                                         "type": "string",
                                         "example": "100"
                                     },
                                     "is_default": {
+                                        "description": "Indicates if this package is the default (1 = true, 0 = false)",
                                         "type": "string",
                                         "example": "1"
                                     },
                                     "status": {
+                                        "description": "Current status of the package (e.g., Active, Inactive, Canceled)",
                                         "type": "string",
                                         "example": "Active"
                                     }
@@ -3240,7 +3783,76 @@
                         }
                     },
                     "404": {
-                        "description": "Package not found"
+                        "description": "Package not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Package not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid data provided for package"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred while updating the package"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -3249,27 +3861,99 @@
                     "Packages"
                 ],
                 "summary": "Delete a specific Package",
-                "description": "Delete a Package by their ID.",
+                "description": "Delete a package by its ID.",
                 "operationId": "deletePackage",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of the Package to be deleted",
+                        "description": "ID of the package to delete",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
                         }
                     }
                 ],
                 "responses": {
                     "204": {
-                        "description": "Package deleted successfully"
+                        "description": "Package deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Package deleted successfully"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 204
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Package not found"
+                        "description": "Package not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Package not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred while deleting the package"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/patient": {
@@ -3357,9 +4041,35 @@
                                         "type": "string",
                                         "format": "date"
                                     },
-                                    "address": {
-                                        "description": "Patient's address",
-                                        "type": "string"
+                                    "address_line_1": {
+                                        "description": "First line of patient's address",
+                                        "type": "string",
+                                        "example": "123 Main St."
+                                    },
+                                    "address_line_2": {
+                                        "description": "Second line of patient's address",
+                                        "type": "string",
+                                        "example": "Apt 4B"
+                                    },
+                                    "city": {
+                                        "description": "City of residence",
+                                        "type": "string",
+                                        "example": "New York"
+                                    },
+                                    "state": {
+                                        "description": "State of residence",
+                                        "type": "string",
+                                        "example": "NY"
+                                    },
+                                    "country": {
+                                        "description": "Country of residence",
+                                        "type": "string",
+                                        "example": "USA"
+                                    },
+                                    "postal_code": {
+                                        "description": "Postal code",
+                                        "type": "string",
+                                        "example": "10001"
                                     },
                                     "mobile_no": {
                                         "description": "Patient's mobile number",
@@ -3641,9 +4351,35 @@
                                         "type": "string",
                                         "format": "date"
                                     },
-                                    "address": {
-                                        "description": "Patient's address",
-                                        "type": "string"
+                                    "address_line_1": {
+                                        "description": "First line of patient's address",
+                                        "type": "string",
+                                        "example": "123 Main St."
+                                    },
+                                    "address_line_2": {
+                                        "description": "Second line of patient's address",
+                                        "type": "string",
+                                        "example": "Apt 4B"
+                                    },
+                                    "city": {
+                                        "description": "City of residence",
+                                        "type": "string",
+                                        "example": "New York"
+                                    },
+                                    "state": {
+                                        "description": "State of residence",
+                                        "type": "string",
+                                        "example": "NY"
+                                    },
+                                    "country": {
+                                        "description": "Country of residence",
+                                        "type": "string",
+                                        "example": "USA"
+                                    },
+                                    "postal_code": {
+                                        "description": "Postal code",
+                                        "type": "string",
+                                        "example": "10001"
                                     },
                                     "mobile_no": {
                                         "description": "Patient's mobile number",
@@ -3759,31 +4495,6 @@
             }
         },
         "/report": {
-            "get": {
-                "tags": [
-                    "Reports"
-                ],
-                "summary": "Get list of all Reports",
-                "operationId": "d613ba05b9771fbacd62ea7d57a43a13",
-                "responses": {
-                    "200": {
-                        "description": "Report data getting successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/ReportResource"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                }
-            },
             "post": {
                 "tags": [
                     "Reports"
@@ -5130,27 +5841,104 @@
                     "first_name",
                     "last_name",
                     "email",
-                    "password"
+                    "password",
+                    "user_type"
                 ],
                 "properties": {
                     "first_name": {
+                        "description": "The user's first name",
                         "type": "string",
                         "maxLength": 255,
                         "example": "John"
                     },
                     "last_name": {
+                        "description": "The user's last name",
                         "type": "string",
                         "maxLength": 255,
-                        "example": "John"
+                        "example": "Doe"
                     },
                     "email": {
+                        "description": "The user's email address",
                         "type": "string",
                         "format": "email",
                         "example": "john@example.com"
                     },
                     "password": {
+                        "description": "The user's password",
                         "type": "string",
                         "example": "password123"
+                    },
+                    "user_type": {
+                        "description": "The type of the user (doctor, patient, or lab)",
+                        "type": "string",
+                        "enum": [
+                            "doctor",
+                            "patient",
+                            "lab"
+                        ],
+                        "example": "doctor"
+                    },
+                    "address_line_1": {
+                        "description": "The user's primary address line (required for doctors and labs)",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "123 Doctor St."
+                    },
+                    "address_line_2": {
+                        "description": "The user's secondary address line (optional)",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Suite 10"
+                    },
+                    "city": {
+                        "description": "The city of the user's address (required for doctors and labs)",
+                        "type": "string",
+                        "maxLength": 155,
+                        "example": "New York"
+                    },
+                    "state": {
+                        "description": "The state of the user's address (required for doctors and labs)",
+                        "type": "string",
+                        "maxLength": 155,
+                        "example": "NY"
+                    },
+                    "country": {
+                        "description": "The country of the user's address (required for doctors and labs)",
+                        "type": "string",
+                        "maxLength": 155,
+                        "example": "USA"
+                    },
+                    "postal_code": {
+                        "description": "The postal code of the user's address (required for doctors and labs)",
+                        "type": "string",
+                        "minLength": 5,
+                        "example": "10001"
+                    },
+                    "contact_phone": {
+                        "description": "The phone number of the doctor (required for doctor users)",
+                        "type": "string",
+                        "maxLength": 15,
+                        "example": "1231231234"
+                    },
+                    "doctor_email_address": {
+                        "description": "The doctor's email address (required for doctor users)",
+                        "type": "string",
+                        "format": "email",
+                        "example": "doctor@example.com"
+                    },
+                    "name": {
+                        "description": "The name of the lab (required for lab users)",
+                        "type": "string",
+                        "maxLength": 155,
+                        "example": "LabCorp"
+                    },
+                    "reports": {
+                        "description": "Array of UUIDs of reports (required for lab users)",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "report-uuid-123"
+                        }
                     }
                 },
                 "type": "object"
@@ -5322,10 +6110,21 @@
             },
             "DoctorCreateRequest": {
                 "title": "Doctor Create Request",
-                "description": "Request data for creating Doctor profile.",
+                "description": "Request data for creating a Doctor profile.",
                 "required": [
-                    "name",
-                    "job_title"
+                    "first_name",
+                    "last_name",
+                    "gender",
+                    "dob",
+                    "address_line_1",
+                    "city",
+                    "state",
+                    "country",
+                    "postal_code",
+                    "email",
+                    "marital_status",
+                    "hospital_id",
+                    "specialization"
                 ],
                 "properties": {
                     "first_name": {
@@ -5336,12 +6135,88 @@
                     "last_name": {
                         "description": "Doctor's last name",
                         "type": "string",
-                        "example": "John"
+                        "example": "Doe"
                     },
                     "gender": {
                         "description": "Doctor's gender",
                         "type": "string",
-                        "example": "Doe"
+                        "example": "Male"
+                    },
+                    "dob": {
+                        "description": "Doctor's date of birth",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1980-12-12"
+                    },
+                    "address_line_1": {
+                        "description": "Doctor's primary address line",
+                        "type": "string",
+                        "example": "123 Main Street"
+                    },
+                    "address_line_2": {
+                        "description": "Optional secondary address line",
+                        "type": "string",
+                        "example": "Apt 101"
+                    },
+                    "city": {
+                        "description": "City where the doctor resides",
+                        "type": "string",
+                        "example": "New York"
+                    },
+                    "state": {
+                        "description": "State where the doctor resides",
+                        "type": "string",
+                        "example": "NY"
+                    },
+                    "country": {
+                        "description": "Country where the doctor resides",
+                        "type": "string",
+                        "example": "USA"
+                    },
+                    "postal_code": {
+                        "description": "Postal code for the doctor's address",
+                        "type": "string",
+                        "example": "10001"
+                    },
+                    "mobile_no": {
+                        "description": "Doctor's mobile number (optional)",
+                        "type": "string",
+                        "example": "123-456-7890"
+                    },
+                    "email": {
+                        "description": "Doctor's email address",
+                        "type": "string",
+                        "format": "email",
+                        "example": "john.doe@example.com"
+                    },
+                    "marital_status": {
+                        "description": "Doctor's marital status",
+                        "type": "string",
+                        "enum": [
+                            "Single",
+                            "Married",
+                            "Divorced",
+                            "Widowed"
+                        ],
+                        "example": "Single"
+                    },
+                    "contact_phone": {
+                        "description": "Doctor's contact phone number (optional)",
+                        "type": "string",
+                        "example": "987-654-3210"
+                    },
+                    "hospital_id": {
+                        "description": "UUID of the hospital the doctor is affiliated with",
+                        "type": "string",
+                        "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
+                    },
+                    "specialization": {
+                        "description": "Array of UUIDs representing doctor's specialization(s)",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
+                        }
                     }
                 },
                 "type": "object"
@@ -5351,11 +6226,17 @@
                 "description": "Request data for creating Doctor Specialization.",
                 "required": [
                     "name",
+                    "code",
                     "descriptiion"
                 ],
                 "properties": {
                     "name": {
                         "description": "Doctor Specialization's name",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "code": {
+                        "description": "Doctor Specialization's code",
                         "type": "string",
                         "example": "John"
                     },
@@ -5369,30 +6250,95 @@
             },
             "DoctorResource": {
                 "title": "Doctor Resource",
-                "description": "Doctor resource representation",
+                "description": "Representation of a Doctor resource, including personal details and associated relationships.",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
+                    "uuid": {
+                        "description": "Unique identifier for the doctor (UUID)",
                         "type": "string",
-                        "example": "John Doe"
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
                     },
-                    "email": {
+                    "first_name": {
+                        "description": "Doctor's first name",
                         "type": "string",
-                        "example": "john@example.com"
+                        "example": "John"
                     },
-                    "roles": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "example": "user"
-                        }
+                    "last_name": {
+                        "description": "Doctor's last name",
+                        "type": "string",
+                        "example": "Doe"
                     },
                     "gender": {
+                        "description": "Doctor's gender",
                         "type": "string",
                         "example": "Male"
+                    },
+                    "dob": {
+                        "description": "Doctor's date of birth (YYYY-MM-DD)",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1980-01-01"
+                    },
+                    "address_line_1": {
+                        "description": "First line of the doctor's address",
+                        "type": "string",
+                        "example": "123 Health St"
+                    },
+                    "address_line_2": {
+                        "description": "Second line of the doctor's address",
+                        "type": "string",
+                        "example": "Suite 101"
+                    },
+                    "city": {
+                        "description": "City where the doctor is located",
+                        "type": "string",
+                        "example": "New York"
+                    },
+                    "state": {
+                        "description": "State where the doctor is located",
+                        "type": "string",
+                        "example": "NY"
+                    },
+                    "country": {
+                        "description": "Country where the doctor is located",
+                        "type": "string",
+                        "example": "USA"
+                    },
+                    "postal_code": {
+                        "description": "Postal code of the doctor's address",
+                        "type": "string",
+                        "example": "10001"
+                    },
+                    "contact_phone": {
+                        "description": "Contact phone number for the doctor",
+                        "type": "string",
+                        "example": "555-1234"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/UserResource"
+                    },
+                    "hospital": {
+                        "$ref": "#/components/schemas/HospitalResource"
+                    },
+                    "specializations": {
+                        "description": "List of specializations the doctor is trained in",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DoctorSpecializationResource"
+                        }
+                    },
+                    "patients": {
+                        "description": "List of patients assigned to the doctor",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PatientResource"
+                        }
+                    },
+                    "subscriptions": {
+                        "description": "List of subscriptions associated with the doctor",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SubscriptionResource"
+                        }
                     }
                 },
                 "type": "object"
@@ -5403,11 +6349,22 @@
                 "properties": {
                     "name": {
                         "type": "string",
-                        "example": "John Doe"
+                        "example": "Cardiology"
                     },
                     "description": {
                         "type": "string",
-                        "example": "Test addresses"
+                        "example": "Heart-related diseases and treatments"
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "CAR-1234"
+                    },
+                    "doctors": {
+                        "description": "List of doctors specialized in this field",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DoctorResource"
+                        }
                     }
                 },
                 "type": "object"
@@ -5434,35 +6391,67 @@
             },
             "HospitalResource": {
                 "title": "Hospital Resource",
-                "description": "Hospital resource representation",
+                "description": "Representation of a Hospital resource",
                 "properties": {
                     "uuid": {
+                        "description": "Unique identifier for the hospital (UUID)",
                         "type": "string",
-                        "example": "asdfasdfsadfsd"
+                        "example": "9d445a1c-cee5-4a68-b729-9edf8df71d87"
                     },
                     "name": {
+                        "description": "Name of the hospital",
                         "type": "string",
-                        "example": "test name"
-                    },
-                    "location": {
-                        "type": "string",
-                        "example": "JohnDoe"
+                        "example": "City General Hospital"
                     },
                     "phone": {
+                        "description": "Hospital's contact phone number",
                         "type": "string",
-                        "example": "1231231231"
+                        "example": "1231231234"
                     },
                     "email": {
+                        "description": "Hospital's contact email address",
                         "type": "string",
-                        "example": "hos@gmail.com"
+                        "example": "hospital@example.com"
                     },
                     "description": {
+                        "description": "Brief description of the hospital",
                         "type": "string",
-                        "example": "Asddfdsfererer"
+                        "example": "A well-established hospital providing general healthcare services"
                     },
                     "status": {
+                        "description": "Current status of the hospital (e.g., Active, Inactive)",
                         "type": "string",
                         "example": "Active"
+                    },
+                    "address_line_1": {
+                        "description": "Primary address line of the hospital",
+                        "type": "string",
+                        "example": "123 Main Street"
+                    },
+                    "address_line_2": {
+                        "description": "Secondary address line (optional)",
+                        "type": "string",
+                        "example": "Suite 200"
+                    },
+                    "city": {
+                        "description": "City where the hospital is located",
+                        "type": "string",
+                        "example": "New York"
+                    },
+                    "state": {
+                        "description": "State where the hospital is located",
+                        "type": "string",
+                        "example": "NY"
+                    },
+                    "country": {
+                        "description": "Country where the hospital is located",
+                        "type": "string",
+                        "example": "USA"
+                    },
+                    "postal_code": {
+                        "description": "Postal code for the hospital",
+                        "type": "string",
+                        "example": "10001"
                     }
                 },
                 "type": "object"
@@ -5574,11 +6563,11 @@
                         "example": "Asddfdsfererer"
                     },
                     "total_patients": {
-                        "type": "string",
+                        "type": "number",
                         "example": "10"
                     },
                     "patient_charge": {
-                        "type": "string",
+                        "type": "number",
                         "example": "100"
                     },
                     "is_default": {
@@ -5609,6 +6598,103 @@
                         "description": "Patient's job title",
                         "type": "string",
                         "example": "Doe"
+                    },
+                    "dob": {
+                        "description": "Patient's date of birth",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1990-01-01"
+                    },
+                    "gender": {
+                        "description": "Patient's gender",
+                        "type": "string",
+                        "example": "Male"
+                    },
+                    "address_line_1": {
+                        "description": "First line of patient's address",
+                        "type": "string",
+                        "example": "123 Main St."
+                    },
+                    "address_line_2": {
+                        "description": "Second line of patient's address",
+                        "type": "string",
+                        "example": "Apt 4B"
+                    },
+                    "city": {
+                        "description": "City of residence",
+                        "type": "string",
+                        "example": "New York"
+                    },
+                    "state": {
+                        "description": "State of residence",
+                        "type": "string",
+                        "example": "NY"
+                    },
+                    "country": {
+                        "description": "Country of residence",
+                        "type": "string",
+                        "example": "USA"
+                    },
+                    "postal_code": {
+                        "description": "Postal code",
+                        "type": "string",
+                        "example": "10001"
+                    },
+                    "primary_phone": {
+                        "description": "Primary contact phone number",
+                        "type": "string",
+                        "example": "123-456-7890"
+                    },
+                    "email": {
+                        "description": "Patient's email address",
+                        "type": "string",
+                        "format": "email",
+                        "example": "john@example.com"
+                    },
+                    "marital_status": {
+                        "description": "Marital status of the patient",
+                        "type": "string",
+                        "example": "Single"
+                    },
+                    "languages": {
+                        "description": "Languages spoken by the patient",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "English"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "PatientMedicalHistoryResource": {
+                "title": "Patient Medical History Resource",
+                "description": "Representation of a patient's medical history, including details such as medical aid, race, ethnicity, and MRN number.",
+                "properties": {
+                    "uuid": {
+                        "description": "Unique identifier for the patient's medical history record (UUID)",
+                        "type": "string",
+                        "example": "9e56f544-bbc5-4878-9f8d-543b8e68c67f"
+                    },
+                    "medical_aid": {
+                        "description": "The medical aid provider for the patient",
+                        "type": "string",
+                        "example": "ABC Health Plan"
+                    },
+                    "race": {
+                        "description": "Race of the patient",
+                        "type": "string",
+                        "example": "Caucasian"
+                    },
+                    "ethnicity": {
+                        "description": "Ethnicity of the patient",
+                        "type": "string",
+                        "example": "Hispanic"
+                    },
+                    "mrn_number": {
+                        "description": "Medical Record Number (MRN) of the patient",
+                        "type": "string",
+                        "example": "MRN-12345"
                     }
                 },
                 "type": "object"
@@ -5617,28 +6703,92 @@
                 "title": "Patient Resource",
                 "description": "Patient resource representation",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
+                    "uuid": {
                         "type": "string",
-                        "example": "John Doe"
-                    },
-                    "email": {
-                        "type": "string",
-                        "example": "john@example.com"
-                    },
-                    "roles": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "example": "user"
-                        }
+                        "example": "12345-abcde-67890-fghij"
                     },
                     "gender": {
                         "type": "string",
                         "example": "Male"
+                    },
+                    "dob": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "1985-06-15"
+                    },
+                    "address_line_1": {
+                        "type": "string",
+                        "example": "123 Main St."
+                    },
+                    "address_line_2": {
+                        "type": "string",
+                        "example": "Apt 4B"
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": "New York"
+                    },
+                    "state": {
+                        "type": "string",
+                        "example": "NY"
+                    },
+                    "country": {
+                        "type": "string",
+                        "example": "USA"
+                    },
+                    "postal_code": {
+                        "type": "string",
+                        "example": "10001"
+                    },
+                    "arn_number": {
+                        "type": "string",
+                        "example": "A123456789"
+                    },
+                    "id_type": {
+                        "type": "string",
+                        "example": "Passport"
+                    },
+                    "id_number": {
+                        "type": "string",
+                        "example": "123456789"
+                    },
+                    "marital_status": {
+                        "type": "string",
+                        "example": "Married"
+                    },
+                    "primary_phone": {
+                        "type": "string",
+                        "example": "123-456-7890"
+                    },
+                    "home_phone": {
+                        "type": "string",
+                        "example": "123-555-7890"
+                    },
+                    "work_phone": {
+                        "type": "string",
+                        "example": "123-666-7890"
+                    },
+                    "secondary_phone": {
+                        "type": "string",
+                        "example": "123-777-7890"
+                    },
+                    "languages": {
+                        "description": "Languages spoken by the patient",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "English"
+                        }
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/UserResource"
+                    },
+                    "medical_history": {
+                        "description": "Medical history of the patient",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PatientMedicalHistoryResource"
+                        }
                     }
                 },
                 "type": "object"

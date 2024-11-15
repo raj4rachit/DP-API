@@ -15,9 +15,10 @@ use OpenApi\Annotations as OA;
  *     title="Doctor Specialization Create Request",
  *     description="Request data for creating Doctor Specialization.",
  *     type="object",
- *     required={"name", "descriptiion"},
+ *     required={"name", "code", "descriptiion"},
  *
  *     @OA\Property(property="name", type="string", example="John", description="Doctor Specialization's name"),
+ *     @OA\Property(property="code", type="string", example="John", description="Doctor Specialization's code"),
  *     @OA\Property(property="descriptiion", type="string", example="John", description="Doctor Specialization's description"),
  * )
  */

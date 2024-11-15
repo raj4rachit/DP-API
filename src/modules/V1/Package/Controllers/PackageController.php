@@ -22,12 +22,12 @@ final class PackageController extends Controller
     /**
      * @OA\Get(
      *     path="/package",
-     *     summary="Get list of all Packages",
+     *     summary="Retrieve a list of all Packages",
      *     tags={"Packages"},
      *
      *     @OA\Response(
      *         response=200,
-     *         description="Package data getting successfully",
+     *         description="Successfully retrieved the list of packages",
      *
      *         @OA\JsonContent(
      *             type="array",
@@ -64,22 +64,25 @@ final class PackageController extends Controller
      *     operationId="createPackage",
      *     tags={"Packages"},
      *     security={{"bearerAuth":{}}},
-     *     description="Create a new Package with the provided information.",
+     *     description="Create a new package with the provided information.",
      *
      *     @OA\RequestBody(
      *         required=true,
+     *         description="Package details to be created",
      *
      *         @OA\MediaType(
      *             mediaType="application/json",
      *
      *             @OA\Schema(
+     *                 type="object",
+     *                 required={"name", "total_patients", "patient_charge", "is_default", "status"},
      *
-     *                  @OA\Property(property="name", type="string", example="test name"),
-     *                  @OA\Property(property="description",type="string", example="Asddfdsfererer"),
-     *                  @OA\Property(property="total_patients",type="string", example="10"),
-     *                  @OA\Property(property="patient_charge",type="string", example="100"),
-     *                  @OA\Property(property="is_default",type="string", example="1"),
-     *                  @OA\Property(property="status",type="string", example="Active"),
+     *                 @OA\Property(property="name", type="string", example="test name", description="The name of the package"),
+     *                 @OA\Property(property="description",type="string",example="A detailed description of the package",description="Optional description of the package"),
+     *                 @OA\Property(property="total_patients",type="number",example="10",description="Total number of patients in the package"),
+     *                 @OA\Property(property="patient_charge",type="number",example="100",description="Charge per patient in the package"),
+     *                 @OA\Property(property="is_default",type="string",example="1",description="Indicates whether this package is the default (1 = true, 0 = false)"),
+     *                 @OA\Property(property="status",type="string",example="Active",description="Current status of the package (e.g., Active, Inactive, Canceled)"),
      *             )
      *         )
      *     ),
@@ -92,13 +95,21 @@ final class PackageController extends Controller
      *
      *             @OA\Property(property="message", type="string", example="Package created successfully"),
      *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="statusCode", type="string", example="201"),
-     *             @OA\Property(property="data", ref="#/components/schemas/PackageResource"),
+     *             @OA\Property(property="statusCode", type="integer", example=201),
+     *             @OA\Property(property="data", ref="#/components/schemas/PackageResource")
      *         )
      *     ),
      *
-     *     @OA\Response(response=422, ref="#/components/responses/422"),
-     *     @OA\Response(response=500, ref="#/components/responses/500")
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error, invalid input data",
+     *         ref="#/components/responses/422"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal Server Error, unexpected server issue",
+     *         ref="#/components/responses/500"
+     *     )
      * )
      */
     public function store(PackageCreateRequest $request): JsonResponse
@@ -127,31 +138,31 @@ final class PackageController extends Controller
     /**
      * @OA\Get(
      *     path="/package/{id}",
-     *     summary="Show a specific Package",
+     *     summary="Show details of a specific Package",
      *     operationId="showPackage",
      *     tags={"Packages"},
-     *     description="Fetch details of a Package by their ID.",
+     *     description="Fetch the details of a package by its ID.",
      *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID of the Package to show",
+     *         description="ID of the package to fetch",
      *
      *         @OA\Schema(type="string", example="9d445a1c-cee5-4a68-b729-9edf8df71d87")
      *     ),
      *
      *     @OA\Response(
      *         response=200,
-     *         description="Package details",
+     *         description="Package details fetched successfully",
      *
      *         @OA\JsonContent(
      *
-     *              @OA\Property(property="message", type="string", example="Package data fetch successfully"),
-     *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="statusCode", type="integer", example=200),
-     *              @OA\Property(property="data", type="object", ref="#/components/schemas/PackageResource"),
-     *          )
+     *             @OA\Property(property="message", type="string", example="Package data fetched successfully"),
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="statusCode", type="integer", example=200),
+     *             @OA\Property(property="data", ref="#/components/schemas/PackageResource")
+     *         )
      *     ),
      *
      *     @OA\Response(
@@ -168,7 +179,7 @@ final class PackageController extends Controller
      *
      *     @OA\Response(
      *         response=422,
-     *         description="Validation error",
+     *         description="Validation error - Invalid package ID",
      *
      *         @OA\JsonContent(
      *
@@ -189,9 +200,8 @@ final class PackageController extends Controller
      *             @OA\Property(property="statusCode", type="integer", example=500)
      *         )
      *     ),
-     *     security={
-     *         {"bearerAuth": {}}
-     *     }
+     *
+     *     security={{"bearerAuth":{}}}
      * )
      */
     public function show($id): JsonResponse
@@ -216,34 +226,66 @@ final class PackageController extends Controller
      *     summary="Update a specific Package",
      *     operationId="updatePackage",
      *     tags={"Packages"},
-     *     description="Update the details of a Package by their ID.",
+     *     description="Update the details of a package by its ID.",
      *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID of the Package to update",
+     *         description="ID of the package to update",
      *
-     *         @OA\Schema(type="integer")
+     *         @OA\Schema(type="string", example="9d445a1c-cee5-4a68-b729-9edf8df71d87")
      *     ),
      *
      *     @OA\RequestBody(
      *         required=true,
-     *         description="Updated Package data",
+     *         description="Updated package data",
      *
      *         @OA\MediaType(
-     *              mediaType="application/json",
+     *             mediaType="application/json",
      *
-     *              @OA\Schema(
+     *             @OA\Schema(
+     *                 type="object",
+     *                 required={"name", "total_patients", "patient_charge", "is_default", "status"},
      *
-     *                  @OA\Property(property="name", type="string", example="My company", description="Package name"),
-     *                  @OA\Property(property="description", type="string", example="safsdfsf", description="Package description"),
-     *                  @OA\Property(property="total_patients",type="string", example="10"),
-     *                  @OA\Property(property="patient_charge",type="string", example="100"),
-     *                  @OA\Property(property="is_default",type="string", example="1"),
-     *                  @OA\Property(property="status",type="string", example="Active"),
-     *              )
-     *          )
+     *                 @OA\Property(
+     *                     property="name",
+     *                     type="string",
+     *                     example="My company",
+     *                     description="The name of the package"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="description",
+     *                     type="string",
+     *                     example="Detailed package description",
+     *                     description="Description of the package's features or purpose"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="total_patients",
+     *                     type="string",
+     *                     example="10",
+     *                     description="Total number of patients in the package"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="patient_charge",
+     *                     type="string",
+     *                     example="100",
+     *                     description="Charge per patient for the package"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="is_default",
+     *                     type="string",
+     *                     example="1",
+     *                     description="Indicates if this package is the default (1 = true, 0 = false)"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="status",
+     *                     type="string",
+     *                     example="Active",
+     *                     description="Current status of the package (e.g., Active, Inactive, Canceled)"
+     *                 )
+     *             )
+     *         )
      *     ),
      *
      *     @OA\Response(
@@ -255,7 +297,38 @@ final class PackageController extends Controller
      *
      *     @OA\Response(
      *         response=404,
-     *         description="Package not found"
+     *         description="Package not found",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="Package not found"),
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="statusCode", type="integer", example=404)
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="Invalid data provided for package"),
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="statusCode", type="integer", example=422)
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="An error occurred while updating the package"),
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="statusCode", type="integer", example=500)
+     *         )
      *     )
      * )
      */
@@ -300,25 +373,57 @@ final class PackageController extends Controller
      *     summary="Delete a specific Package",
      *     operationId="deletePackage",
      *     tags={"Packages"},
-     *     description="Delete a Package by their ID.",
+     *     description="Delete a package by its ID.",
      *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID of the Package to be deleted",
+     *         description="ID of the package to delete",
      *
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(
+     *             type="string",
+     *             example="9d445a1c-cee5-4a68-b729-9edf8df71d87"
+     *         )
      *     ),
      *
      *     @OA\Response(
      *         response=204,
-     *         description="Package deleted successfully"
+     *         description="Package deleted successfully",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="Package deleted successfully"),
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="statusCode", type="integer", example=204)
+     *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=404,
-     *         description="Package not found"
-     *     )
+     *         description="Package not found",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="Package not found"),
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="statusCode", type="integer", example=404)
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="An error occurred while deleting the package"),
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="statusCode", type="integer", example=500)
+     *         )
+     *     ),
+     *
+     *     security={{"bearerAuth":{}}}
      * )
      */
     public function destroy($id)

@@ -6,6 +6,7 @@ namespace Modules\V1\Auth\Controllers;
 
 use App\Http\Controllers\V1\Controller;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Modules\V1\Auth\Requests\RegisterRequest;
@@ -23,7 +24,7 @@ final class RegisteredUserController extends Controller
      * @OA\Post(
      *      path="/auth/register",
      *      summary="Register a new user",
-     *     tags={"Authentication"},
+     *      tags={"Authentication"},
      *      description="Registers a new user with the provided information.",
      *
      *      @OA\RequestBody(
@@ -34,10 +35,101 @@ final class RegisteredUserController extends Controller
      *
      *              @OA\Schema(
      *
-     *                  @OA\Property(property="first_name", type="string", description="User's first name"),
-     *                  @OA\Property(property="last_name", type="string", description="User's last name"),
-     *                  @OA\Property(property="email", type="string", format="email", description="User's email"),
-     *                  @OA\Property(property="password", type="string", format="password", description="User's password"),
+     *                  @OA\Property(
+     *                      property="first_name",
+     *                      type="string",
+     *                      description="User's first name",
+     *                      example="John"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="last_name",
+     *                      type="string",
+     *                      description="User's last name",
+     *                      example="Doe"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="email",
+     *                      type="string",
+     *                      format="email",
+     *                      description="User's email address",
+     *                      example="john.doe@example.com"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="password",
+     *                      type="string",
+     *                      format="password",
+     *                      description="User's password",
+     *                      example="password123"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="user_type",
+     *                      type="string",
+     *                      description="Type of user being registered",
+     *                      example="doctor",
+     *                      enum={"doctor", "lab"}
+     *                  ),
+     *                  @OA\Property(
+     *                      property="address_line_1",
+     *                      type="string",
+     *                      description="Address line 1 for doctor or lab users",
+     *                      example="123 Main St."
+     *                  ),
+     *                  @OA\Property(
+     *                      property="address_line_2",
+     *                      type="string",
+     *                      description="Address line 2 for doctor or lab users",
+     *                      example="Apt 101"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="city",
+     *                      type="string",
+     *                      description="City of the user",
+     *                      example="New York"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="state",
+     *                      type="string",
+     *                      description="State of the user",
+     *                      example="NY"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="country",
+     *                      type="string",
+     *                      description="Country of the user",
+     *                      example="USA"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="postal_code",
+     *                      type="string",
+     *                      description="Postal code of the user",
+     *                      example="10001"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="contact_phone",
+     *                      type="string",
+     *                      description="Phone number of the doctor",
+     *                      example="123-456-7890"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="doctor_email_address",
+     *                      type="string",
+     *                      format="email",
+     *                      description="Email address for the doctor",
+     *                      example="doctor@example.com"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="name",
+     *                      type="string",
+     *                      description="Name of the lab",
+     *                      example="LabCorp"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="reports",
+     *                      type="array",
+     *                      description="UUIDs of reports associated with the lab",
+     *
+     *                      @OA\Items(type="string", example="report-uuid-123")
+     *                  )
      *              )
      *          )
      *      ),
@@ -50,17 +142,23 @@ final class RegisteredUserController extends Controller
      *
      *              @OA\Property(property="message", type="string", example="Registration successful"),
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="statusCode", type="string", example="201"),
+     *              @OA\Property(property="statusCode", type="integer", example=201),
      *              @OA\Property(property="access-token", type="string", example="your_access_token"),
-     *              @OA\Property(property="data", ref="#/components/schemas/UserResource"),
+     *              @OA\Property(property="data", ref="#/components/schemas/UserResource")
      *          )
      *      ),
      *
-     *      @OA\Response(response=422, ref="#/components/responses/422"),
-     *      @OA\Response(response=500, ref="#/components/responses/500"),
+     *      @OA\Response(
+     *          response=422,
+     *          ref="#/components/responses/422"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          ref="#/components/responses/500"
+     *      )
      * )
      */
-    public function store(RegisterRequest $request): \Illuminate\Http\JsonResponse
+    public function store(RegisterRequest $request): JsonResponse
     {
         DB::beginTransaction();
         try {
@@ -88,7 +186,7 @@ final class RegisteredUserController extends Controller
             }
             // Retrieve role IDs based on role names
             $roles = Role::where('name', $roleNames)->first(); // Adjust 'id' if your primary key is different
-            if($roles && $permissions){
+            if ($roles && $permissions) {
                 $roles->syncPermissions($permissions);
             }
             $user->roles()->sync($roles); // Sync the roles

@@ -17,8 +17,26 @@ use Modules\V1\User\Models\User;
  *
  *     @OA\Property(property="name", type="string", example="John", description="Patient's first name"),
  *     @OA\Property(property="job_title", type="string", example="Doe", description="Patient's job title"),
+ *     @OA\Property(property="dob", type="string", format="date", example="1990-01-01", description="Patient's date of birth"),
+ *     @OA\Property(property="gender", type="string", example="Male", description="Patient's gender"),
+ *     @OA\Property(property="address_line_1", type="string", example="123 Main St.", description="First line of patient's address"),
+ *     @OA\Property(property="address_line_2", type="string", example="Apt 4B", description="Second line of patient's address"),
+ *     @OA\Property(property="city", type="string", example="New York", description="City of residence"),
+ *     @OA\Property(property="state", type="string", example="NY", description="State of residence"),
+ *     @OA\Property(property="country", type="string", example="USA", description="Country of residence"),
+ *     @OA\Property(property="postal_code", type="string", example="10001", description="Postal code"),
+ *     @OA\Property(property="primary_phone", type="string", example="123-456-7890", description="Primary contact phone number"),
+ *     @OA\Property(property="email", type="string", format="email", example="john@example.com", description="Patient's email address"),
+ *     @OA\Property(property="marital_status", type="string", example="Single", description="Marital status of the patient"),
+ *     @OA\Property(
+ *         property="languages",
+ *         type="array",
+ *         @OA\Items(type="string", example="English"),
+ *         description="Languages spoken by the patient"
+ *     ),
  * )
  */
+
 final class PatientCreateRequest extends FormRequest
 {
     /**

@@ -16,10 +16,18 @@ use OpenApi\Annotations as OA;
  *     title="Doctor Specialization Resource",
  *     description="Doctor Specialization resource representation",
  *
- *     @OA\Property(property="name", type="string", example="John Doe"),
- *     @OA\Property(property="description", type="string", example="Test addresses"),
+ *     @OA\Property(property="name", type="string", example="Cardiology"),
+ *     @OA\Property(property="description", type="string", example="Heart-related diseases and treatments"),
+ *     @OA\Property(property="code", type="string", example="CAR-1234"),
+ *     @OA\Property(
+ *         property="doctors",
+ *         type="array",
+ *         @OA\Items(ref="#/components/schemas/DoctorResource"),
+ *         description="List of doctors specialized in this field"
+ *     )
  * )
  */
+
 #[AllowDynamicProperties] final class DoctorSpecializationResource extends JsonResource
 {
     /**
