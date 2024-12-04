@@ -110,6 +110,7 @@ final class DeviceVendorController extends Controller
     {
         DB::beginTransaction();
         try {
+            dd($request->all());
             // Device vendor Creation
             $deviceVendor = new DeviceVendor();
             $deviceVendor->name = $request->name;

@@ -43,6 +43,15 @@ final class Device extends Model
         'secret_key',
         'device_model',
         'rfid',
+        'sensor_code',
+        'image',
+        'up_front_cost',
+        'shipping_cost',
+        'monthly_cost',
+        'sensor_id_required',
+        'in_stock',
+        'virtual',
+        'deprecated',
     ];
 
     public $timestamps = false;

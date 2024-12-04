@@ -47,6 +47,15 @@ use OpenApi\Annotations as OA;
             'secret_key' => $this->secret_key,
             'device_model' => $this->device_model,
             'rfid' => $this->rfid,
+            'sensor_code' => $this->sensor_code,
+            'image' => $this->image,
+            'up_front_cost' => $this->up_front_cost,
+            'shipping_cost' => $this->shipping_cost,
+            'monthly_cost' => $this->monthly_cost,
+            'sensor_id_required' => $this->sensor_id_required,
+            'in_stock' => $this->in_stock,
+            'virtual' => $this->virtual,
+            'deprecated' => $this->deprecated,
             'device_vendor' => new DeviceVendorResource($this->whenLoaded('vendor')),
         ];
     }
