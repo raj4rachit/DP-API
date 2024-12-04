@@ -78,7 +78,12 @@ final class PatientController extends Controller
      *                 @OA\Property(property="last_name", type="string", description="Patient's last name"),
      *                 @OA\Property(property="gender", type="string", description="Patient's gender"),
      *                 @OA\Property(property="dob", type="string", format="date", description="Date of birth (YYYY-MM-DD)"),
-     *                 @OA\Property(property="address", type="string", description="Patient's address"),
+     *                 @OA\Property(property="address_line_1", type="string", example="123 Main St.", description="First line of patient's address"),
+     *                  @OA\Property(property="address_line_2", type="string", example="Apt 4B", description="Second line of patient's address"),
+     *                  @OA\Property(property="city", type="string", example="New York", description="City of residence"),
+     *                  @OA\Property(property="state", type="string", example="NY", description="State of residence"),
+     *                  @OA\Property(property="country", type="string", example="USA", description="Country of residence"),
+     *                  @OA\Property(property="postal_code", type="string", example="10001", description="Postal code"),
      *                 @OA\Property(property="mobile_no", type="string", description="Patient's mobile number"),
      *                 @OA\Property(property="email", type="string", description="Patient's email address"),
      *                 @OA\Property(property="id_type", type="string", description="ID type"),
@@ -146,7 +151,12 @@ final class PatientController extends Controller
             // Patient Creation
             $patient = new Patient();
             $patient->user_id = $user->uuid;
-            $patient->address = $request->address;
+            $patient->address_line_1 = $request->address_line_1;
+            $patient->address_line_2 = $request->address_line_2;
+            $patient->city = $request->city;
+            $patient->state = $request->state;
+            $patient->country = $request->country;
+            $patient->postal_code = $request->postal_code;
             $patient->id_type = $request->id_type;
             $patient->id_number = $request->id_number;
             $patient->arn_number = $request->arn_number;
@@ -287,7 +297,12 @@ final class PatientController extends Controller
      *                  @OA\Property(property="last_name", type="string", description="Patient's last name"),
      *                  @OA\Property(property="gender", type="string", description="Patient's gender"),
      *                  @OA\Property(property="dob", type="string", format="date", description="Date of birth (YYYY-MM-DD)"),
-     *                  @OA\Property(property="address", type="string", description="Patient's address"),
+     *                  @OA\Property(property="address_line_1", type="string", example="123 Main St.", description="First line of patient's address"),
+     *                  @OA\Property(property="address_line_2", type="string", example="Apt 4B", description="Second line of patient's address"),
+     *                  @OA\Property(property="city", type="string", example="New York", description="City of residence"),
+     *                  @OA\Property(property="state", type="string", example="NY", description="State of residence"),
+     *                  @OA\Property(property="country", type="string", example="USA", description="Country of residence"),
+     *                  @OA\Property(property="postal_code", type="string", example="10001", description="Postal code"),
      *                  @OA\Property(property="mobile_no", type="string", description="Patient's mobile number"),
      *                  @OA\Property(property="email", type="string", description="Patient's email address"),
      *                  @OA\Property(property="id_type", type="string", description="ID type"),
@@ -331,7 +346,12 @@ final class PatientController extends Controller
             'last_name' => 'required|string|max:255',
             'gender' => 'required|string|in:Male,Female,Other',
             'dob' => 'required|date',
-            'address' => 'required|string',
+            'address_line_1' => 'required|string',
+            'address_line_2' => 'nullable|string',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'country' => 'required|string',
+            'postal_code' => 'required|string|min:5',
             'mobile_no' => 'nullable|string|max:20',
             'id_type' => 'required|string',
             'id_number' => 'required|string',

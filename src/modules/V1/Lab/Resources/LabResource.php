@@ -42,7 +42,12 @@ use OpenApi\Annotations as OA;
         return [
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'address' => $this->address,
+            'address_line_1' => $this->address_line_1,
+            'address_line_2' => $this->address_line_2,
+            'city' => $this->city,
+            'state' => $this->state,
+            'country' => $this->country,
+            'postal_code' => $this->postal_code,
             'phone' => $this->phone,
             'user' => new UserResource($this->whenLoaded('user')),
             'reports' => ReportResource::collection($this->whenLoaded('reports')),

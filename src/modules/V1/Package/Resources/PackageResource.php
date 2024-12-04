@@ -18,8 +18,8 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="uuid", type="string", example="asdfasdfsadfsd"),
  *     @OA\Property(property="name", type="string", example="test name"),
  *     @OA\Property(property="description",type="string", example="Asddfdsfererer"),
- *     @OA\Property(property="total_patients",type="string", example="10"),
- *     @OA\Property(property="patient_charge",type="string", example="100"),
+ *     @OA\Property(property="total_patients",type="number", example="10"),
+ *     @OA\Property(property="patient_charge",type="number", example="100"),
  *     @OA\Property(property="is_default",type="string", example="1"),
  *     @OA\Property(property="status",type="string", example="Active"),
  * )

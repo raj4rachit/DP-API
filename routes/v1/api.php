@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 use Modules\V1\Hospital\Controllers\HospitalController;
+use Modules\V1\Report\Controllers\ReportController;
 
 Route::get('/', function () {
     return response()->json(['message' => 'Version 1']);
@@ -72,6 +73,7 @@ Route::middleware(['auth:sanctum'])->prefix('hospital')->as('hospital:')->group(
 /**
  * Report Routes
  */
+Route::get('/report/', [ReportController::class, 'index'])->name('report.index'); // List all reports
 Route::middleware(['auth:sanctum'])->prefix('report')->as('report:')->group(
     base_path('routes/v1/report.php'),
 );

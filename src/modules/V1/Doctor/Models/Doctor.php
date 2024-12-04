@@ -44,7 +44,7 @@ final class Doctor extends Model
         'user_id',
         'hospital_id',
         'contact_phone',
-        'clinic_address',
+        'address_line_1', 'address_line_2', 'city', 'state', 'country', 'postal_code',
     ];
 
     public $timestamps = false;

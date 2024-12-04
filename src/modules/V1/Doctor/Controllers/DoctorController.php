@@ -36,28 +36,64 @@ final class DoctorController extends Controller
      *
      *     @OA\Response(
      *         response=200,
-     *         description="List of Doctors",
+     *         description="List of Doctors retrieved successfully",
      *
      *         @OA\JsonContent(
+     *             type="object",
      *
      *             @OA\Property(property="message", type="string", example="Doctors data retrieved successfully"),
      *             @OA\Property(property="status", type="string", example="success"),
      *             @OA\Property(property="statusCode", type="integer", example=200),
-     *             @OA\Property(property="data", type="array",
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
      *
      *                 @OA\Items(ref="#/components/schemas/DoctorResource")
      *             )
      *         )
      *     ),
      *
-     *     @OA\Response(response=401, ref="#/components/responses/401"),
-     *     @OA\Response(response=422, ref="#/components/responses/422"),
-     *     @OA\Response(response=500, ref="#/components/responses/500"),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="Unauthorized access"),
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="statusCode", type="integer", example=401)
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation Error",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="Invalid input parameters"),
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="statusCode", type="integer", example=422)
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal Server Error",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="An unexpected error occurred on the server"),
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="statusCode", type="integer", example=500)
+     *         )
+     *     ),
      *
      *     security={
      *         {"bearerAuth": {}}
      *     }
      * )
+     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -77,28 +113,30 @@ final class DoctorController extends Controller
      *
      *     @OA\RequestBody(
      *         required=true,
+     *         description="Doctor data for creating a new profile",
      *
      *         @OA\MediaType(
      *             mediaType="application/json",
      *
      *             @OA\Schema(
+     *                 type="object",
+     *                 required={"first_name", "last_name", "gender", "dob", "address_line_1", "city", "state", "country", "postal_code", "hospital_id", "specialization"},
      *
-     *                 @OA\Property(property="first_name", type="string", description="Doctor's first name"),
-     *                 @OA\Property(property="last_name", type="string", description="Doctor's last name"),
-     *                 @OA\Property(property="gender", type="string", description="Doctor's gender"),
-     *                 @OA\Property(property="dob", type="string", format="date", description="Date of birth (YYYY-MM-DD)"),
-     *                 @OA\Property(property="clinic_address", type="string", description="Doctor's clinic address"),
-     *                 @OA\Property(property="mobile_no", type="string", description="Doctor's mobile number"),
-     *                 @OA\Property(property="email", type="string", description="Doctor's email address"),
-     *                 @OA\Property(property="hospital_id ", type="string", description="hospital_id "),
-     *                 @OA\Property(property="marital_status", type="string", description="Marital status"),
-     *                 @OA\Property(
-     *                     property="specialization",
-     *                     type="array",
-     *
-     *                     @OA\Items(type="string"),
-     *                     description="specialization by the doctor"
-     *                 )
+     *                 @OA\Property(property="first_name", type="string", description="Doctor's first name", example="John"),
+     *                 @OA\Property(property="last_name", type="string", description="Doctor's last name", example="Doe"),
+     *                 @OA\Property(property="gender", type="string", description="Doctor's gender", example="Male", enum={"Male", "Female", "Other"}),
+     *                 @OA\Property(property="dob", type="string", format="date", description="Doctor's date of birth", example="1985-08-25"),
+     *                 @OA\Property(property="address_line_1", type="string", description="Primary address line", example="123 Main St"),
+     *                 @OA\Property(property="address_line_2", type="string", description="Secondary address line", example="Apt 101"),
+     *                 @OA\Property(property="city", type="string", description="City", example="New York"),
+     *                 @OA\Property(property="state", type="string", description="State", example="NY"),
+     *                 @OA\Property(property="country", type="string", description="Country", example="USA"),
+     *                 @OA\Property(property="postal_code", type="string", description="Postal code", example="10001"),
+     *                 @OA\Property(property="mobile_no", type="string", description="Doctor's mobile number", example="123-456-7890"),
+     *                 @OA\Property(property="email", type="string", format="email", description="Doctor's email address", example="johndoe@example.com"),
+     *                 @OA\Property(property="hospital_id", type="string", description="Hospital ID the doctor is associated with", example="d4f7a8f4-98f7-4c0f-8b2a-dce03a2fe6e3"),
+     *                 @OA\Property(property="marital_status", type="string", description="Doctor's marital status", example="Single", enum={"Single", "Married", "Divorced", "Widowed"}),
+     *                 @OA\Property(property="specialization", type="array", description="Specializations of the doctor", @OA\Items(type="string", example="cardiology")),
      *             )
      *         )
      *     ),
@@ -116,8 +154,33 @@ final class DoctorController extends Controller
      *         )
      *     ),
      *
-     *     @OA\Response(response=422, ref="#/components/responses/422"),
-     *     @OA\Response(response=500, ref="#/components/responses/500")
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation Error",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="first_name", type="array", @OA\Items(type="string", example="The first name field is required.")),
+     *                 @OA\Property(property="email", type="array", @OA\Items(type="string", example="The email has already been taken."))
+     *             )
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal Server Error",
+     *
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(property="message", type="string", example="An unexpected error occurred."),
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="statusCode", type="integer", example=500)
+     *         )
+     *     ),
+     *
+     *     security={{"bearerAuth":{}}}
      * )
      */
     public function store(DoctorCreateRequest $request): JsonResponse
@@ -148,7 +211,12 @@ final class DoctorController extends Controller
             // Doctor Creation
             $doctor = new Doctor();
             $doctor->user_id = $user->uuid;
-            $doctor->clinic_address = $request->clinic_address;
+            $doctor->address_line_1 = $request->address_line_1;
+            $doctor->address_line_2 = $request->address_line_2;
+            $doctor->city = $request->city;
+            $doctor->state = $request->state;
+            $doctor->country = $request->country;
+            $doctor->postal_code = $request->postal_code;
             $doctor->hospital_id = $request->hospital_id;
             if ('' !== $request->contact_phone) {
                 $doctor->contact_phone = $request->contact_phone;
@@ -282,25 +350,32 @@ final class DoctorController extends Controller
      *              mediaType="application/json",
      *
      *              @OA\Schema(
+     *                  type="object",
+     *                  required={"first_name", "last_name", "gender", "dob", "address_line_1", "city", "state", "country", "postal_code", "hospital_id", "specialization"},
      *
-     *                  @OA\Property(property="first_name", type="string", description="Doctor's first name"),
-     *                  @OA\Property(property="last_name", type="string", description="Doctor's last name"),
-     *                  @OA\Property(property="gender", type="string", description="Doctor's gender"),
-     *                  @OA\Property(property="dob", type="string", format="date", description="Date of birth (YYYY-MM-DD)"),
-     *                  @OA\Property(property="clinic_address", type="string", description="Doctor's clinic address"),
-     *                  @OA\Property(property="mobile_no", type="string", description="Doctor's mobile number"),
-     *                  @OA\Property(property="email", type="string", description="Doctor's email address"),
-     *                  @OA\Property(property="hospital_id ", type="string", description="hospital_id "),
-     *                  @OA\Property(property="marital_status", type="string", description="Marital status"),
+     *                  @OA\Property(property="first_name", type="string", description="Doctor's first name", example="John"),
+     *                  @OA\Property(property="last_name", type="string", description="Doctor's last name", example="Doe"),
+     *                  @OA\Property(property="gender", type="string", description="Doctor's gender", example="Male", enum={"Male", "Female", "Other"}),
+     *                  @OA\Property(property="dob", type="string", format="date", description="Doctor's date of birth", example="1985-08-25"),
+     *                  @OA\Property(property="address_line_1", type="string", description="Primary address line", example="123 Main St"),
+     *                  @OA\Property(property="address_line_2", type="string", description="Secondary address line", example="Apt 101"),
+     *                  @OA\Property(property="city", type="string", description="City", example="New York"),
+     *                  @OA\Property(property="state", type="string", description="State", example="NY"),
+     *                  @OA\Property(property="country", type="string", description="Country", example="USA"),
+     *                  @OA\Property(property="postal_code", type="string", description="Postal code", example="10001"),
+     *                  @OA\Property(property="mobile_no", type="string", description="Doctor's mobile number", example="123-456-7890"),
+     *                  @OA\Property(property="email", type="string", format="email", description="Doctor's email address", example="johndoe@example.com"),
+     *                  @OA\Property(property="hospital_id", type="string", description="Hospital ID the doctor is associated with", example="d4f7a8f4-98f7-4c0f-8b2a-dce03a2fe6e3"),
+     *                  @OA\Property(property="marital_status", type="string", description="Doctor's marital status", example="Single", enum={"Single", "Married", "Divorced", "Widowed"}),
      *                  @OA\Property(
      *                      property="specialization",
      *                      type="array",
+     *                      description="Specializations of the doctor",
      *
-     *                      @OA\Items(type="string"),
-     *                      description="specialization by the doctor"
+     *                      @OA\Items(type="string", example="cardiology")
      *                  )
      *              )
-     *          )
+     *         )
      *     ),
      *
      *     @OA\Response(
@@ -323,7 +398,12 @@ final class DoctorController extends Controller
             'last_name' => 'required|string|max:255',
             'gender' => 'required|string|in:Male,Female,Other',
             'dob' => 'required|date',
-            'clinic_address' => 'required|string',
+            'address_line_1' => 'required|string',
+            'address_line_2' => 'nullable|string',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'country' => 'required|string',
+            'postal_code' => 'required|string|min:5',
             'mobile_no' => 'nullable|string|max:20',
             'marital_status' => 'required|string|in:Single,Married,Divorced,Widowed',
             'contact_phone' => 'nullable|string|max:20',

@@ -114,7 +114,12 @@ final class LabController extends Controller
             // Lab Creation
             $lab = new Lab();
             $lab->name = $request->name;
-            $lab->address = $request->address;
+            $lab->address_line_1 = $request->address_line_1;
+            $lab->address_line_2 = $request->address_line_2;
+            $lab->city = $request->city;
+            $lab->state = $request->state;
+            $lab->country = $request->country;
+            $lab->postal_code = $request->postal_code;
             $lab->phone = $request->phone;
             $lab->user_id = $request->user_id;
             $lab->save();
@@ -284,7 +289,12 @@ final class LabController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255|unique:labs,name,' . $id . ',uuid',
-                'address' => 'required|string',
+                'address_line_1' => 'required|string',
+                'address_line_2' => 'nullable|string',
+                'city' => 'required|string',
+                'state' => 'required|string',
+                'country' => 'required|string',
+                'postal_code' => 'required|string|min:5',
                 'phone' => 'nullable|string|max:20',
                 'user_id' => 'required|string|exists:users,uuid',
                 'reports' => 'required|array|exists:reports,uuid',

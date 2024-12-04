@@ -151,7 +151,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"first_name\":\"User\",\r\n    \"last_name\":\"Test\",\r\n    \"email\":\"user@gmail.com\",\r\n    \"password\":\"123456789\",\r\n    \"user_type\":\"doctor\",\r\n    \"clinic_address\":\"Ahmedabad\",\r\n    \"contact_phone\":\"6598324578\",\r\n    \"doctor_email_address\":\"doctor1@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"first_name\":\"User\",\r\n    \"last_name\":\"Test\",\r\n    \"email\":\"user@gmail.com\",\r\n    \"password\":\"123456789\",\r\n    \"user_type\":\"doctor\",\r\n    \"address_line_1\":\"Ahmedabad\",\r\n    \"address_line_2\":\"\",\r\n    \"city\":\"New York\",\r\n    \"state\":\"NY\",\r\n    \"country\":\"USA\",\r\n    \"postal_code\":\"10001\",\r\n    \"contact_phone\":\"6598324578\",\r\n    \"doctor_email_address\":\"doctor1@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -811,7 +811,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"first_name\":\"\",\r\n    \"last_name\":\"Demo\",\r\n    \"gender\":\"Male\",\r\n    \"dob\":\"2001-01-05\",\r\n    \"address\":\"asdfasd asdfasdf asdfa sdfd \",\r\n    \"mobile_no\":\"\",\r\n    \"email\":\"user.demo@gmail.com\",\r\n    \"id_type\":\"card\",\r\n    \"id_number\":\"fasdfasdfasdf\",\r\n    \"arn_number\":\"32423sdfsdfdsf\",\r\n    \"marital_status\":\"Single\",\r\n    \"primary_phone\":\"5423546798\",\r\n    \"secondary_phone\":\"\",\r\n    \"home_phone\":\"\",\r\n    \"work_phone\":\"\",\r\n    \"languages\":[\r\n        \"English\",\r\n        \"Gujarati\"\r\n    ],\r\n    \"medical_aid\":\"test\",\r\n    \"race\":\"tttsadf\",\r\n    \"ethnicity\":\"normal\",\r\n    \"mrn_number\":\"3455123123\"\r\n}",
+							"raw": "{\r\n    \"first_name\":\"\",\r\n    \"last_name\":\"Demo\",\r\n    \"gender\":\"Male\",\r\n    \"dob\":\"2001-01-05\",\r\n    \"address_line_1\":\"Ahmedabad\",\r\n    \"address_line_2\":\"\",\r\n    \"city\":\"New York\",\r\n    \"state\":\"NY\",\r\n    \"country\":\"USA\",\r\n    \"postal_code\":\"10001\",\r\n    \"mobile_no\":\"\",\r\n    \"email\":\"user.demo@gmail.com\",\r\n    \"id_type\":\"card\",\r\n    \"id_number\":\"fasdfasdfasdf\",\r\n    \"arn_number\":\"32423sdfsdfdsf\",\r\n    \"marital_status\":\"Single\",\r\n    \"primary_phone\":\"5423546798\",\r\n    \"secondary_phone\":\"\",\r\n    \"home_phone\":\"\",\r\n    \"work_phone\":\"\",\r\n    \"languages\":[\r\n        \"English\",\r\n        \"Gujarati\"\r\n    ],\r\n    \"medical_aid\":\"test\",\r\n    \"race\":\"tttsadf\",\r\n    \"ethnicity\":\"normal\",\r\n    \"mrn_number\":\"3455123123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -847,7 +847,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"first_name\":\"User\",\r\n    \"last_name\":\"Demo\",\r\n    \"gender\":\"Male\",\r\n    \"dob\":\"2001-01-05\",\r\n    \"address\":\"asdfasd asdfasdf asdfa sdfd \",\r\n    \"mobile_no\":\"\",\r\n    \"email\":\"user.demo@gmail.com\",\r\n    \"id_type\":\"card\",\r\n    \"id_number\":\"fasdfasdfasdf\",\r\n    \"arn_number\":\"32423sdfsdfdsf\",\r\n    \"marital_status\":\"Single\",\r\n    \"primary_phone\":\"5423546798\",\r\n    \"secondary_phone\":\"\",\r\n    \"home_phone\":\"\",\r\n    \"work_phone\":\"\",\r\n    \"languages\":[\r\n        \"English\",\r\n        \"Gujarati\"\r\n    ],\r\n    \"medical_aid\":\"\",\r\n    \"race\":\"tttsadf\",\r\n    \"ethnicity\":\"normal\",\r\n    \"mrn_number\":\"3455123123\"\r\n}",
+							"raw": "{\r\n    \"first_name\":\"User\",\r\n    \"last_name\":\"Demo\",\r\n    \"gender\":\"Male\",\r\n    \"dob\":\"2001-01-05\",\r\n    \"address_line_1\":\"Ahmedabad\",\r\n    \"address_line_2\":\"\",\r\n    \"city\":\"New York\",\r\n    \"state\":\"NY\",\r\n    \"country\":\"USA\",\r\n    \"postal_code\":\"10001\",\r\n    \"mobile_no\":\"\",\r\n    \"email\":\"user.demo@gmail.com\",\r\n    \"id_type\":\"card\",\r\n    \"id_number\":\"fasdfasdfasdf\",\r\n    \"arn_number\":\"32423sdfsdfdsf\",\r\n    \"marital_status\":\"Single\",\r\n    \"primary_phone\":\"5423546798\",\r\n    \"secondary_phone\":\"\",\r\n    \"home_phone\":\"\",\r\n    \"work_phone\":\"\",\r\n    \"languages\":[\r\n        \"English\",\r\n        \"Gujarati\"\r\n    ],\r\n    \"medical_aid\":\"\",\r\n    \"race\":\"tttsadf\",\r\n    \"ethnicity\":\"normal\",\r\n    \"mrn_number\":\"3455123123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1562,7 +1562,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Test Hospital\",\r\n    \"email\":\"hospital@gmail.com\",\r\n    \"location\":\"Ahmedabad\",\r\n    \"status\":\"\",\r\n    \"phone\":\"1245786532\",\r\n    \"description\":\"\"\r\n}",
+							"raw": "{\r\n    \"name\":\"Test Hospital\",\r\n    \"email\":\"hospital@gmail.com\",\r\n    \"address_line_1\":\"Ahmedabad\",\r\n    \"address_line_2\":\"\",\r\n    \"city\":\"New York\",\r\n    \"state\":\"NY\",\r\n    \"country\":\"USA\",\r\n    \"postal_code\":\"10001\",\r\n    \"status\":\"\",\r\n    \"phone\":\"1245786532\",\r\n    \"description\":\"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1598,7 +1598,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Test Hospital\",\r\n    \"email\":\"hospital@gmail.com\",\r\n    \"location\":\"Ahmedabad\",\r\n    \"status\":\"Inactive\",\r\n    \"phone\":\"1245786532\",\r\n    \"description\":\"Test description\"\r\n}",
+							"raw": "{\r\n    \"name\":\"Demo Hospital\",\r\n    \"email\":\"hospital@gmail.com\",\r\n    \"address_line_1\":\"Ahmedabad\",\r\n    \"address_line_2\":\"\",\r\n    \"city\":\"New York\",\r\n    \"state\":\"NY\",\r\n    \"country\":\"USA\",\r\n    \"postal_code\":\"10001\",\r\n    \"status\":\"Active\",\r\n    \"phone\":\"1245786532\",\r\n    \"description\":\"Test description\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1606,13 +1606,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{APP_URL}}/hospital/9d52f1ce-f7fe-4b3d-8b14-664fdbea960e",
+							"raw": "{{APP_URL}}/hospital/9d78b945-ca8e-4546-991f-64216e28f7fc",
 							"host": [
 								"{{APP_URL}}"
 							],
 							"path": [
 								"hospital",
-								"9d52f1ce-f7fe-4b3d-8b14-664fdbea960e"
+								"9d78b945-ca8e-4546-991f-64216e28f7fc"
 							]
 						}
 					},
@@ -1723,7 +1723,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Extra LAb\",\r\n    \"address\":\"Ahmedabad\",\r\n    \"phone\":\"1245766532\",\r\n    \"user_id\":\"9d5de6d5-68b7-4d65-8bc0-c13ba5641639\",\r\n    \"reports\":[\r\n        \"9d5de795-50b9-4d71-a7dc-9776cb0cd5f6\",\r\n        \"9d5de796-9590-485b-af52-4ef3c0d98e4f\"\r\n    ]\r\n}",
+							"raw": "{\r\n    \"name\":\"Extra LAb\",\r\n    \"address_line_1\":\"Ahmedabad\",\r\n    \"address_line_2\":\"\",\r\n    \"city\":\"New York\",\r\n    \"state\":\"NY\",\r\n    \"country\":\"USA\",\r\n    \"postal_code\":\"10001\",\r\n    \"phone\":\"1245766532\",\r\n    \"user_id\":\"9d5de6d5-68b7-4d65-8bc0-c13ba5641639\",\r\n    \"reports\":[\r\n        \"9d5de795-50b9-4d71-a7dc-9776cb0cd5f6\",\r\n        \"9d5de796-9590-485b-af52-4ef3c0d98e4f\"\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1759,7 +1759,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Extra New Lab\",\r\n    \"address\":\"Ahmedabad, Gujarat\",\r\n    \"phone\":\"1245766532\",\r\n    \"user_id\":\"9d5de6d5-68b7-4d65-8bc0-c13ba5641639\",\r\n    \"reports\":[\r\n        \"9d5de795-50b9-4d71-a7dc-9776cb0cd5f6\",\r\n        \"9d5de796-9590-485b-af52-4ef3c0d98e4f\",\r\n        \"9d5de794-e31f-4bc9-8adc-7376a7000072\"\r\n    ]\r\n}",
+							"raw": "{\r\n    \"name\":\"Extra New Lab\",\r\n    \"address_line_1\":\"Ahmedabad\",\r\n    \"address_line_2\":\"\",\r\n    \"city\":\"New York\",\r\n    \"state\":\"NY\",\r\n    \"country\":\"USA\",\r\n    \"postal_code\":\"10001\",\r\n    \"phone\":\"1245766532\",\r\n    \"user_id\":\"9d5de6d5-68b7-4d65-8bc0-c13ba5641639\",\r\n    \"reports\":[\r\n        \"9d5de795-50b9-4d71-a7dc-9776cb0cd5f6\",\r\n        \"9d5de796-9590-485b-af52-4ef3c0d98e4f\",\r\n        \"9d5de794-e31f-4bc9-8adc-7376a7000072\"\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1884,7 +1884,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"first_name\":\"Leela\",\r\n    \"last_name\":\"Pandit\",\r\n    \"gender\":\"Female\",\r\n    \"dob\":\"1995-01-05\",\r\n    \"clinic_address\":\"etete adsfasdasdfasd asdfasdf asdfa sdfd \",\r\n    \"mobile_no\":\"3423123456\",\r\n    \"email\":\"leela@gmail.com\",\r\n    \"marital_status\":\"Single\",\r\n    \"specialization\":[\r\n        \"9d5e2bd0-782c-47dd-9ecf-4a423a4ff4d8\",\r\n        \"9d5e2bd2-5464-43a9-aa0f-fb77fc51219c\"\r\n    ],\r\n    \"contact_phone\":\"6598324578\",\r\n    \"hospital_id\":\"9d5de6ce-e8b2-4c38-8293-61f376dfb00a\"\r\n}",
+							"raw": "{\r\n    \"first_name\":\"Leela\",\r\n    \"last_name\":\"Pandit\",\r\n    \"gender\":\"Female\",\r\n    \"dob\":\"1995-01-05\",\r\n    \"address_line_1\":\"Ahmedabad\",\r\n    \"address_line_2\":\"\",\r\n    \"city\":\"New York\",\r\n    \"state\":\"NY\",\r\n    \"country\":\"USA\",\r\n    \"postal_code\":\"10001\",\r\n    \"mobile_no\":\"3423123456\",\r\n    \"email\":\"leela@gmail.com\",\r\n    \"marital_status\":\"Single\",\r\n    \"specialization\":[\r\n        \"9d5e2bd0-782c-47dd-9ecf-4a423a4ff4d8\",\r\n        \"9d5e2bd2-5464-43a9-aa0f-fb77fc51219c\"\r\n    ],\r\n    \"contact_phone\":\"6598324578\",\r\n    \"hospital_id\":\"9d5de6ce-e8b2-4c38-8293-61f376dfb00a\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1948,7 +1948,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"first_name\":\"Leelavati\",\r\n    \"last_name\":\"Pandit\",\r\n    \"gender\":\"Female\",\r\n    \"dob\":\"1995-01-05\",\r\n    \"clinic_address\":\"etete adsfasdasdfasd asdfasdf asdfa sdfd \",\r\n    \"mobile_no\":\"3423123456\",\r\n    \"marital_status\":\"Single\",\r\n    \"specialization\":[\r\n        \"9d5e2bd0-782c-47dd-9ecf-4a423a4ff4d8\",\r\n        \"9d5e2bd3-0052-4854-8a45-c862c29ea804\"\r\n    ],\r\n    \"contact_phone\":\"6598324578\",\r\n    \"hospital_id\":\"9d5de6ce-e8b2-4c38-8293-61f376dfb00a\",\r\n    \"user_id\":\"9d5e2c61-d009-4bed-8c0e-bb50192ebb3a\"\r\n}",
+							"raw": "{\r\n    \"first_name\":\"Leelavati\",\r\n    \"last_name\":\"Pandit\",\r\n    \"gender\":\"Female\",\r\n    \"dob\":\"1995-01-05\",\r\n    \"address_line_1\":\"Ahmedabad\",\r\n    \"address_line_2\":\"\",\r\n    \"city\":\"New York\",\r\n    \"state\":\"NY\",\r\n    \"country\":\"USA\",\r\n    \"postal_code\":\"10001\",\r\n    \"mobile_no\":\"3423123456\",\r\n    \"marital_status\":\"Single\",\r\n    \"specialization\":[\r\n        \"9d5e2bd0-782c-47dd-9ecf-4a423a4ff4d8\",\r\n        \"9d5e2bd3-0052-4854-8a45-c862c29ea804\"\r\n    ],\r\n    \"contact_phone\":\"6598324578\",\r\n    \"hospital_id\":\"9d5de6ce-e8b2-4c38-8293-61f376dfb00a\",\r\n    \"user_id\":\"9d5e2c61-d009-4bed-8c0e-bb50192ebb3a\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

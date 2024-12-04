@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Modules\V1\Report\Models\Report;
 use Modules\V1\Report\Requests\ReportCreateRequest;
 use Modules\V1\Report\Resources\ReportResource;
@@ -20,7 +19,7 @@ use Shared\Helpers\ResponseHelper;
 
 final class ReportController extends Controller
 {
-    /**
+    /**php
      * @OA\Get(
      *     path="/report",
      *     summary="Get list of all Reports",
@@ -220,15 +219,19 @@ final class ReportController extends Controller
      *         in="path",
      *         required=true,
      *         description="ID of the Report to update",
+     *
      *         @OA\Schema(type="integer")
      *     ),
      *
      *     @OA\RequestBody(
      *         required=true,
      *         description="Updated Report data",
+     *
      *         @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(property="name", type="string", example="My company", description="Report name"),
      *                  @OA\Property(property="description", type="string", example="safsdfsf", description="Report description"),
      *              )
@@ -238,6 +241,7 @@ final class ReportController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Report updated successfully",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/ReportResource")
      *     ),
      *
@@ -247,7 +251,6 @@ final class ReportController extends Controller
      *     )
      * )
      */
-
     public function update(Request $request, $id): JsonResponse
     {
         try {

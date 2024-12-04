@@ -42,7 +42,7 @@ final class Lab extends Model
         'user_id',
         'name',
         'phone',
-        'address',
+        'address_line_1', 'address_line_2', 'city', 'state', 'country', 'postal_code',
     ];
 
     public $timestamps = false;

@@ -8,7 +8,7 @@ use Modules\V1\Report\Controllers\ReportController;
 /**
  * Report's APIs
  **/
-Route::get('/', [ReportController::class, 'index'])->name('report.index'); // List all reports
+//Route::get('/', [ReportController::class, 'index'])->name('report.index'); // List all reports
 Route::post('/', [ReportController::class, 'store'])->name('report.store'); // Create a new report
 Route::get('/{id}', [ReportController::class, 'show'])->name('report.show'); // Show a specific report
 Route::put('/{id}', [ReportController::class, 'update'])->name('report.update'); // Update a specific report
